@@ -6,9 +6,11 @@
 
     <persistence-unit name="lodgingsmanagerPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <!--<class>com.codecool.jpaexample.model.Student</class>-->
-        <!--<class>com.codecool.jpaexample.model.Address</class>-->
-        <!--<class>com.codecool.jpaexample.model.Klass</class>-->
+        <class>com.codecool.lodgingsmanager.model.User</class>
+        <class>com.codecool.lodgingsmanager.model.Landlord</class>
+        <class>com.codecool.lodgingsmanager.model.PropertyManager</class>
+        <class>com.codecool.lodgingsmanager.model.Tenant</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
             <property name="hibernate.hbm2dll.auto" value="create-drop"/>
