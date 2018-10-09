@@ -3,10 +3,7 @@ package com.codecool.lodgingsmanager.dao.implementation.database;
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.model.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class UserDaoDb implements UserDao {
@@ -28,12 +25,18 @@ public class UserDaoDb implements UserDao {
 
     @Override
     public void remove(int id) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
         em.remove(find(id));
+        transaction.commit();
 
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        Table table = Entity.class.getAnnotation(Table.class);
+        String tableName = table.name();
+
+        return em.createQuery("SELECT * FROM " + tableName).getResultList();
     }
 }
