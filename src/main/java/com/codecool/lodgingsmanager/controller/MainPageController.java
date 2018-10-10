@@ -1,7 +1,6 @@
 package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -23,20 +22,16 @@ public class MainPageController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        String loggedInEmailAddress;
-
-        if (session == null || session.isNew()) {
+        if (session == null) {
             response.sendRedirect("/login");
-            loggedInEmailAddress = "Guest@lodgings_manager.com";
         } else {
-            loggedInEmailAddress = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String loggedInEmailAddress = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            WebContext context = new WebContext(request, response, request.getServletContext());
+            context.setVariable("emailAddress", loggedInEmailAddress);
+            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+            engine.process("index.html", context, response.getWriter());
+
         }
-
-
-        WebContext context = new WebContext(request, response, request.getServletContext());
-        context.setVariable("fullName", loggedInEmailAddress);
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        engine.process("index.html", context, response.getWriter());
     }
 
 }

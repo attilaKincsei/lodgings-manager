@@ -17,9 +17,22 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        HttpSession session = request.getSession(false);
+        String emailAddress = "Guest@lodgings_manager.com";
+        String errorMessage;
+
+        if (session != null && session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) != null) {
+            emailAddress = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            session.removeAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            errorMessage = "You have just logged out. Register or log in, please";
+        } else {
+            errorMessage = "You are not logged in. Register or log in, please";
+        }
+
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-        context.setVariable("errorMessage", "You are not logged in. Register or log in, please");
+        context.setVariable("emailAddress", emailAddress);
+        context.setVariable("errorMessage", errorMessage);
         engine.process("login.html", context, response.getWriter());
         }
 
