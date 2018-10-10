@@ -1,5 +1,8 @@
 package com.codecool.lodgingsmanager.model;
 
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class User {
 
     String firstName;
@@ -21,6 +24,9 @@ public abstract class User {
         this.city = city;
         this.zipCode = zipCode;
         this.address = address;
+    }
+
+    protected User() {
     }
 
     public String getEmail() {
