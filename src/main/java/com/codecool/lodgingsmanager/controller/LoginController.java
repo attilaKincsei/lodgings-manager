@@ -37,11 +37,17 @@ public class LoginController extends HttpServlet {
 
         User mightBeUser = PasswordHashing.checkPassword(password, email);
         if (mightBeUser == null) {
-            throw new NullPointerException("User not found in database");
+            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+            WebContext context = new WebContext(request, response, request.getServletContext());
+            context.setVariable("errorMessage", "The email or password is incorrect.");
+            engine.process("login.html", context, response.getWriter());
+//            response.sendRedirect("/login");
+        } else {
+            loginUser(request.getSession(), mightBeUser);
+            response.sendRedirect("/index");
+
         }
 
-        loginUser(request.getSession(), mightBeUser);
-        response.sendRedirect("/index");
     }
 
     private void loginUser(HttpSession httpSession, User user) {
