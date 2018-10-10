@@ -6,16 +6,18 @@
 
     <persistence-unit name="lodgingsmanagerPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <!--<class>com.codecool.jpaexample.model.Student</class>-->
-        <!--<class>com.codecool.jpaexample.model.Address</class>-->
-        <!--<class>com.codecool.jpaexample.model.Klass</class>-->
+        <class>com.codecool.lodgingsmanager.model.User</class>
+        <class>com.codecool.lodgingsmanager.model.Landlord</class>
+        <class>com.codecool.lodgingsmanager.model.PropertyManager</class>
+        <class>com.codecool.lodgingsmanager.model.Tenant</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
-            <property name="hibernate.hbm2dll.auto" value="create-drop"/>
+            <property name="hibernate.hbm2dll.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
             <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
             <property name="javax.persistence.schema-generation.scripts.create-target" value="src/main/resources/data/create-schema.ddl"/>
             <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/main/resources/data/drop-schema.ddl"/>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_variables.less">
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_bootswatch.scss">
+
+    <link rel="stylesheet" href="static/css/registration.css">
+
+    <title>Registration</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Lodgings Manager</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+        </div>
+    </div>
+</nav>
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3 class="bg-success text-white p-5">Registration</h3>
+        <form id="registration-form" action="/registration" method="post">
+            <div class="form-group mx-auto">
+
+                <p>First Name</p>
+                <input class="form-control" type="text" name="first_name" placeholder="First Name" required ><br>
+
+                <p>Surname</p>
+                <input class="form-control" type="text" name="surname" placeholder="Surname" required ><br>
+
+                <div id="status_selection">
+                    <label for="user-type">I am registering as a:</label>
+                    <br>
+                    <select id="user-type" name="user_type" form="registration-form">
+                        <option value="LANDLORD" selected>Landlord</option>
+                        <option value="PROPERTY_MANAGER">Property Manager</option>
+                        <option value="TENANT">Tenant</option>
+                    </select>
+                </div>
+
+                <p>Email Address</p>
+                <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
+
+                <p>Password</p>
+                <input class="form-control" type="password" name="password" id="password" placeholder="Password" pattern=".{8,40}" required><br>
+
+                <p>Confirm Password</p>
+                <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" pattern=".{8,40}" required ><br>
+
+                <p>Phone Number</p>
+                <input class="form-control" type="text"  name="phone_number" placeholder="e.g. +36-20-556-1234" required><br>
+
+                <div class="form-group">
+                    <h3 class="bg-success text-white p-5">Address</h3>
+
+                    <p>Country</p>
+                    <input class="form-control" type="text" name="country" required><br>
+
+                    <p>City</p>
+                    <input class="form-control" type="text" name="city" required><br>
+
+                    <p>Zip code</p>
+                    <input class="form-control" type="text" name="zip_code" required><br>
+
+                    <p>Address</p>
+                    <input class="form-control" type="text" name="address" required>
+                </div>
+
+                <button form="registration-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block" disabled>Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    function allowMatchingPasswords(){
+        let firstPassword = document.querySelector("#password");
+        let secondPassword = document.querySelector("#password_confirmation");
+        let button = document.querySelector("#submit");
+
+        secondPassword.addEventListener("change", function (evt) {
+            if (firstPassword.value === secondPassword.value) {
+                button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        })
+    }
+
+    allowMatchingPasswords();
+</script>
+</body>
+</html>

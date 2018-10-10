@@ -1,21 +1,42 @@
 package com.codecool.lodgingsmanager.model;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Table(name = "site_user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue(value = "null")
 public abstract class User {
 
-    String firstName;
-    String surname;
-    String email;
-    String phoneNumber;
-    String country;
-    String city;
-    String zipCode;
-    String address;
-    String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private long id;
+    private String firstName;
+    private String surname;
+    private String email;
+    private String phoneNumber;
+    private String country;
+    private String city;
+    private String zipCode;
+    private String address;
+    private String passwordHash;
 
-    public User(String firstName, String surname, String email, String phoneNumber, String country, String city, String zipCode, String address) {
+    public User() {
+    }
+
+    public User(
+            String firstName,
+            String surname,
+            String email,
+            String phoneNumber,
+            String country,
+            String city,
+            String zipCode,
+            String address,
+            String passwordHash
+    ) {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
@@ -24,6 +45,31 @@ public abstract class User {
         this.city = city;
         this.zipCode = zipCode;
         this.address = address;
+        this.passwordHash = passwordHash;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     protected User() {
@@ -75,5 +121,28 @@ public abstract class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                '}';
     }
 }
