@@ -44,6 +44,21 @@ public class UserDaoDb implements UserDao {
 
     }
 
+    @Override
+    public List<String> getAllEmailAddresses() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
+        EntityManager em = emf.createEntityManager();
+
+        List<String> emailList = em.createQuery(
+                "SELECT u.email FROM User u")
+                .getResultList();
+
+        em.close();
+        emf.close();
+        return emailList;
+
+    }
+
 
     @Override
     public void remove(int id) {
