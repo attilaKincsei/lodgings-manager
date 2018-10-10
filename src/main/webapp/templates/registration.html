@@ -39,30 +39,37 @@
         <form id="registration-form" action="/registration" method="post">
             <div class="form-group mx-auto">
 
-                <p>First Name</p>
-                <input class="form-control" type="text" name="first_name" placeholder="First Name" required ><br>
+                <div>
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" class="form-control" type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <br>
 
-                <p>Surname</p>
-                <input class="form-control" type="text" name="surname" placeholder="Surname" required ><br>
+                <div>
+                    <label for="surname">Surname</label>
+                    <input id="surname" class="form-control" type="text" name="surname" placeholder="Surname" required ><br>
+                </div>
 
                 <div id="status_selection">
-                    <label for="user-type">I am registering as a:</label>
-                    <br>
+                    <label for="user-type">I am registering as a: </label>
                     <select id="user-type" name="user_type" form="registration-form">
                         <option value="LANDLORD" selected>Landlord</option>
                         <option value="PROPERTY_MANAGER">Property Manager</option>
                         <option value="TENANT">Tenant</option>
                     </select>
                 </div>
+                <br>
 
-                <p>Email Address</p>
-                <input class="form-control" type="email" name="email" placeholder="Email Address" required><br>
+                <div>
+                    <label id="email-address-label" th:data-email-list="${registeredEmailAddresses}" for="email-address">Email Address</label>
+                    <input id="email-address" class="form-control" type="email" name="email" placeholder="Email Address" required><br>
+                </div>
 
                 <p>Password</p>
-                <input class="form-control" type="password" name="password" id="password" placeholder="Password" pattern=".{8,40}" required><br>
+                <input class="form-control" type="password" name="password" id="password" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required><br>
 
-                <p>Confirm Password</p>
-                <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" pattern=".{8,40}" required ><br>
+                <label id="password-confirmation-label" for="password_confirmation">Confirm Password</label>
+                <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required ><br>
 
                 <p>Phone Number</p>
                 <input class="form-control" type="text"  name="phone_number" placeholder="e.g. +36-20-556-1234" required><br>
@@ -93,18 +100,56 @@
     function allowMatchingPasswords(){
         let firstPassword = document.querySelector("#password");
         let secondPassword = document.querySelector("#password_confirmation");
+        let passwordConfirmationLabel = document.querySelector("#password-confirmation-label");
         let button = document.querySelector("#submit");
 
         secondPassword.addEventListener("change", function (evt) {
             if (firstPassword.value === secondPassword.value) {
                 button.disabled = false;
+                passwordConfirmationLabel.innerHTML = "Passwords match.";
+                passwordConfirmationLabel.classList.add("color-text-green");
             } else {
+                passwordConfirmationLabel.classList.remove("color-text-green");
+                passwordConfirmationLabel.innerHTML = "Passwords do not match.";
+                passwordConfirmationLabel.classList.add("color-text-red");
                 button.disabled = true;
             }
         })
     }
 
+    function checkIfEmailRegistered(){
+        let emailAddressLabel = document.querySelector("#email-address-label");
+        let emailArray = JSON.parse(emailAddressLabel.dataset.emailList);
+        let inputFieldEmailAddress = document.querySelector("#email-address");
+        let button = document.querySelector("#submit");
+
+        inputFieldEmailAddress.addEventListener(
+            "change", function (evt) {
+
+                for (let registeredEmail of emailArray) {
+                    if (registeredEmail == inputFieldEmailAddress.value) {
+                        emailAddressLabel.classList.remove("color-text-green");
+                        emailAddressLabel.innerHTML = "Email address is already registered. Please choose another one:";
+                        emailAddressLabel.classList.add("color-text-red");
+                        button.disabled = true;
+                        break;
+                    }
+                    emailAddressLabel.innerHTML = "Email address is OK:";
+                    emailAddressLabel.classList.remove("color-text-red");
+                    emailAddressLabel.classList.add("color-text-green");
+                    button.disabled = false;
+                }
+            }
+        );
+
+
+
+
+    }
+
     allowMatchingPasswords();
+    checkIfEmailRegistered()
+
 </script>
 </body>
 </html>

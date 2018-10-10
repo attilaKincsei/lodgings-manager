@@ -3,10 +3,7 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
-import com.codecool.lodgingsmanager.util.PasswordHashing;
-import com.codecool.lodgingsmanager.util.UserDataField;
-import com.codecool.lodgingsmanager.util.UserFactory;
-import com.codecool.lodgingsmanager.util.UserType;
+import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/registration"})
 public class RegistrationController extends HttpServlet {
@@ -25,6 +23,12 @@ public class RegistrationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
+
+        List<String> allEmailAddresses = userDataManager.getAllEmailAddresses();
+        String emailAddressesJson = JsonMappingHandler.writeListToJsonString(allEmailAddresses);
+        System.out.println(emailAddressesJson);
+
+        context.setVariable("registeredEmailAddresses", emailAddressesJson);
         engine.process("registration.html", context, response.getWriter());
     }
 
