@@ -3,6 +3,7 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import com.codecool.lodgingsmanager.util.UserFactory;
 import com.codecool.lodgingsmanager.util.UserType;
@@ -41,11 +42,8 @@ public class RegistrationController extends HttpServlet {
         String zipCode = request.getParameter(UserDataField.ZIP_CODE.getInputString());
         String address = request.getParameter(UserDataField.ADDRESS.getInputString());
 
-        // Todo: check passwords matching (unnecessary)
-        // Todo: generate password hash with jBcrypt
         String password = request.getParameter(UserDataField.PASSWORD.getInputString());
-        String passwordConfirmation = request.getParameter(UserDataField.PASSWORD_CONFIRMATION.getInputString());
-        String passwordHash = "";
+        String passwordHash = PasswordHashing.hashPassword(password);
 
 
         User newUser = UserFactory.createUserInstanceBy(
@@ -58,11 +56,9 @@ public class RegistrationController extends HttpServlet {
                 city,
                 zipCode,
                 address,
-                password // todo: change this to passwordHash
+                passwordHash
         );
 
-        System.out.println(newUser);
-        System.out.println(newUser.getClass().getName());
         try {
             userDataManager.add(newUser);
         } catch (NullPointerException npe) {

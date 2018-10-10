@@ -1,6 +1,7 @@
 package com.codecool.lodgingsmanager.util;
 
 public enum UserDataField {
+    USER_ID("user_id"),
     FIRST_NAME("first_name"),
     SURNAME("surname"),
     USER_TYPE("user_type"),

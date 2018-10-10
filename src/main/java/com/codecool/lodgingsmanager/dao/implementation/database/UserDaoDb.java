@@ -36,6 +36,24 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
+    public User findIdBy(String email) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
+        EntityManager em = emf.createEntityManager();
+
+        List<User> userList = em.createQuery(
+                "SELECT u " +
+                        "FROM User u " +
+                        "WHERE u.email = '" + email + "'")
+                .getResultList();
+
+        em.close();
+        emf.close();
+        return userList.get(0);
+
+    }
+
+
+    @Override
     public void remove(int id) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
         EntityManager em = emf.createEntityManager();
@@ -61,12 +79,8 @@ public class UserDaoDb implements UserDao {
         String tableName = table.name();
         List<User> userList = em.createQuery("SELECT * FROM " + tableName).getResultList();
 
-
         em.close();
         emf.close();
-
-
-
         return userList;
     }
 

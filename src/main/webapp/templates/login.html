@@ -38,16 +38,16 @@
         <h3 class="bg-success text-white p-5">Login</h3>
         <form action="/login" method="post">
             <div class="form-group mx-auto">
-                Username
-                <input class="form-control" placeholder="Enter username" type="text" name="username" required ><br>
+                <label for="email-login">Email address</label>
+                <input id="email-login" class="form-control" placeholder="Enter email address" type="text" name="email" required><br>
 
-                Password
-                <input class="form-control" placeholder="Enter password" type="password" name="password" required ><br>
+                <label for="password-login">Password</label>
+                <input id="password-login" class="form-control" placeholder="Enter password" type="password" name="password" required><br>
             </div>
             <button type="submit" value="login" class="btn btn-primary btn-block">Login</button>
         </form>
         <div>
-            <a href="/registration"><button type="submit" class="btn btn-secondary btn-block"> Registration </button></a>
+            <a href="/registration"><button type="submit" class="btn btn-secondary btn-block">Registration</button></a>
         </div>
     </div>
 </div>
