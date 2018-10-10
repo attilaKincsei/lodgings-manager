@@ -23,8 +23,6 @@ public abstract class User {
     private String address;
     private String passwordHash;
 
-    public User() {
-    }
 
     public User(
             String firstName,

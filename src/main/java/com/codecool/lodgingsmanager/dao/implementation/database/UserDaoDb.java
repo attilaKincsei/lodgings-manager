@@ -8,17 +8,12 @@ import com.sun.deploy.security.ValidationState;
 import javax.persistence.*;
 import java.util.List;
 
-public abstract class UserDaoDb implements UserDao {
+public class UserDaoDb implements UserDao {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
     private EntityManager em = emf.createEntityManager();
-    User userType;
-public class UserDaoDb implements UserDao {
 
     @Override
     public void add(User object) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-        EntityManager em = emf.createEntityManager();
-
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(object);
@@ -30,22 +25,12 @@ public class UserDaoDb implements UserDao {
 
     @Override
     public User find(int id) {
-            return em.find(userType.getClass(), id);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-        EntityManager em = emf.createEntityManager();
 
-        User user = em.find(User.class, id);
-
-        em.close();
-        emf.close();
-
-        return user;
+        return em.find(User.class, id);
     }
 
     @Override
     public User findIdBy(String email) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-        EntityManager em = emf.createEntityManager();
 
         List<User> userList = em.createQuery(
                 "SELECT u " +
@@ -62,14 +47,11 @@ public class UserDaoDb implements UserDao {
 
     @Override
     public void remove(int id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-        EntityManager em = emf.createEntityManager();
 
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.remove(find(id));
         transaction.commit();
-
 
         em.close();
         emf.close();
@@ -78,9 +60,6 @@ public class UserDaoDb implements UserDao {
 
     @Override
     public List<User> getAll() {
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-        EntityManager em = emf.createEntityManager();
 
         Table table = Entity.class.getAnnotation(Table.class);
         String tableName = table.name();

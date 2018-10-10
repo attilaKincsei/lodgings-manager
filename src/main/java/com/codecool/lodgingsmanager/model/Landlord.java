@@ -16,8 +16,6 @@ public class Landlord extends User implements Managing {
 //    @OneToMany(mappedBy = "landlord")
 //    Set<Apartment> apartments = new HashSet<>();
 
-    public Landlord() {
-    }
 
     public Landlord(
             String firstName,
