@@ -67,6 +67,6 @@ public class AddLodgingsController extends HttpServlet {
             System.out.println("New lodging could not be created");
         }
 
-        response.sendRedirect("/index");
+        response.sendRedirect("/profile");
     }
 }
