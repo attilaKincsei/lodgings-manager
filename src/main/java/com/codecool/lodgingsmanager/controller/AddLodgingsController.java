@@ -48,16 +48,16 @@ public class AddLodgingsController extends HttpServlet {
 
         Lodgings newLodging = new Lodgings(
                 lodgingName,
-                lodgingType.valueOf(lodgingType.APARTMENT),
-                dailyPrice,
-                electricityBill,
-                gasBill,
-                telecommunicationBill,
-                cleaningCost,
+                Type.valueOf(lodgingType.toUpperCase()),
                 country,
                 city,
                 zipCode,
-                address
+                address,
+                Long.parseLong(dailyPrice),
+                Long.parseLong(electricityBill),
+                Long.parseLong(gasBill),
+                Long.parseLong(telecommunicationBill),
+                Long.parseLong(cleaningCost)
         );
 
         try {

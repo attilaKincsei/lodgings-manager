@@ -22,10 +22,10 @@ public class Lodgings {
     private long cleaningCost;
     private String country;
     private String city;
-    private int zipCode;
+    private String zipCode;
     private String address;
 
-    public Lodgings(String name, Type type, String country, String city, int zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost) {
+    public Lodgings(String name, Type type, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost) {
         this.name = name;
         this.type = type;
         this.country = country;
@@ -82,11 +82,11 @@ public class Lodgings {
         this.city = city;
     }
 
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
