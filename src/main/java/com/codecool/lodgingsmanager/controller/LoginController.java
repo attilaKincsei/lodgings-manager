@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
 
             System.out.println(session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()));
 
-            response.sendRedirect("/index");
+            response.sendRedirect("/profile");
 
         }
 

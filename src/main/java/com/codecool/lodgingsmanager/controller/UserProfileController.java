@@ -3,8 +3,6 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
-import com.codecool.lodgingsmanager.util.PasswordHashing;
-import com.codecool.lodgingsmanager.util.SessionHandler;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -24,35 +22,20 @@ public class UserProfileController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        WebContext context = new WebContext(request, response, request.getServletContext());
-        SessionHandler sessionHandler = SessionHandler.getInstance(request.getSession());
-        User user = userDataManager.find(Integer.parseInt(sessionHandler.getSessionValue("user_id")));
+        HttpSession session = request.getSession(false);
 
-        context.setVariable("userData", user);
+        if (session == null) {
+            response.sendRedirect("/login");
+        } else {
+            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            WebContext context = new WebContext(request, response, request.getServletContext());
+            User user = userDataManager.findIdBy(userEmail);
 
-        engine.process("user_profile.html", context, response.getWriter());
+            context.setVariable("userData", user);
+
+            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+            engine.process("user_profile.html", context, response.getWriter());
+
+        }
     }
-
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//
-//        String email = request.getParameter(UserDataField.EMAIL_ADDRESS.getInputString());
-//        String password = request.getParameter(UserDataField.PASSWORD.getInputString());
-//
-//        User mightBeUser = PasswordHashing.checkPassword(password, email);
-//        if (mightBeUser == null) {
-//            throw new NullPointerException("User not found in database");
-//        }
-//
-//        loginUser(request.getSession(), mightBeUser);
-//        response.sendRedirect("/index");
-//    }
-//
-//    private void loginUser(HttpSession httpSession, User user) {
-//        SessionHandler sessionHandler = SessionHandler.getInstance(httpSession);
-//        sessionHandler.addAttributeToSession(UserDataField.USER_ID.getInputString(), user.getId());
-//    }
-
-
 }
