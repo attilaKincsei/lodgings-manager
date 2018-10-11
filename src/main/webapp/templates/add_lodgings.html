@@ -36,7 +36,7 @@
 <div class="container" style="margin-bottom: 15px">
     <div class="col-lg-6 col-lg-offset-3">
         <h3 class="bg-success text-white p-5">Add new lodgings</h3>
-        <form id="registration-form" action="/registration" method="post">
+        <form id="add-lodgings-form" action="/add-lodgings" method="post">
             <div class="form-group mx-auto">
 
                 <div>
@@ -47,7 +47,7 @@
 
                 <div id="status_selection">
                     <label for="lodging-type">Choose lodging type: </label>
-                    <select id="lodging-type" name="lodging_type" form="registration-form">
+                    <select id="lodging-type" name="lodging_type" form="add-lodgings-form">
                         <option value="APARTMENT" selected>Apartment</option>
                         <option value="FAMILY_HOUSE">Family house</option>
                         <option value="ROOM">Room</option>
@@ -86,7 +86,7 @@
                     <input class="form-control" type="text" name="address" required>
                 </div>
 
-                <button form="registration-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block" disabled>Submit</button>
+                <button form="add-lodgings-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>
             </div>
         </form>
     </div>
