@@ -4,5 +4,5 @@ public enum Type {
     APARTMENT,
     FAMILY_HOUSE,
     ROOM,
-    PENTHOUSE
+    PENTHOUSE;
 }
