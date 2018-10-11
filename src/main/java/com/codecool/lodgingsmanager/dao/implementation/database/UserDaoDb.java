@@ -100,4 +100,17 @@ public class UserDaoDb implements UserDao {
         return userList;
     }
 
+    public void update(User user) {
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
+        EntityManager em = emf.createEntityManager();
+
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.merge(user);
+        transaction.commit();
+
+        em.close();
+        emf.close();
+    }
 }
