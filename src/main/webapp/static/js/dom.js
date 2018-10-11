@@ -7,6 +7,7 @@ let dom = {
         let button = document.querySelector("#submit");
 
         secondPassword.addEventListener("change", function (evt) {
+            console.log(secondPassword.value);
             if (firstPassword.value === secondPassword.value) {
                 button.disabled = false;
                 passwordConfirmationLabel.innerHTML = "Passwords match.";
