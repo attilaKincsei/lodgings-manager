@@ -91,7 +91,11 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Address: </strong></span>
                 <span th:text="${userData.getAddress()}">Address</span></li>
 
+
         </ul>
+        <form method="get" action="/edit-profile">
+            <button type="submit" class="btn btn-info">Edit Profile</button>
+        </form>
     </div>
 </div>
 
