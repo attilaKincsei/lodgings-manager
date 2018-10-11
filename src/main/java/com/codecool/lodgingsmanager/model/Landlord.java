@@ -30,4 +30,6 @@ public class Landlord extends User implements Managing {
     ) {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
+
+
 }
