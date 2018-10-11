@@ -10,12 +10,11 @@ import java.util.Set;
 @DiscriminatorValue(value = "LANDLORD")
 public class Landlord extends User implements Managing {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 //    @OneToMany(mappedBy = "landlord")
 //    Set<Apartment> apartments = new HashSet<>();
 
+    public Landlord() {
+    }
 
     public Landlord(
             String firstName,
@@ -32,6 +31,5 @@ public class Landlord extends User implements Managing {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
 
-    public Landlord() {
-    }
+
 }
