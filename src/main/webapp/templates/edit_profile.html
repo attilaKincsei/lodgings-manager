@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header_template.html :: head-fragment">
+    <meta charset="UTF-8">
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Edit Profile</title>
+</head>
+<body>
+
+
+<div th:replace="navbar.html :: copy"></div>
+
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3 class="bg-success text-white p-5">Edit Profile</h3>
+        <form id="edit-profile-form" action="/edit-profile" method="post">
+            <div class="form-group mx-auto">
+
+                <div>
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" class="form-control" type="text" name="first_name" th:value="${userData.getFirstName()}" required>
+                </div>
+                <br>
+
+                <div>
+                    <label for="surname">Surname</label>
+                    <input id="surname" class="form-control" type="text" name="surname" th:value="${userData.getSurname()}" required ><br>
+                </div>
+
+                <br>
+
+                <label for="phone-input">Phone Number</label>
+                <input id="phone-input" class="form-control" type="text"  name="phone_number" th:value="${userData.getPhoneNumber()}" required><br>
+
+                <div class="form-group">
+                    <h3 class="bg-success text-white p-5">Address</h3>
+
+                    <label for="country-input">Country</label>
+                    <input id="country-input" class="form-control" type="text" name="country" th:value="${userData.getCountry()}" required><br>
+
+                    <label for="city-input">City</label>
+                    <input id="city-input" class="form-control" type="text" name="city" th:value="${userData.getCity()}" required><br>
+
+                    <label for="zip-input">Zip code</label>
+                    <input id="zip-input" class="form-control" type="text" name="zip_code" th:value="${userData.getZipCode()}" required><br>
+
+                    <label for="address-input">Address</label>
+                    <input id="address-input" class="form-control" type="text" name="address" th:value="${userData.getAddress()}" required>
+                </div>
+
+                <button form="edit-profile-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="footer.html :: copy"></div>
+
+</body>
+</html>
