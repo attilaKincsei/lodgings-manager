@@ -17,18 +17,33 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
     <link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://bootswatch.com/3/flatly/variables.less">
-
     <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_bootswatch.scss">
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-    ></script>
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
-    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous" defer></script>
+    <!-- Bootstrap js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous" defer></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
+    <!-- Dragula js -->
+    <!--<script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js' defer></script>-->
+
+    <!-- MY JAVASCRIPT FILES -->
+    <script src="static/js/main.js" defer></script>
+    <script src="static/js/dom.js" defer></script>
+    <script src="static/js/data_handler.js" defer></script>
+
 </head>
 
 <body>
@@ -45,25 +60,25 @@
 
 <div th:replace="footer.html :: copy"></div>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
 
-<script>
-    function search(){
-        search = document.querySelector("#search");
 
-        search.addEventListener("keyup", function () {
-            axios.get('/search', {
-                params: {
-                    keyWord: search.value
-                }
-            })
-                .then(function (response) {
-                    document.querySelector("#products").innerHTML = response.data;
-                });
-        });
-    }
-    search();
-</script>
+<!--<script>-->
+    <!--function search(){-->
+        <!--search = document.querySelector("#search");-->
+
+        <!--search.addEventListener("keyup", function () {-->
+            <!--axios.get('/search', {-->
+                <!--params: {-->
+                    <!--keyWord: search.value-->
+                <!--}-->
+            <!--})-->
+                <!--.then(function (response) {-->
+                    <!--document.querySelector("#products").innerHTML = response.data;-->
+                <!--});-->
+        <!--});-->
+    <!--}-->
+    <!--search();-->
+<!--</script>-->
 
 </body>
 </html>
