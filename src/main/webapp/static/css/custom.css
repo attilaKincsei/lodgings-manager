@@ -70,3 +70,11 @@
 .align-center {
     horiz-align: right;
 }
+
+#edit-button {
+    float: left;
+}
+
+#lodging-button {
+    float: left;
+}
