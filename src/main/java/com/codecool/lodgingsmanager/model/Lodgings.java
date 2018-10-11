@@ -15,28 +15,26 @@ public class Lodgings {
     @Enumerated
     private Type type;
 
-    //private Date paymentDeadline;
     private long pricePerDay;
     private long electricityBill;
     private long gasBill;
-    private long heatingBill;
     private long telecommunicationBill;
     private long cleaningCost;
     private String country;
     private String city;
     private int zipCode;
+    private String address;
 
-    public Lodgings(String name, Type type, String country, String city, int zipCode, Date paymentDeadline, long pricePerDay, long electricityBill, long gasBill, long heatingBill, long telecommunicationBill, long cleaningCost) {
+    public Lodgings(String name, Type type, String country, String city, int zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost) {
         this.name = name;
         this.type = type;
         this.country = country;
         this.city = city;
         this.zipCode = zipCode;
-        //this.paymentDeadline = paymentDeadline;
+        this.address = address;
         this.pricePerDay = pricePerDay;
         this.electricityBill = electricityBill;
         this.gasBill = gasBill;
-        this.heatingBill = heatingBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
     }
@@ -92,13 +90,10 @@ public class Lodgings {
         this.zipCode = zipCode;
     }
 
-    /*public Date getPaymentDeadline() {
-        return paymentDeadline;
-    }
+    public String  getAddress() {return address;}
 
-    public void setPaymentDeadline(Date paymentDeadline) {
-        this.paymentDeadline = paymentDeadline;
-    }*/
+    public void setAddress(String address) {
+        this.address = address;}
 
     public long getPricePerDay() {
         return pricePerDay;
@@ -122,14 +117,6 @@ public class Lodgings {
 
     public void setGasBill(long gasBill) {
         this.gasBill = gasBill;
-    }
-
-    public long getHeatingBill() {
-        return heatingBill;
-    }
-
-    public void setHeatingBill(long heatingBill) {
-        this.heatingBill = heatingBill;
     }
 
     public long getTelecommunicationBill() {
