@@ -26,7 +26,6 @@ public class RegistrationController extends HttpServlet {
 
         List<String> allEmailAddresses = userDataManager.getAllEmailAddresses();
         String emailAddressesJson = JsonMappingHandler.writeListToJsonString(allEmailAddresses);
-        System.out.println(emailAddressesJson);
 
         context.setVariable("registeredEmailAddresses", emailAddressesJson);
         engine.process("registration.html", context, response.getWriter());
