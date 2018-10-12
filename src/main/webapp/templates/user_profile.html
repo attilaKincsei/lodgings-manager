@@ -70,7 +70,7 @@
 <input type="hidden" id="user-type" th:value="${userData.getUserType()}">
 
 <div id="profile-data" class="row">
-    <div class="col-sm-3">
+    <div id="data-list" class="col-sm-3">
         <!--left col-->
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Profile</li>
@@ -94,18 +94,10 @@
         <form id="edit-button" method="get" action="/edit-profile">
             <button type="submit" class="btn btn-info">Edit Profile</button>
         </form>
-        <form id="add-lodgings" method="get" action="/add-lodgings">
-            <button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>
-        </form>
+        <!--<form id="add-lodgings" method="get" action="/add-lodgings">-->
+            <!--<button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>-->
+        <!--</form>-->
     </div>
-    <!--<div th:each="${userData.get}" class="col-sm-9" contenteditable="false">-->
-        <!--<div class="panel panel-default">-->
-            <!--<div class="panel-heading"><b>Shared Treatment Section</b></div>-->
-            <!--<div class="panel-body"><i>Select the plan corresponding to your need. You will be redirected to the access page where you can edit the selected pre-made scheme.</i><br>-->
-
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
@@ -137,15 +129,34 @@
     </div>
 </script>
 
+<script id="lodging-button" type="text/html">
+    <button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>
+</script>
+
 <script>
+    function addLodgingList() {
+        let div = document.createElement('div');
+        div.setAttribute('class', 'col-sm-9');
+        div.setAttribute('contenteditable', 'false');
+        div.innerHTML = document.getElementById('add').innerHTML;
+        document.getElementById('profile-data').appendChild(div);
+    }
+
+    function addButton() {
+        let button = document.createElement('form');
+        button.setAttribute('id', 'add-lodgings');
+        button.setAttribute('method', 'get');
+        button.setAttribute('action', '/add-lodgings');
+        button.innerHTML = document.getElementById('lodging-button').innerHTML;
+        document.getElementById('data-list').appendChild(button);
+    }
+
+
     function checkUserType() {
         if (document.getElementById("user-type").value === "LANDLORD"){
-            let div = document.createElement('div');
-            div.setAttribute('class', 'col-sm-9');
-            div.setAttribute('contenteditable', 'false');
-            div.innerHTML = document.getElementById('add').innerHTML;
-            document.getElementById('profile-data').appendChild(div);        }
-
+            addLodgingList();
+            addButton();
+        }
     }
     checkUserType();
 </script>
