@@ -32,8 +32,6 @@
 
 </head>
 
-<body>
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -69,7 +67,9 @@
     </div>
 </nav>
 
-<div class="row">
+<input type="hidden" id="user-type" th:value="${userData.getUserType()}">
+
+<div id="profile-data" class="row">
     <div class="col-sm-3">
         <!--left col-->
         <ul class="list-group">
@@ -90,8 +90,6 @@
                 <span th:text="${userData.getZipCode()}">Zipcode</span> </li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Address: </strong></span>
                 <span th:text="${userData.getAddress()}">Address</span></li>
-
-
         </ul>
         <form id="edit-button" method="get" action="/edit-profile">
             <button type="submit" class="btn btn-info">Edit Profile</button>
@@ -100,9 +98,15 @@
             <button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>
         </form>
     </div>
-</div>
+    <!--<div th:each="${userData.get}" class="col-sm-9" contenteditable="false">-->
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading"><b>Shared Treatment Section</b></div>-->
+            <!--<div class="panel-body"><i>Select the plan corresponding to your need. You will be redirected to the access page where you can edit the selected pre-made scheme.</i><br>-->
 
-<div th:replace="footer.html :: copy"></div>
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
 
@@ -122,6 +126,28 @@
         });
     }
     search();
+</script>
+
+<script id="add" type="text/html">
+    <div class="panel panel-default">
+    <div class="panel-heading"><b>Shared Treatment Section</b></div>
+    <div class="panel-body"><i>Select the plan corresponding to your need. You will be redirected to the access page where you can edit the selected pre-made scheme.</i><br>
+
+    </div>
+    </div>
+</script>
+
+<script>
+    function checkUserType() {
+        if (document.getElementById("user-type").value === "LANDLORD"){
+            let div = document.createElement('div');
+            div.setAttribute('class', 'col-sm-9');
+            div.setAttribute('contenteditable', 'false');
+            div.innerHTML = document.getElementById('add').innerHTML;
+            document.getElementById('profile-data').appendChild(div);        }
+
+    }
+    checkUserType();
 </script>
 
 </body>

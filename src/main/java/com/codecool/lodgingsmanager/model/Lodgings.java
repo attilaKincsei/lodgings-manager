@@ -3,7 +3,6 @@ package com.codecool.lodgingsmanager.model;
 import com.codecool.lodgingsmanager.model.enums.Type;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class Lodgings {
@@ -24,8 +23,10 @@ public class Lodgings {
     private String city;
     private String zipCode;
     private String address;
+    @ManyToOne
+    private Landlord landlord;
 
-    public Lodgings(String name, Type type, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost) {
+    public Lodgings(String name, Type type, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
         this.name = name;
         this.type = type;
         this.country = country;
@@ -37,6 +38,7 @@ public class Lodgings {
         this.gasBill = gasBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
+        this.landlord = landlord;
     }
 
     public Lodgings() {

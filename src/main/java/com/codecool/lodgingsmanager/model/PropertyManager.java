@@ -24,4 +24,9 @@ public class PropertyManager extends User implements Managing {
     ) {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
+
+    @Override
+    public String getUserType() {
+        return "PROPERTY_MANAGER";
+    }
 }

@@ -3,6 +3,7 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
+import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.model.enums.Type;
@@ -14,13 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/add-lodgings"})
 public class AddLodgingsController extends HttpServlet {
 
     private LodgingsDaoDb lodgingDataManager = new LodgingsDaoDb();
+    private UserDaoDb userDataManager = new UserDaoDb();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -33,6 +35,12 @@ public class AddLodgingsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        HttpSession session = request.getSession(false);
+
+        String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+        User user = userDataManager.findIdBy(userEmail);
+
+
         String lodgingName = request.getParameter(LodgingDataField.LODGING_NAME.getInputString());
         String lodgingType = request.getParameter(LodgingDataField.LODGING_TYPE.getInputString());
         String dailyPrice = request.getParameter(LodgingDataField.DAILY_PRICE.getInputString());
@@ -44,6 +52,7 @@ public class AddLodgingsController extends HttpServlet {
         String city = request.getParameter(LodgingDataField.CITY.getInputString());
         String zipCode = request.getParameter(LodgingDataField.ZIP_CODE.getInputString());
         String address = request.getParameter(LodgingDataField.ADDRESS.getInputString());
+        Landlord landlord = (Landlord) user;
 
 
         Lodgings newLodging = new Lodgings(
@@ -57,8 +66,8 @@ public class AddLodgingsController extends HttpServlet {
                 Long.parseLong(electricityBill),
                 Long.parseLong(gasBill),
                 Long.parseLong(telecommunicationBill),
-                Long.parseLong(cleaningCost)
-        );
+                Long.parseLong(cleaningCost),
+                landlord);
 
         try {
             lodgingDataManager.add(newLodging);
