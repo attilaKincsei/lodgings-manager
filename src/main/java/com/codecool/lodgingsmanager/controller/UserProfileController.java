@@ -31,7 +31,7 @@ public class UserProfileController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
             User user = userDataManager.findIdBy(userEmail);
-            if(user.getUserType().equals("LANDLORD")) {
+            if(user.getUserType().equals("LANDLORD")) { // TODO enum?
                 Landlord landlord = (Landlord) user;
                 context.setVariable("lodgings", landlord.getLodgings());
             }
