@@ -1,5 +1,5 @@
 function init() {
-    dom.search();
+    dom.search();  // ??
     dom.allowMatchingPasswords();
     dom.checkIfEmailRegistered();
 

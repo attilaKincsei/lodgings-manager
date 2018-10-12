@@ -23,6 +23,7 @@ let dom = {
 
     checkIfEmailRegistered: function () {
         let emailAddressLabel = document.querySelector("#email-address-label");
+        // not a good idea. Make an AJAX call (XmlHttpRequest)
         let emailArray = JSON.parse(emailAddressLabel.dataset.emailList);
         let inputFieldEmailAddress = document.querySelector("#email-address");
         let button = document.querySelector("#submit");
