@@ -32,40 +32,7 @@
 
 </head>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-2">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/index">
-                <strong>Lodgings Manager</strong> <span class="sr-only">(current)</span>
-            </a>
-
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/registration" class="btn btn-default">Register</a>
-                </li>
-                <li>
-                    <a href="/login" class="btn btn-default">Login</a>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
-    </div>
-</nav>
+<div th:replace="navbar.html :: copy"></div>
 
 <input type="hidden" id="user-type" th:value="${userData.getUserType()}">
 
@@ -83,7 +50,7 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Email: </strong></span>
                 <span th:text="${userData.getEmail()}">Email</span> </li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Country: </strong></span>
-                <span th:text="${userData.getCountry()}" Country> </span></li>
+                <span th:text="${userData.getCountry()}">Country</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">City: </strong></span>
                 <span th:text="${userData.getCity()}">City</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Zipcode: </strong></span>
@@ -94,9 +61,6 @@
         <form id="edit-button" method="get" action="/edit-profile">
             <button type="submit" class="btn btn-info">Edit Profile</button>
         </form>
-        <!--<form id="add-lodgings" method="get" action="/add-lodgings">-->
-            <!--<button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>-->
-        <!--</form>-->
     </div>
 </div>
 
@@ -121,10 +85,32 @@
 </script>
 
 <script id="add" type="text/html">
-    <div class="panel panel-default">
-    <div class="panel-heading"><b>Shared Treatment Section</b></div>
-    <div class="panel-body"><i>Select the plan corresponding to your need. You will be redirected to the access page where you can edit the selected pre-made scheme.</i><br>
-
+    <div th:each="lodging : ${lodgings}" class="panel panel-default">
+        <div class="panel-heading" th:text="${lodging.getName()}"><b>Lodging Name</b></div>
+    <div class="panel-body">
+        <ul>
+            <h4>Address</h4>
+            <li class="new-row">
+                <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span></div>
+                <div class="new-column"><span>City: </span><span th:text="${lodging.getCity()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span></div>
+                <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span></div>
+            </li>
+            <h4>Overhead Costs</h4>
+            <li class="new-row">
+                <div class="new-column"><span>Daily Price:  </span><span th:text="${lodging.getPricePerDay()}">price</span></div>
+                <div class="new-column"><span>Electricity Bill: </span><span th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span></div>
+                <div class="new-column"><span>Telecommunication Bill: </span><span th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Cleaning Cost:  </span><span th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+            </li>
+        </ul>
     </div>
     </div>
 </script>

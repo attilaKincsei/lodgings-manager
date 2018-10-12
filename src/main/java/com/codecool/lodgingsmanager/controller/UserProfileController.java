@@ -2,6 +2,7 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
+import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
@@ -30,6 +31,10 @@ public class UserProfileController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
             User user = userDataManager.findIdBy(userEmail);
+            if(user.getUserType().equals("LANDLORD")) {
+                Landlord landlord = (Landlord) user;
+                context.setVariable("lodgings", landlord.getLodgings());
+            }
 
             context.setVariable("userData", user);
 
