@@ -32,45 +32,12 @@
 
 </head>
 
-<body>
+<div th:replace="navbar.html :: copy"></div>
 
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-2">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/index">
-                <strong>Lodgings Manager</strong> <span class="sr-only">(current)</span>
-            </a>
+<input type="hidden" id="user-type" th:value="${userData.getUserType()}">
 
-        </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="/registration" class="btn btn-default">Register</a>
-                </li>
-                <li>
-                    <a href="/login" class="btn btn-default">Login</a>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
-<div class="row">
-    <div class="col-sm-3">
+<div id="profile-data" class="row">
+    <div id="data-list" class="col-sm-3">
         <!--left col-->
         <ul class="list-group">
             <li class="list-group-item text-muted" contenteditable="false">Profile</li>
@@ -83,23 +50,19 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Email: </strong></span>
                 <span th:text="${userData.getEmail()}">Email</span> </li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Country: </strong></span>
-                <span th:text="${userData.getCountry()}" Country> </span></li>
+                <span th:text="${userData.getCountry()}">Country</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">City: </strong></span>
                 <span th:text="${userData.getCity()}">City</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Zipcode: </strong></span>
                 <span th:text="${userData.getZipCode()}">Zipcode</span> </li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Address: </strong></span>
                 <span th:text="${userData.getAddress()}">Address</span></li>
-
-
         </ul>
-        <form method="get" action="/edit-profile">
+        <form id="edit-button" method="get" action="/edit-profile">
             <button type="submit" class="btn btn-info">Edit Profile</button>
         </form>
     </div>
 </div>
-
-<div th:replace="footer.html :: copy"></div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
 
@@ -119,6 +82,69 @@
         });
     }
     search();
+</script>
+
+<script id="add" type="text/html">
+    <div th:each="lodging : ${lodgings}" class="panel panel-default">
+        <div class="panel-heading" th:text="${lodging.getName()}"><b>Lodging Name</b></div>
+    <div class="panel-body">
+        <ul>
+            <h4>Address</h4>
+            <li class="new-row">
+                <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span></div>
+                <div class="new-column"><span>City: </span><span th:text="${lodging.getCity()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span></div>
+                <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span></div>
+            </li>
+            <h4>Overhead Costs</h4>
+            <li class="new-row">
+                <div class="new-column"><span>Daily Price:  </span><span th:text="${lodging.getPricePerDay()}">price</span></div>
+                <div class="new-column"><span>Electricity Bill: </span><span th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span></div>
+                <div class="new-column"><span>Telecommunication Bill: </span><span th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+            </li>
+            <li class="new-row">
+                <div class="new-column"><span>Cleaning Cost:  </span><span th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+            </li>
+        </ul>
+    </div>
+    </div>
+</script>
+
+<script id="lodging-button" type="text/html">
+    <button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>
+</script>
+
+<script>
+    function addLodgingList() {
+        let div = document.createElement('div');
+        div.setAttribute('class', 'col-sm-9');
+        div.setAttribute('contenteditable', 'false');
+        div.innerHTML = document.getElementById('add').innerHTML;
+        document.getElementById('profile-data').appendChild(div);
+    }
+
+    function addButton() {
+        let button = document.createElement('form');
+        button.setAttribute('id', 'add-lodgings');
+        button.setAttribute('method', 'get');
+        button.setAttribute('action', '/add-lodgings');
+        button.innerHTML = document.getElementById('lodging-button').innerHTML;
+        document.getElementById('data-list').appendChild(button);
+    }
+
+
+    function checkUserType() {
+        if (document.getElementById("user-type").value === "LANDLORD"){
+            addLodgingList();
+            addButton();
+        }
+    }
+    checkUserType();
 </script>
 
 </body>

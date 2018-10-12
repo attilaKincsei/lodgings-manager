@@ -70,3 +70,32 @@
 .align-center {
     horiz-align: right;
 }
+
+#edit-button {
+    float: left;
+}
+
+#lodging-button {
+    float: left;
+}
+
+
+.new-column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.new-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.new-row{
+    list-style: none;
+}
+
+.panel-heading{
+    font-size: 30px;
+}

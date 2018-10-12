@@ -24,4 +24,9 @@ public class Tenant extends User {
     ) {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
+
+    @Override
+    public String getUserType() {
+        return "TENANT";
+    }
 }

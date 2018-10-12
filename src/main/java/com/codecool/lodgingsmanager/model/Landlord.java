@@ -10,8 +10,8 @@ import java.util.Set;
 @DiscriminatorValue(value = "LANDLORD")
 public class Landlord extends User implements Managing {
 
-//    @OneToMany(mappedBy = "landlord")
-//    Set<Apartment> apartments = new HashSet<>();
+    @OneToMany(mappedBy = "landlord", fetch = FetchType.EAGER)
+    Set<Lodgings> lodgings = new HashSet<>();
 
     public Landlord() {
     }
@@ -31,5 +31,12 @@ public class Landlord extends User implements Managing {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
 
+    @Override
+    public String getUserType() {
+        return "LANDLORD";
+    }
 
+    public Set<Lodgings> getLodgings() {
+        return lodgings;
+    }
 }

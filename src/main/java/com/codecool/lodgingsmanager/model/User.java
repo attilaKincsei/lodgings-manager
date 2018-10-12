@@ -129,6 +129,8 @@ public abstract class User {
         this.passwordHash = passwordHash;
     }
 
+    public abstract String getUserType();
+
     @Override
     public String toString() {
         return "User{" +
