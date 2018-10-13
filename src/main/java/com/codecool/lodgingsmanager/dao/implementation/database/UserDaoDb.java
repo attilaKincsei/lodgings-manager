@@ -10,12 +10,12 @@ import java.util.List;
 public class UserDaoDb extends UserDao {
 
     @Override
-    public User find(int id) {
+    public User find(int id) throws NoResultException {
         return em.find(User.class, id);
     }
 
     @Override
-    public List<User> getAll() { // todo: not working
+    public List<User> getAll() throws NoResultException { // todo: not working
 //        Table table = Entity.class.getAnnotation(Table.class);
 //        String tableName = table.name();
 //        List<User> userList = em.createQuery("SELECT * FROM " + tableName).getResultList();
@@ -23,7 +23,7 @@ public class UserDaoDb extends UserDao {
     }
 
     @Override
-    public User findIdBy(String email) {
+    public User findIdBy(String email) throws NoResultException {
         return (User) em.createQuery(
                 "SELECT u " +
                         "FROM User u " +
@@ -33,7 +33,7 @@ public class UserDaoDb extends UserDao {
     }
 
     @Override
-    public List<String> getAllEmailAddresses() {
+    public List<String> getAllEmailAddresses() throws NoResultException {
         return em.createQuery(
                 "SELECT u.email FROM User u")
                 .getResultList();

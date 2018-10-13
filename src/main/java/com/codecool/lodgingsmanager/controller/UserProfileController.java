@@ -36,9 +36,8 @@ public class UserProfileController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
-//            User user = userDataManager.findIdBy(userEmail);
+            User user = userDataManager.findIdBy(userEmail);
 
-            User user = userDataManager.find(1);
             List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy(user.getId());
             context.setVariable("lodgings", lodgingsList);
             context.setVariable("userData", user);

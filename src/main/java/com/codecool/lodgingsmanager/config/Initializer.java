@@ -27,14 +27,10 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ServletContext context = sce.getServletContext().getContext("/logout");
-
-        System.out.println("\n\n\n\n\n----------------------------------------------------------------------------------------------------");
-        System.out.println(context);
+//        ServletContext context = sce.getServletContext().getContext("/logout");
 
 
-        // TODO add test data
-        // have just one EMF, EM
+        // TODO:S: - refactor / debug login (null is displayed on profile page)
 
         User testUser = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
