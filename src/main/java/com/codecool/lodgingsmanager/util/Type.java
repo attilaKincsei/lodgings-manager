@@ -1,8 +1,8 @@
-package com.codecool.lodgingsmanager.model.enums;
+package com.codecool.lodgingsmanager.util;
 
 public enum Type {
     APARTMENT,
     FAMILY_HOUSE,
     ROOM,
-    PENTHOUSE;
+    PENTHOUSE
 }

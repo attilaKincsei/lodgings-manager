@@ -11,11 +11,10 @@ public class LodgingsDaoDb implements LodgingsDao {
 
     @Override
     public void add(Lodgings object) {
-        EMDriver driver = new EMDriver();
-        EntityManager driverManager = driver.getEm();
-        EntityTransaction transaction = driverManager.getTransaction();
+//        EntityManager em = EMDriver.getEntityManager();
+        EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        driverManager.persist(object);
+        em.persist(object);
         transaction.commit();
         System.out.println("Lodgings added");
     }

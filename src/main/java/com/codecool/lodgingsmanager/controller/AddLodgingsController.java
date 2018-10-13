@@ -6,7 +6,7 @@ import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
-import com.codecool.lodgingsmanager.model.enums.Type;
+import com.codecool.lodgingsmanager.util.Type;
 import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -52,7 +52,6 @@ public class AddLodgingsController extends HttpServlet {
         String city = request.getParameter(LodgingDataField.CITY.getInputString());
         String zipCode = request.getParameter(LodgingDataField.ZIP_CODE.getInputString());
         String address = request.getParameter(LodgingDataField.ADDRESS.getInputString());
-        Landlord landlord = (Landlord) user;
 
 
         Lodgings newLodging = new Lodgings(
@@ -67,7 +66,8 @@ public class AddLodgingsController extends HttpServlet {
                 Long.parseLong(gasBill),
                 Long.parseLong(telecommunicationBill),
                 Long.parseLong(cleaningCost),
-                landlord);
+                (Landlord) user
+        );
 
         try {
             lodgingDataManager.add(newLodging);

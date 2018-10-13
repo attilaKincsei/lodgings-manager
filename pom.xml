@@ -17,8 +17,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <version.postgres>42.2.5</version.postgres>
-        <!--<version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>-->
-        <!--<version.maven.processor.plugin>2.2.4</version.maven.processor.plugin>-->
         <version.junit>4.11</version.junit>
         <version.log4j.api>2.8.2</version.log4j.api>
         <version.log4j.core>2.8.2</version.log4j.core>
