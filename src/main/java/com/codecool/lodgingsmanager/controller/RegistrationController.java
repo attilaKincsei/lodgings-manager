@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/registration"})
 public class RegistrationController extends HttpServlet {
@@ -23,11 +22,6 @@ public class RegistrationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-
-        List<String> allEmailAddresses = userDataManager.getAllEmailAddresses();
-        String emailAddressesJson = JsonMappingHandler.writeListToJsonString(allEmailAddresses);
-
-        context.setVariable("registeredEmailAddresses", emailAddressesJson);
         engine.process("registration.html", context, response.getWriter());
     }
 

@@ -1,6 +1,6 @@
 package com.codecool.lodgingsmanager.model;
 
-import com.codecool.lodgingsmanager.model.enums.Type;
+import com.codecool.lodgingsmanager.util.Type;
 
 import javax.persistence.*;
 
@@ -10,19 +10,18 @@ public class Lodgings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-
     @Enumerated
     private Type type;
+    private String country;
+    private String city;
+    private String zipCode;
+    private String address;
 
     private long pricePerDay;
     private long electricityBill;
     private long gasBill;
     private long telecommunicationBill;
     private long cleaningCost;
-    private String country;
-    private String city;
-    private String zipCode;
-    private String address;
     @ManyToOne
     private Landlord landlord;
 
@@ -135,6 +134,14 @@ public class Lodgings {
 
     public void setCleaningCost(long cleaningCost) {
         this.cleaningCost = cleaningCost;
+    }
+
+    public Landlord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
     }
 }
 

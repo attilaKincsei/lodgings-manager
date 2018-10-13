@@ -45,7 +45,6 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter(UserDataField.PASSWORD.getInputString());
 
         User mightBeUser = PasswordHashing.checkPassword(password, email);
-        System.out.println(mightBeUser);
         if (mightBeUser == null) {
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             WebContext context = new WebContext(request, response, request.getServletContext());
@@ -59,7 +58,6 @@ public class LoginController extends HttpServlet {
             userEmail.setMaxAge(30*60);
             response.addCookie(userEmail);
 
-            System.out.println(session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()));
 
             response.sendRedirect("/profile");
 

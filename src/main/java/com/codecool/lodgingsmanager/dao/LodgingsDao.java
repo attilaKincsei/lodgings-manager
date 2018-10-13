@@ -2,5 +2,10 @@ package com.codecool.lodgingsmanager.dao;
 
 import com.codecool.lodgingsmanager.model.Lodgings;
 
-public interface LodgingsDao extends BaseDAO<Lodgings> {
+import java.util.List;
+
+public abstract class LodgingsDao extends BaseDAO<Lodgings> {
+
+    public abstract List<Lodgings> getAllLodgingsBy(int userId);
+
 }
