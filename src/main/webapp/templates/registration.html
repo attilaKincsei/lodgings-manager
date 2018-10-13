@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header_template.html :: head-fragment">
+    <meta charset="UTF-8">
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Registration</title>
+</head>
+<body>
+
+
+<div th:replace="navbar.html :: copy"></div>
+
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3 class="bg-success text-white p-5">Registration</h3>
+        <form id="registration-form" action="/registration" method="post">
+            <div class="form-group mx-auto">
+
+                <div>
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" class="form-control" type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <br>
+
+                <div>
+                    <label for="surname">Surname</label>
+                    <input id="surname" class="form-control" type="text" name="surname" placeholder="Surname" required ><br>
+                </div>
+
+                <div id="status_selection">
+                    <label for="user-type">I am registering as a: </label>
+                    <select id="user-type" name="user_type" form="registration-form">
+                        <option value="LANDLORD" selected>Landlord</option>
+                        <option value="PROPERTY_MANAGER">Property Manager</option>
+                        <option value="TENANT">Tenant</option>
+                    </select>
+                </div>
+                <br>
+
+                <div>
+                    <label id="email-address-label" th:data-email-list="${registeredEmailAddresses}" for="email-address">Email Address</label>
+                    <input id="email-address" class="form-control" type="email" name="email" placeholder="Email Address" required><br>
+                </div>
+
+                <label for="password">Password</label>
+                <input class="form-control" type="password" name="password" id="password" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required><br>
+
+                <label id="password-confirmation-label" for="password_confirmation">Confirm Password</label>
+                <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required ><br>
+
+                <label for="phone-input">Phone Number</label>
+                <input id="phone-input" class="form-control" type="text"  name="phone_number" placeholder="e.g. +36-20-556-1234" required><br>
+
+                <div class="form-group">
+                    <h3 class="bg-success text-white p-5">Address</h3>
+
+                    <label for="country-input">Country</label>
+                    <input id="country-input" class="form-control" type="text" name="country" required><br>
+
+                    <label for="city-input">City</label>
+                    <input id="city-input" class="form-control" type="text" name="city" required><br>
+
+                    <label for="zip-input">Zip code</label>
+                    <input id="zip-input" class="form-control" type="text" name="zip_code" required><br>
+
+                    <label for="address-input">Address</label>
+                    <input id="address-input" class="form-control" type="text" name="address" required>
+                </div>
+
+                <button form="registration-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block" disabled>Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="footer.html :: copy"></div>
+
+</body>
+</html>

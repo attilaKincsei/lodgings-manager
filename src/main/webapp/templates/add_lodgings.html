@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_variables.less">
+
+    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_bootswatch.scss">
+
+    <link rel="stylesheet" href="static/css/registration.css">
+
+    <title>Add new lodgings</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-2">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Lodgings Manager</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+        </div>
+    </div>
+</nav>
+<div class="container" style="margin-bottom: 15px">
+    <div class="col-lg-6 col-lg-offset-3">
+        <h3 class="bg-success text-white p-5">Add new lodgings</h3>
+        <form id="add-lodgings-form" action="/add-lodgings" method="post">
+            <div class="form-group mx-auto">
+
+                <div>
+                    <label for="lodging-name">Lodging name</label>
+                    <input id="lodging-name" class="form-control" type="text" name="lodging_name" placeholder="Lodging Name" required>
+                </div>
+                <br>
+
+                <div id="status_selection">
+                    <label for="lodging-type">Choose lodging type: </label>
+                    <select id="lodging-type" name="lodging_type" form="add-lodgings-form">
+                        <option value="APARTMENT" selected>Apartment</option>
+                        <option value="FAMILY_HOUSE">Family house</option>
+                        <option value="ROOM">Room</option>
+                        <option value="PENTHOUSE">Penthouse</option>
+                    </select>
+                </div>
+
+                <p>Daily price</p>
+                <input class="form-control" type="text"  name="daily_price" placeholder="e.g. 20.000Ft" required><br>
+
+                <p>Electricity Bill</p>
+                <input class="form-control" type="text"  name="electricity_bill" placeholder="e.g. 10.000Ft" required><br>
+
+                <p>Gas Bill</p>
+                <input class="form-control" type="text"  name="gas_bill" placeholder="e.g. 5000Ft" required><br>
+
+                <p>Telecommunication Bill</p>
+                <input class="form-control" type="text"  name="telecommunication_bill" placeholder="e.g. 10.000Ft" required><br>
+
+                <p>Cleaning Cost</p>
+                <input class="form-control" type="text"  name="cleaning_cost" placeholder="e.g. 10.000Ft" required><br>
+
+                <div class="form-group">
+                    <h3 class="bg-success text-white p-5">Address</h3>
+
+                    <p>Country</p>
+                    <input class="form-control" type="text" name="country" required><br>
+
+                    <p>City</p>
+                    <input class="form-control" type="text" name="city" required><br>
+
+                    <p>Zip code</p>
+                    <input class="form-control" type="text" name="zip_code" required><br>
+
+                    <p>Address</p>
+                    <input class="form-control" type="text" name="address" required>
+                </div>
+
+                <button form="add-lodgings-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
