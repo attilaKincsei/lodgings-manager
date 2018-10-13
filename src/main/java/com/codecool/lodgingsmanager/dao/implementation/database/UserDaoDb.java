@@ -23,6 +23,30 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
+    public void remove(int id) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(find(id));
+        transaction.commit();
+
+    }
+
+    @Override
+    public List<User> getAll() {
+        Table table = Entity.class.getAnnotation(Table.class);
+        String tableName = table.name();
+        return em.createQuery("SELECT * FROM " + tableName).getResultList();
+    }
+
+    @Override
+    public void update(User user) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.merge(user);
+        transaction.commit();
+    }
+
+    @Override
     public User findIdBy(String email) {
         return (User) em.createQuery(
                 "SELECT u " +
@@ -41,26 +65,5 @@ public class UserDaoDb implements UserDao {
     }
 
 
-    @Override
-    public void remove(int id) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.remove(find(id));
-        transaction.commit();
 
-    }
-
-    @Override
-    public List<User> getAll() {
-        Table table = Entity.class.getAnnotation(Table.class);
-        String tableName = table.name();
-        return em.createQuery("SELECT * FROM " + tableName).getResultList();
-    }
-
-    public void update(User user) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.merge(user);
-        transaction.commit();
-    }
 }

@@ -2,21 +2,20 @@ package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.model.Lodgings;
+import com.codecool.lodgingsmanager.model.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LodgingsDaoDb implements LodgingsDao {
 
     @Override
     public void add(Lodgings object) {
-//        EntityManager em = EMDriver.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(object);
         transaction.commit();
-        System.out.println("Lodgings added");
     }
 
     @Override
@@ -33,4 +32,11 @@ public class LodgingsDaoDb implements LodgingsDao {
     public List<Lodgings> getAll() {
         return null;
     }
+
+    @Override
+    public List<Lodgings> getAllLodgingsBy(int userId) {
+        return em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = " + userId).getResultList();
+
+    }
+
 }

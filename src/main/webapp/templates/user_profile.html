@@ -1,37 +1,14 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:include="header_template.html :: head-fragment">
     <meta charset="utf-8"/>
     <meta name="author" content="Codecool"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Lodgings Manager</title>
-
-
-    <!-- Latest compiled and minified Jquery -->
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
-            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
-
-    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.min.css">
-
-    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/variables.less">
-
-    <link rel="stylesheet" href="https://bootswatch.com/3/flatly/_bootswatch.scss">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-    ></script>
-
-    <link rel="stylesheet" type="text/css" href="/static/css/custom.css"/>
-
 </head>
 
+<body>
 <div th:replace="navbar.html :: copy"></div>
 
 <input type="hidden" id="user-type" th:value="${userData.getUserType()}">
@@ -48,104 +25,64 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Cellphone Number: </strong></span>
                 <span th:text="${userData.getPhoneNumber()}">Cellphone Number</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Email: </strong></span>
-                <span th:text="${userData.getEmail()}">Email</span> </li>
+                <span th:text="${userData.getEmail()}">Email</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Country: </strong></span>
                 <span th:text="${userData.getCountry()}">Country</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">City: </strong></span>
                 <span th:text="${userData.getCity()}">City</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Zipcode: </strong></span>
-                <span th:text="${userData.getZipCode()}">Zipcode</span> </li>
+                <span th:text="${userData.getZipCode()}">Zipcode</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Address: </strong></span>
                 <span th:text="${userData.getAddress()}">Address</span></li>
         </ul>
         <form id="edit-button" method="get" action="/edit-profile">
             <button type="submit" class="btn btn-info">Edit Profile</button>
         </form>
+
+        <form id="add-lodgings-button" method="get" action="/add-lodgings">
+            <button type="submit" class="btn btn-secondary">Add new lodgings</button>
+        </form>
     </div>
 </div>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
-
-<script>
-    function search(){
-        search = document.querySelector("#search");
-
-        search.addEventListener("keyup", function () {
-            axios.get('/search', {
-                params: {
-                    keyWord: search.value
-                }
-            })
-                .then(function (response) {
-                    document.querySelector("#products").innerHTML = response.data;
-                });
-        });
-    }
-    search();
-</script>
-
-<script id="add" type="text/html">
+<div id="add">
     <div th:each="lodging : ${lodgings}" class="panel panel-default">
         <div class="panel-heading" th:text="${lodging.getName()}"><b>Lodging Name</b></div>
-    <div class="panel-body">
-        <ul>
-            <h4>Address</h4>
-            <li class="new-row">
-                <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span></div>
-                <div class="new-column"><span>City: </span><span th:text="${lodging.getCity()}">electricity bill</span></div>
-            </li>
-            <li class="new-row">
-                <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span></div>
-                <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span></div>
-            </li>
-            <h4>Overhead Costs</h4>
-            <li class="new-row">
-                <div class="new-column"><span>Daily Price:  </span><span th:text="${lodging.getPricePerDay()}">price</span></div>
-                <div class="new-column"><span>Electricity Bill: </span><span th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
-            </li>
-            <li class="new-row">
-                <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span></div>
-                <div class="new-column"><span>Telecommunication Bill: </span><span th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
-            </li>
-            <li class="new-row">
-                <div class="new-column"><span>Cleaning Cost:  </span><span th:text="${lodging.getTelecommunicationBill()}">price</span></div>
-            </li>
-        </ul>
+        <div class="panel-body">
+            <ul>
+                <h4>Address</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span>
+                    </div>
+                    <div class="new-column"><span>City: </span><span
+                            th:text="${lodging.getCity()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span>
+                    </div>
+                </li>
+                <h4>Overhead Costs</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Daily Price:  </span><span
+                            th:text="${lodging.getPricePerDay()}">price</span></div>
+                    <div class="new-column"><span>Electricity Bill: </span><span
+                            th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Telecommunication Bill: </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Cleaning Cost:  </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+                </li>
+            </ul>
+        </div>
     </div>
-    </div>
-</script>
-
-<script id="lodging-button" type="text/html">
-    <button form="add-lodgings" type="submit" class="btn btn-secondary">Add Lodging</button>
-</script>
-
-<script>
-    function addLodgingList() {
-        let div = document.createElement('div');
-        div.setAttribute('class', 'col-sm-9');
-        div.setAttribute('contenteditable', 'false');
-        div.innerHTML = document.getElementById('add').innerHTML;
-        document.getElementById('profile-data').appendChild(div);
-    }
-
-    function addButton() {
-        let button = document.createElement('form');
-        button.setAttribute('id', 'add-lodgings');
-        button.setAttribute('method', 'get');
-        button.setAttribute('action', '/add-lodgings');
-        button.innerHTML = document.getElementById('lodging-button').innerHTML;
-        document.getElementById('data-list').appendChild(button);
-    }
-
-
-    function checkUserType() {
-        if (document.getElementById("user-type").value === "LANDLORD"){
-            addLodgingList();
-            addButton();
-        }
-    }
-    checkUserType();
-</script>
-
+</div>
 </body>
 </html>

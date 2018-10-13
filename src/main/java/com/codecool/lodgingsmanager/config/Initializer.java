@@ -68,6 +68,25 @@ public class Initializer implements ServletContextListener {
 
         lodgingsDataManager.add(newLodging);
 
+
+        Lodgings newLodging2 = new Lodgings(
+                "wwwwwwwww apartment",
+                Type.APARTMENT,
+                "asdfania",
+                "City",
+                "MO-2342",
+                "111. dfdfce Street",
+                10033L,
+                103L,
+                203L,
+                153L,
+                433L,
+                (Landlord) testUser
+        );
+
+
+        lodgingsDataManager.add(newLodging2);
+
     }
 
 

@@ -8,5 +8,5 @@ public interface UserDao extends BaseDAO<User> {
 
     User findIdBy(String email);
     List<String> getAllEmailAddresses();
-
+    void update(User user);
 }

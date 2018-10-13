@@ -135,6 +135,14 @@ public class Lodgings {
     public void setCleaningCost(long cleaningCost) {
         this.cleaningCost = cleaningCost;
     }
+
+    public Landlord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
+    }
 }
 
 

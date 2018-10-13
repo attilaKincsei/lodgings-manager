@@ -10,6 +10,7 @@
         <class>com.codecool.lodgingsmanager.model.Landlord</class>
         <class>com.codecool.lodgingsmanager.model.PropertyManager</class>
         <class>com.codecool.lodgingsmanager.model.Tenant</class>
+        <class>com.codecool.lodgingsmanager.model.Lodgings</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
