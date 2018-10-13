@@ -5,7 +5,6 @@ import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
-import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.UserDataField;
@@ -36,10 +35,10 @@ public class UserProfileController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            System.out.println("\n\n----------------------------------------------------------");
-            System.out.println(userEmail);
-            User user = userDataManager.findIdBy(userEmail);
-            System.out.println(user.getId());
+
+//            User user = userDataManager.findIdBy(userEmail);
+
+            User user = userDataManager.find(1);
             List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy(user.getId());
             context.setVariable("lodgings", lodgingsList);
             context.setVariable("userData", user);

@@ -24,6 +24,7 @@ public class RegistrationController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
 
+        // todo: delete this variable from context and create an ajax request from js sending the entered email to server, which checks it and sends a boolean back
         List<String> allEmailAddresses = userDataManager.getAllEmailAddresses();
         String emailAddressesJson = JsonMappingHandler.writeListToJsonString(allEmailAddresses);
 

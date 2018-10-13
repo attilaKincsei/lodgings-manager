@@ -87,6 +87,7 @@ public class Initializer implements ServletContextListener {
 
         lodgingsDataManager.add(newLodging2);
 
+
     }
 
 

@@ -4,9 +4,8 @@ import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
-public interface UserDao extends BaseDAO<User> {
+public abstract class UserDao extends BaseDAO<User> {
 
-    User findIdBy(String email);
-    List<String> getAllEmailAddresses();
-    void update(User user);
+    public abstract User findIdBy(String email);
+    public abstract List<String> getAllEmailAddresses();
 }

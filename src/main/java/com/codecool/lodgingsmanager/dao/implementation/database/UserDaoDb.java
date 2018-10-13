@@ -7,15 +7,7 @@ import com.codecool.lodgingsmanager.model.User;
 import javax.persistence.*;
 import java.util.List;
 
-public class UserDaoDb implements UserDao {
-
-    @Override
-    public void add(User object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
-    }
+public class UserDaoDb extends UserDao {
 
     @Override
     public User find(int id) {
@@ -23,27 +15,11 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
-    public void remove(int id) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.remove(find(id));
-        transaction.commit();
-
-    }
-
-    @Override
-    public List<User> getAll() {
-        Table table = Entity.class.getAnnotation(Table.class);
-        String tableName = table.name();
-        return em.createQuery("SELECT * FROM " + tableName).getResultList();
-    }
-
-    @Override
-    public void update(User user) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.merge(user);
-        transaction.commit();
+    public List<User> getAll() { // todo: not working
+//        Table table = Entity.class.getAnnotation(Table.class);
+//        String tableName = table.name();
+//        List<User> userList = em.createQuery("SELECT * FROM " + tableName).getResultList();
+        return null;
     }
 
     @Override
