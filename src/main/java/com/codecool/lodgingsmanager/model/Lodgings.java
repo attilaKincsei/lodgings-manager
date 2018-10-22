@@ -143,6 +143,25 @@ public class Lodgings {
     public void setLandlord(Landlord landlord) {
         this.landlord = landlord;
     }
+
+    @Override
+    public String toString() {
+        return "Lodgings{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
+                ", pricePerDay=" + pricePerDay +
+                ", electricityBill=" + electricityBill +
+                ", gasBill=" + gasBill +
+                ", telecommunicationBill=" + telecommunicationBill +
+                ", cleaningCost=" + cleaningCost +
+                ", landlord=" + landlord.getFullName() +
+                '}';
+    }
 }
 
 

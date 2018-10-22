@@ -81,9 +81,20 @@ public class Initializer implements ServletContextListener {
         );
 
 
+        testingMethod(newLodging2); // todo: delete later
+
+
+    }
+
+    private void testingMethod(Lodgings newLodging2) {
         lodgingsDataManager.add(newLodging2);
 
+        System.out.println("\n\n\n------------------------------------------------");
+        userDataManager.getAll().forEach(System.out::println);
+        lodgingsDataManager.getAll().forEach(System.out::println);
 
+        System.out.println(lodgingsDataManager.find(2L));
+        ;
     }
 
 

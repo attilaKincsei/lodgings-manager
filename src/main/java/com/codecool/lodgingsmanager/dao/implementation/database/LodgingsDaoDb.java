@@ -9,18 +9,19 @@ import java.util.List;
 public class LodgingsDaoDb extends LodgingsDao {
 
     @Override
-    public Lodgings find(int id) {
-        return null;
+    public Lodgings find(long id) throws NoResultException {
+        return em.find(Lodgings.class, id);
+    }
+
+
+    @Override
+    public List<Lodgings> getAll() throws NoResultException {
+        return em.createQuery("SELECT l FROM Lodgings l", Lodgings.class).getResultList();
     }
 
     @Override
-    public List<Lodgings> getAll() {
-        return null;
-    }
-
-    @Override
-    public List<Lodgings> getAllLodgingsBy(int userId) throws NoResultException {
-        return em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = " + userId).getResultList();
+    public List<Lodgings> getAllLodgingsBy(long userId) throws NoResultException {
+        return em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = " + userId, Lodgings.class).getResultList();
 
     }
 

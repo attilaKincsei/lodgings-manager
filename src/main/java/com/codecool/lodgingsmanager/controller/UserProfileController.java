@@ -38,7 +38,7 @@ public class UserProfileController extends HttpServlet {
 
             User user = userDataManager.findIdBy(userEmail);
 
-            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy(user.getId());
+            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy((long) user.getId());
             context.setVariable("lodgings", lodgingsList);
             context.setVariable("userData", user);
 
