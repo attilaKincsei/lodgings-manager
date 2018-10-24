@@ -23,27 +23,20 @@ public class MainPageController extends HttpServlet {
     private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
     private UserDao userDataManager = new UserDaoDb();
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        WebContext context = new WebContext(request, response, request.getServletContext());
 
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
             response.sendRedirect("/login");
         } else {
-            Cookie[] requestCookies = request.getCookies();
-            for (Cookie cookie : requestCookies) {
-                System.out.println("\n-------------------- cookies ------------------------------");
-                System.out.println(cookie.getName());
-                System.out.println(cookie.getValue());
-            }
-
-
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             User user = userDataManager.findIdBy(userEmail);
+
+            WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
 
             List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy(user.getId());
@@ -52,7 +45,6 @@ public class MainPageController extends HttpServlet {
 
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             engine.process("index.html", context, response.getWriter());
-
         }
     }
 

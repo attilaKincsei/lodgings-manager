@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"})
+@WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
     private BaseService<User> userHandler = new UserService();
@@ -30,7 +30,7 @@ public class LodgingsController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());

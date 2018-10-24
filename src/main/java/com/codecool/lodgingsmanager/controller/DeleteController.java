@@ -17,10 +17,10 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/delete"})
 public class DeleteController extends HttpServlet {
 
-    BaseService userHandler = new UserService();
-    BaseService lodgingsHandler = new LodgingsService();
-    BaseService commentHandler = new CommentService();
-    BaseService toDoHandler = new ToDoService();
+    private BaseService userHandler = new UserService();
+    private BaseService lodgingsHandler = new LodgingsService();
+    private BaseService commentHandler = new CommentService();
+    private BaseService toDoHandler = new ToDoService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -29,7 +29,7 @@ public class DeleteController extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (session == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
             response.sendRedirect("/login");
         } else {
             Enumeration<String> parameterNames = request.getParameterNames();

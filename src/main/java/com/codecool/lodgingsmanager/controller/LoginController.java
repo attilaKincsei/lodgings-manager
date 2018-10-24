@@ -47,7 +47,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession(true);
+        HttpSession oldSession = request.getSession(false);
+
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
 
         String email = request.getParameter(UserDataField.EMAIL_ADDRESS.getInputString());
         String password = request.getParameter(UserDataField.PASSWORD.getInputString());
@@ -59,8 +63,10 @@ public class LoginController extends HttpServlet {
             context.setVariable("errorMessage", "The email or password is incorrect.");
             engine.process("login.html", context, response.getWriter());
         } else {
-            session.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
-            session.setMaxInactiveInterval(30*60);
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+            newSession.setMaxInactiveInterval(30*60);
+
 
             Cookie userEmail = new Cookie(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
             userEmail.setMaxAge(30*60);

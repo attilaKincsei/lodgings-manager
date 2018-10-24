@@ -26,10 +26,6 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-//        ServletContext context = sce.getServletContext().getContext("/logout");
-
-
-        // TODO:S: - refactor / debug login (null is displayed on profile page)
 
         User guestUser = UserFactory.createUserInstanceBy(
                 UserType.GUEST,
