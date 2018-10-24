@@ -14,11 +14,45 @@
 <div th:replace="navbar.html :: copy"></div>
 
 
-<!---->
-<!--<replaceable>LODGINGS LIST COMES HERE</replaceable>-->
-<!---->
-
-
+<div id="add">
+    <div th:each="lodging : ${lodgings}" class="panel panel-default">
+        <div class="panel-heading" th:text="${lodging.getName()}"><b>Lodging Name</b></div>
+        <div class="panel-body">
+            <ul>
+                <h4>Address</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span>
+                    </div>
+                    <div class="new-column"><span>City: </span><span
+                            th:text="${lodging.getCity()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span>
+                    </div>
+                </li>
+                <h4>Overhead Costs</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Daily Price:  </span><span
+                            th:text="${lodging.getPricePerDay()}">price</span></div>
+                    <div class="new-column"><span>Electricity Bill: </span><span
+                            th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Telecommunication Bill: </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Cleaning Cost:  </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 
 <div th:replace="footer.html :: copy"></div>

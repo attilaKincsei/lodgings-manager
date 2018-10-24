@@ -64,7 +64,7 @@ public class LoginController extends HttpServlet {
             response.addCookie(userEmail);
 
 
-            response.sendRedirect("/profile");
+            response.sendRedirect("/index");
 
         }
 

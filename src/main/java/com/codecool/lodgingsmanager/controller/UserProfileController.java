@@ -22,12 +22,8 @@ import java.util.List;
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
 public class UserProfileController extends HttpServlet {
 
-
-    // TODO: CREATE DROPDOWN MENU FOR USER IN NAV TEMPLATE
-    // REFACTOR CONTROLLERS
-
     private UserDao userDataManager = new UserDaoDb();
-    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,9 +37,6 @@ public class UserProfileController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
             User user = userDataManager.findIdBy(userEmail);
-
-            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy((long) user.getId());
-            context.setVariable("lodgings", lodgingsList);
 
             // TODO: same in ever controller: can be created at initialization?
             context.setVariable("userData", user);
