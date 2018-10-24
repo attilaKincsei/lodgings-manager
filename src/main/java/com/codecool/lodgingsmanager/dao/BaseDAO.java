@@ -2,8 +2,7 @@ package com.codecool.lodgingsmanager.dao;
 
 import com.codecool.lodgingsmanager.dao.implementation.database.EMDriver;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
 import java.util.List;
 
 public abstract class BaseDAO<T> {
@@ -17,7 +16,7 @@ public abstract class BaseDAO<T> {
         transaction.commit();
     }
 
-    public abstract T find(int id);
+    public abstract T find(long id);
 
 
     public void update(T object) {
@@ -28,7 +27,7 @@ public abstract class BaseDAO<T> {
     }
 
 
-    public void remove(int id) {
+    public void remove(long id) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.remove(find(id));
@@ -39,5 +38,10 @@ public abstract class BaseDAO<T> {
 
 
     public abstract List<T> getAll();
+
+//    public List<T> getAll(Class<T> aClass) throws NoResultException { // todo: try to make this generic
+//        List<T> userList = em.createQuery("SELECT t FROM " + aClass.getClass().getName() + " t").getResultList();
+//        return userList;
+//    }
 
 }

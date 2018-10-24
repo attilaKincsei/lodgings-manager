@@ -6,6 +6,6 @@ import java.util.List;
 
 public abstract class LodgingsDao extends BaseDAO<Lodgings> {
 
-    public abstract List<Lodgings> getAllLodgingsBy(int userId);
+    public abstract List<Lodgings> getAllLodgingsBy(long userId);
 
 }

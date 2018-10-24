@@ -10,16 +10,13 @@ import java.util.List;
 public class UserDaoDb extends UserDao {
 
     @Override
-    public User find(int id) throws NoResultException {
+    public User find(long id) throws NoResultException {
         return em.find(User.class, id);
     }
 
     @Override
-    public List<User> getAll() throws NoResultException { // todo: not working
-//        Table table = Entity.class.getAnnotation(Table.class);
-//        String tableName = table.name();
-//        List<User> userList = em.createQuery("SELECT * FROM " + tableName).getResultList();
-        return null;
+    public List<User> getAll() throws NoResultException {
+        return em.createQuery("SELECT t FROM User t").getResultList();
     }
 
     @Override

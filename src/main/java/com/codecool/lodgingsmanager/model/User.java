@@ -131,6 +131,10 @@ public abstract class User {
 
     public abstract String getUserType();
 
+    public String getFullName() {
+        return getFirstName() + " " + getSurname();
+    }
+
     @Override
     public String toString() {
         return "User{" +
