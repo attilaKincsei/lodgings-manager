@@ -7,7 +7,7 @@ import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
-import com.codecool.lodgingsmanager.util.Type;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -62,7 +62,7 @@ public class AddLodgingsController extends HttpServlet {
 
         Lodgings newLodging = new Lodgings(
                 lodgingName,
-                Type.valueOf(lodgingType.toUpperCase()),
+                LodgingsType.valueOf(lodgingType.toUpperCase()),
                 country,
                 city,
                 zipCode,

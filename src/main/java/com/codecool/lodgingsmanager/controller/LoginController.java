@@ -23,20 +23,23 @@ public class LoginController extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
+
         String errorMessage;
 
-        if (session != null) {
-            session.removeAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            errorMessage = "You have just logged out. Register or log in, please";
+        WebContext context = new WebContext(request, response, request.getServletContext());
+
+        if (session != null && session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) != null) {
+            String emailAddress = String.valueOf(session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()));
+            session.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), "guest@fakedomain.com");
+            errorMessage = "You have just logged out with email address: " + emailAddress + ". Register or log in, please";
         } else {
             errorMessage = "You are not logged in. Register or log in, please";
         }
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        WebContext context = new WebContext(request, response, request.getServletContext());
-
         User guestUser = userDataManager.findIdBy("guest@fakedomain.com");
         context.setVariable("userData", guestUser);
+
         context.setVariable("errorMessage", errorMessage);
         engine.process("login.html", context, response.getWriter());
         }

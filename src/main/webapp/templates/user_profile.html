@@ -39,8 +39,8 @@
             <button type="submit" class="btn btn-info">Edit Profile</button>
         </form>
 
-        <form id="add-lodgings-button" method="get" action="#">
-            <button type="submit" class="btn btn-secondary">Delete profile</button>
+        <form id="delete-user" method="get" action="/delete">
+            <button form="delete-user" type="submit" class="btn btn-secondary" name="user" th:value="${userData.getId()}">Delete profile</button>
         </form>
     </div>
 </div>

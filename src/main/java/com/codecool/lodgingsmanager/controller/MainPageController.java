@@ -12,10 +12,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -37,11 +34,19 @@ public class MainPageController extends HttpServlet {
         if (session == null) {
             response.sendRedirect("/login");
         } else {
+            Cookie[] requestCookies = request.getCookies();
+            for (Cookie cookie : requestCookies) {
+                System.out.println("\n-------------------- cookies ------------------------------");
+                System.out.println(cookie.getName());
+                System.out.println(cookie.getValue());
+            }
+
+
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             User user = userDataManager.findIdBy(userEmail);
             context.setVariable("userData", user);
 
-            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy((long) user.getId());
+            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy(user.getId());
             context.setVariable("lodgings", lodgingsList);
 
 

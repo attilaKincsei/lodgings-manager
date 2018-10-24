@@ -1,6 +1,6 @@
 package com.codecool.lodgingsmanager.model;
 
-import com.codecool.lodgingsmanager.util.Type;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ public class Lodgings {
     private long id;
     private String name;
     @Enumerated
-    private Type type;
+    private LodgingsType lodgingsType;
     private String country;
     private String city;
     private String zipCode;
@@ -25,9 +25,9 @@ public class Lodgings {
     @ManyToOne
     private Landlord landlord;
 
-    public Lodgings(String name, Type type, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
+    public Lodgings(String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
         this.name = name;
-        this.type = type;
+        this.lodgingsType = lodgingsType;
         this.country = country;
         this.city = city;
         this.zipCode = zipCode;
@@ -59,12 +59,12 @@ public class Lodgings {
         this.name = name;
     }
 
-    public Type getType() {
-        return type;
+    public LodgingsType getLodgingsType() {
+        return lodgingsType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setLodgingsType(LodgingsType lodgingsType) {
+        this.lodgingsType = lodgingsType;
     }
 
     public String getCountry() {
@@ -149,7 +149,7 @@ public class Lodgings {
         return "Lodgings{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type=" + type +
+                ", lodgingsType=" + lodgingsType +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", zipCode='" + zipCode + '\'' +
