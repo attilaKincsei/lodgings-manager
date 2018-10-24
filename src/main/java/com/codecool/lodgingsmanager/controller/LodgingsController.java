@@ -17,11 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
-@WebServlet(urlPatterns = {"/", "/index"})
-public class MainPageController extends HttpServlet {
+@WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"})
+public class LodgingsController extends HttpServlet {
 
     private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
     private UserDao userDataManager = new UserDaoDb();
@@ -41,14 +42,26 @@ public class MainPageController extends HttpServlet {
             User user = userDataManager.findIdBy(userEmail);
             context.setVariable("userData", user);
 
-            List<Lodgings> lodgingsList = lodgingsDataManager.getAllLodgingsBy((long) user.getId());
+            List<Lodgings> allLodgingsList = lodgingsDataManager.getAllLodgingsBy((long) user.getId());
+            List<Long> lodgingsIdList = allLodgingsList.stream().mapToLong(Lodgings::getId).map(l -> (Long) l).boxed().collect(Collectors.toList());
+
+
+            String lodgingsIdString = request.getParameter("lodgingsId");
+            List<Lodgings> lodgingsList = new ArrayList<>();
+            if (lodgingsIdString != null && lodgingsIdList.contains(Long.parseLong(lodgingsIdString))) {
+                Lodgings lodgings = lodgingsDataManager.find(Long.parseLong(lodgingsIdString));
+                lodgingsList.add(lodgings);
+            } else {
+                lodgingsList = allLodgingsList;
+            }
+
             context.setVariable("lodgings", lodgingsList);
-
-
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-            engine.process("index.html", context, response.getWriter());
+            engine.process("lodgings.html", context, response.getWriter());
 
         }
     }
+
+
 
 }

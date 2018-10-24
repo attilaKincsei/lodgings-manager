@@ -14,11 +14,14 @@
 <div th:replace="navbar.html :: copy"></div>
 
 
-<!---->
-<!--<replaceable>LODGINGS LIST COMES HERE</replaceable>-->
-<!---->
-
-
+<div id="add">
+    <div th:each="lodging : ${lodgings}" class="panel panel-default">
+        <!--<a class="btn btn-success" >Add to cart</a>-->
+        <div class="panel-heading"><b>
+            <a th:attr="href='/lodgings?lodgingsId=' + ${lodging.getId()}" th:text="${lodging.getName()}"></a>
+        </b></div>
+    </div>
+</div>
 
 
 <div th:replace="footer.html :: copy"></div>

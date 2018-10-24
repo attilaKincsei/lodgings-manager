@@ -25,7 +25,7 @@ public class UserFactory {
             requiredUser = new Landlord(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
         } else if (type == UserType.PROPERTY_MANAGER) {
             requiredUser = new PropertyManager(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
-        } else if (type == UserType.TENANT) {
+        } else if (type == UserType.TENANT || type == UserType.GUEST) {
             requiredUser = new Tenant(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
         } else {
             //Todo: create logger here instead of sout
