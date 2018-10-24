@@ -1,6 +1,8 @@
 package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
+import com.codecool.lodgingsmanager.dao.UserDao;
+import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserDataField;
@@ -14,15 +16,16 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
+    private UserDao userDataManager = new UserDaoDb();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession(false);
-        String emailAddress = "Guest@lodgings_manager.com";
+
         String errorMessage;
 
-        if (session != null && session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) != null) {
-            emailAddress = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+        if (session != null) {
             session.removeAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             errorMessage = "You have just logged out. Register or log in, please";
         } else {
@@ -31,7 +34,9 @@ public class LoginController extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-        context.setVariable("emailAddress", emailAddress);
+
+        User guestUser = userDataManager.findIdBy("guest@fakedomain.com");
+        context.setVariable("userData", guestUser);
         context.setVariable("errorMessage", errorMessage);
         engine.process("login.html", context, response.getWriter());
         }

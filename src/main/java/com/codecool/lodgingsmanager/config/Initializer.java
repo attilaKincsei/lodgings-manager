@@ -32,6 +32,22 @@ public class Initializer implements ServletContextListener {
 
         // TODO:S: - refactor / debug login (null is displayed on profile page)
 
+        User guestUser = UserFactory.createUserInstanceBy(
+                UserType.GUEST,
+                "Guest",
+                "User",
+                "guest@fakedomain.com",
+                "1111111111",
+                "Country",
+                "City",
+                "W-1111",
+                "1. Street",
+                PasswordHashing.hashPassword("11111111")
+        );
+
+        userDataManager.add(guestUser);
+
+
         User testUser = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
                 "Attila",
@@ -94,7 +110,6 @@ public class Initializer implements ServletContextListener {
         lodgingsDataManager.getAll().forEach(System.out::println);
 
         System.out.println(lodgingsDataManager.find(2L));
-        ;
     }
 
 

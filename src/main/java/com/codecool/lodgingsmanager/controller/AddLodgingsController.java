@@ -1,6 +1,7 @@
 package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
+import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Landlord;
@@ -22,13 +23,18 @@ import java.io.IOException;
 public class AddLodgingsController extends HttpServlet {
 
     private LodgingsDaoDb lodgingDataManager = new LodgingsDaoDb();
-    private UserDaoDb userDataManager = new UserDaoDb();
+    private UserDao userDataManager = new UserDaoDb();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
 
+        // TODO: same in ever controller: can be created at initialization?
+        HttpSession session = request.getSession(false);
+        String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+        User user = userDataManager.findIdBy(userEmail);
+        context.setVariable("userData", user);
         engine.process("add_lodgings.html", context, response.getWriter());
     }
 
