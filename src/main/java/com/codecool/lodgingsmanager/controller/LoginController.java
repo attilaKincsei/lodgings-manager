@@ -14,11 +14,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
+
 @WebServlet(urlPatterns = {"/login", "/login-incorrect"})
 public class LoginController extends HttpServlet {
 
     private UserDao userDataManager = new UserDaoDb();
-    private String guestEmail = "guest@fakedomain.com";
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,7 +38,7 @@ public class LoginController extends HttpServlet {
             String requestMethod = request.getMethod();
             if (requestPath.equals("/login-incorrect")) {
                 errorMessage = "Incorrect user name or password";
-            } else if (loggedInUserEmail.equals(guestEmail)) {
+            } else if (loggedInUserEmail.equals(GUEST_EMAIL)) {
                 errorMessage = "You are not logged in. Register or log in, please";
             } else {
                 errorMessage = "You are logged out";
@@ -44,16 +46,16 @@ public class LoginController extends HttpServlet {
         }
 
         HttpSession newSession = request.getSession();
-        newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), guestEmail);
+        newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        User guestUser = userDataManager.findIdBy(guestEmail);
+        User guestUser = userDataManager.findIdBy(GUEST_EMAIL);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable("userData", guestUser);
         context.setVariable("errorMessage", errorMessage);
         engine.process("login.html", context, response.getWriter());
-        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

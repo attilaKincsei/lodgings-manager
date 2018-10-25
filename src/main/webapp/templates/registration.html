@@ -44,16 +44,18 @@
                 <div>
                     <label id="email-address-label" for="email-address">Email Address</label>
                     <input id="email-address" class="form-control" type="email" placeholder="Email Address" required><br>
+
                 </div>
 
                 <label for="password">Password</label>
                 <input class="form-control" type="password" name="password" id="password" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required><br>
 
+
                 <label id="password-confirmation-label" for="password_confirmation">Confirm Password</label>
                 <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="Minumum 8, maximum 40 character long" pattern=".{8,40}" required ><br>
 
                 <label for="phone-input">Phone Number</label>
-                <input id="phone-input" class="form-control" type="text"  name="phone_number" placeholder="e.g. +36-20-556-1234" required><br>
+                <input id="phone-input" class="form-control" type="tel" name="phone_number" placeholder="e.g. +36-20-556-1234" pattern="[+]{1}[0-9]{2}-[0-9]{2}-[0-9]{3}-[0-9]{4}" required><br>
 
                 <div class="form-group">
                     <h3 class="bg-success text-white p-5">Address</h3>

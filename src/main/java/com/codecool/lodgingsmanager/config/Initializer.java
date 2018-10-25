@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class Initializer implements ServletContextListener {
 
+    public static final String GUEST_EMAIL = "guest@fakedomain.com";
     private UserDao userDataManager = new UserDaoDb();
     private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
 
@@ -31,7 +32,7 @@ public class Initializer implements ServletContextListener {
                 UserType.GUEST,
                 "Guest",
                 "User",
-                "guest@fakedomain.com",
+                GUEST_EMAIL,
                 "1111111111",
                 "Country",
                 "City",
