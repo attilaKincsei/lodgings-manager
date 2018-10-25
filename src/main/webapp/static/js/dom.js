@@ -42,11 +42,11 @@ let dom = {
                     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         if (xhr.responseText === changedInputFieldEmailAddress.value) {
                             emailAddressLabel.classList.remove("color-text-green");
-                            emailAddressLabel.innerHTML = "Email address is already registered. Please choose another one:";
+                            emailAddressLabel.innerHTML = "This email address is already registered. Please choose another one:";
                             emailAddressLabel.classList.add("color-text-red");
                             button.disabled = true;
                         } else {
-                            emailAddressLabel.innerHTML = "Email address is OK:";
+                            emailAddressLabel.innerHTML = "This email address is still available:";
                             emailAddressLabel.classList.remove("color-text-red");
                             emailAddressLabel.classList.add("color-text-green");
                             button.disabled = false;
