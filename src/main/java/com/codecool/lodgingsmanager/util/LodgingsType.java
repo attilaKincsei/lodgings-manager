@@ -1,6 +1,6 @@
 package com.codecool.lodgingsmanager.util;
 
-public enum Type {
+public enum LodgingsType {
     APARTMENT,
     FAMILY_HOUSE,
     ROOM,

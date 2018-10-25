@@ -8,12 +8,11 @@ import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
-import com.codecool.lodgingsmanager.util.Type;
 import com.codecool.lodgingsmanager.util.UserFactory;
 import com.codecool.lodgingsmanager.util.UserType;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -27,10 +26,6 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-//        ServletContext context = sce.getServletContext().getContext("/logout");
-
-
-        // TODO:S: - refactor / debug login (null is displayed on profile page)
 
         User guestUser = UserFactory.createUserInstanceBy(
                 UserType.GUEST,
@@ -65,7 +60,7 @@ public class Initializer implements ServletContextListener {
 
         Lodgings newLodging = new Lodgings(
                 "My little apartment",
-                Type.APARTMENT,
+                LodgingsType.APARTMENT,
                 "Molvania",
                 "Molvania City",
                 "MO-2342",
@@ -83,7 +78,7 @@ public class Initializer implements ServletContextListener {
 
         Lodgings newLodging2 = new Lodgings(
                 "wwwwwwwww apartment",
-                Type.APARTMENT,
+                LodgingsType.APARTMENT,
                 "asdfania",
                 "City",
                 "MO-2342",

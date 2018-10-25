@@ -23,20 +23,23 @@ public class LoginController extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
+
         String errorMessage;
 
-        if (session != null) {
-            session.removeAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            errorMessage = "You have just logged out. Register or log in, please";
+        WebContext context = new WebContext(request, response, request.getServletContext());
+
+        if (session != null && session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) != null) {
+            String emailAddress = String.valueOf(session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()));
+            session.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), "guest@fakedomain.com");
+            errorMessage = "You have just logged out with email address: " + emailAddress + ". Register or log in, please";
         } else {
             errorMessage = "You are not logged in. Register or log in, please";
         }
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        WebContext context = new WebContext(request, response, request.getServletContext());
-
         User guestUser = userDataManager.findIdBy("guest@fakedomain.com");
         context.setVariable("userData", guestUser);
+
         context.setVariable("errorMessage", errorMessage);
         engine.process("login.html", context, response.getWriter());
         }
@@ -44,7 +47,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        HttpSession session = request.getSession(true);
+        HttpSession oldSession = request.getSession(false);
+
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
 
         String email = request.getParameter(UserDataField.EMAIL_ADDRESS.getInputString());
         String password = request.getParameter(UserDataField.PASSWORD.getInputString());
@@ -56,8 +63,10 @@ public class LoginController extends HttpServlet {
             context.setVariable("errorMessage", "The email or password is incorrect.");
             engine.process("login.html", context, response.getWriter());
         } else {
-            session.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
-            session.setMaxInactiveInterval(30*60);
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+            newSession.setMaxInactiveInterval(30*60);
+
 
             Cookie userEmail = new Cookie(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
             userEmail.setMaxAge(30*60);
