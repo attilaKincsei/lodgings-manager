@@ -24,13 +24,13 @@
                 <div>
                     <label for="first-name">First Name</label>
                     <input id="first-name" class="form-control" type="text" name="first_name"
-                           placeholder="Length: minimum 1 maximum 255." pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,255}$" required>
+                           placeholder="Length: minimum 1 maximum 255 characters" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,255}$" required>
                 </div>
                 <br>
 
                 <div>
                     <label for="surname">Surname</label>
-                    <input id="surname" class="form-control" type="text" name="surname" placeholder="Length: minimum 1 maximum 255." pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,255}$" required>
+                    <input id="surname" class="form-control" type="text" name="surname" placeholder="Length: minimum 1 maximum 255 characters" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{1,255}$" required>
                 </div>
                 <br>
 
@@ -51,8 +51,8 @@
 
                 </div>
 
-                <label for="password">Password (must contain at least  one UpperCase, LowerCase, Number/SpecialChar. Min 8 max 255 characters)</label>
-                <input id="password" class="form-control" type="password" name="password" placeholder="e.g.: abc1Dfgh"
+                <label for="password">Password (must contain at least  one UpperCase, LowerCase, Number/SpecialChar. Min 8 max 255 characterss)</label>
+                <input id="password" class="form-control" type="password" name="password" placeholder="Length: minimum 1 maximum 255 characterss; e.g.: abc1Dfgh"
                        pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required><br>
 
 
@@ -67,19 +67,20 @@
                     <!--<h3 class="bg-success text-white p-5">Address</h3>-->
 
                     <label for="country-input">Country</label>
-                    <input id="country-input" class="form-control" type="text" name="country"
+                    <input id="country-input" class="form-control" type="text" name="country" placeholder="Length: minimum 1 maximum 255 characters"
                            pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
                     <label for="city-input">City</label>
-                    <input id="city-input" class="form-control" type="text" name="city"
+                    <input id="city-input" class="form-control" type="text" name="city" placeholder="Length: minimum 1 maximum 255 characters"
                            pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
                     <label for="zip-input">Zip code</label>
-                    <input id="zip-input" class="form-control" type="text" name="zip_code"
+                    <input id="zip-input" class="form-control" type="text" name="zip_code" placeholder="Length: minimum 1 maximum 255 characters"
                            pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
                     <label for="address-input">Address</label>
-                    <input id="address-input" class="form-control" type="text" name="address" pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                    <input id="address-input" class="form-control" type="text" name="address" placeholder="Length: minimum 1 maximum 255 characters"
+                           pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
                 </div>
 
                 <button form="registration-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block" disabled>Submit</button>
