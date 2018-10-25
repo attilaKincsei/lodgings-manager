@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
+
 @WebServlet(urlPatterns = {"/delete"})
 public class DeleteController extends HttpServlet {
 
@@ -25,11 +27,9 @@ public class DeleteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        // todo: login
+        HttpSession session = request.getSession(false);
 
-        HttpSession session = request.getSession();
-
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
             Enumeration<String> parameterNames = request.getParameterNames();

@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
+
 @WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
@@ -30,7 +32,7 @@ public class LodgingsController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());

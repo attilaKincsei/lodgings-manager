@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
+
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
 public class UserProfileController extends HttpServlet {
 
@@ -27,7 +29,7 @@ public class UserProfileController extends HttpServlet {
         HttpSession session = request.getSession(false);
         WebContext context = new WebContext(request, response, request.getServletContext());
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
+        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
