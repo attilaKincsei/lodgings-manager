@@ -33,7 +33,7 @@ public class Initializer implements ServletContextListener {
                 "Guest",
                 "User",
                 GUEST_EMAIL,
-                "1111111111",
+                "+2211111111",
                 "Country",
                 "City",
                 "W-1111",
@@ -49,12 +49,12 @@ public class Initializer implements ServletContextListener {
                 "Attila",
                 "Kincsei",
                 "akincsei@gmail.com",
-                "23123123123",
+                "+23123123123",
                 "Country",
                 "City",
                 "H-34234",
                 "1. Street",
-                PasswordHashing.hashPassword("11111111")
+                PasswordHashing.hashPassword("Qq111111")
         );
 
         userDataManager.add(testUser);
