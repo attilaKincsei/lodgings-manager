@@ -19,7 +19,8 @@
 
                 <div>
                     <label for="lodging-name">Lodging name</label>
-                    <input id="lodging-name" class="form-control" type="text" name="lodging_name" placeholder="Lodging Name" required>
+                    <input id="lodging-name" class="form-control" type="text" name="lodging_name" placeholder="Lodging Name"
+                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required>
                 </div>
                 <br>
 
@@ -34,34 +35,38 @@
                 </div>
 
                 <p>Daily price</p>
-                <input class="form-control" type="text"  name="daily_price" placeholder="e.g. 20.000Ft" required><br>
+                <input class="form-control" type="text"  name="daily_price" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}" required><br>
 
                 <p>Electricity Bill</p>
-                <input class="form-control" type="text"  name="electricity_bill" placeholder="e.g. 10.000Ft" required><br>
+                <input class="form-control" type="text"  name="electricity_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
 
                 <p>Gas Bill</p>
-                <input class="form-control" type="text"  name="gas_bill" placeholder="e.g. 5000Ft" required><br>
+                <input class="form-control" type="text"  name="gas_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
 
                 <p>Telecommunication Bill</p>
-                <input class="form-control" type="text"  name="telecommunication_bill" placeholder="e.g. 10.000Ft" required><br>
+                <input class="form-control" type="text"  name="telecommunication_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
 
                 <p>Cleaning Cost</p>
-                <input class="form-control" type="text"  name="cleaning_cost" placeholder="e.g. 10.000Ft" required><br>
+                <input class="form-control" type="text"  name="cleaning_cost" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
 
                 <div class="form-group">
                     <h3 class="bg-success text-white p-5">Address</h3>
 
-                    <p>Country</p>
-                    <input class="form-control" type="text" name="country" required><br>
+                    <label for="lod-country">Country</label>
+                    <input id="lod-country" class="form-control" type="text" name="country"
+                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
-                    <p>City</p>
-                    <input class="form-control" type="text" name="city" required><br>
+                    <label for="lod-city">City</label>
+                    <input id="lod-city" class="form-control" type="text" name="city"
+                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
-                    <p>Zip code</p>
-                    <input class="form-control" type="text" name="zip_code" required><br>
+                    <label for="lod-zip">Zip code</label>
+                    <input id="lod-zip" class="form-control" type="text" name="zip_code"
+                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
 
-                    <p>Address</p>
-                    <input class="form-control" type="text" name="address" required>
+                    <label for="lod-address">Address</label>
+                    <input id="lod-address" class="form-control" type="text" name="address"
+                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required>
                 </div>
 
                 <button form="add-lodgings-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>
