@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header_template.html :: head-fragment">
+    <meta charset="UTF-8">
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+</head>
+
+<body>
+
+<div th:replace="navbar.html :: copy"></div>
+
+
+<div id="add">
+    <div th:each="lodging : ${lodgings}" class="panel panel-default">
+        <div class="panel-heading" th:text="${lodging.getName()}"><b><a href="/lodgings">My lodgings</a></b></div>
+        <div class="panel-body">
+            <ul>
+                <h4>Address</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span>
+                    </div>
+                    <div class="new-column"><span>City: </span><span
+                            th:text="${lodging.getCity()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span>
+                    </div>
+                </li>
+                <h4>Overhead Costs</h4>
+                <li class="new-row">
+                    <div class="new-column"><span>Daily Price:  </span><span
+                            th:text="${lodging.getPricePerDay()}">price</span></div>
+                    <div class="new-column"><span>Electricity Bill: </span><span
+                            th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span>
+                    </div>
+                    <div class="new-column"><span>Telecommunication Bill: </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Cleaning Cost:  </span><span
+                            th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+                </li>
+            </ul>
+            <form id="edit-button" method="get" action="#">
+                <button type="submit" class="btn btn-info">Edit</button>
+            </form>
+
+            <form id="delete-lodgings" method="get" action="/delete">
+                <button form="delete-lodgings" type="submit" class="btn btn-secondary" name="lodgings" th:value="${lodging.getId()}">Delete</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="footer.html :: copy"></div>
+
+
+</body>
+</html>

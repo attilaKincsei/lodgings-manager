@@ -3,7 +3,8 @@ package com.codecool.lodgingsmanager.util;
 public enum UserType {
     LANDLORD("LANDLORD"),
     PROPERTY_MANAGER("PROPERTY_MANAGER"),
-    TENANT("TENANT");
+    TENANT("TENANT"),
+    GUEST("GUEST");
 
     private final String stringValue;
 

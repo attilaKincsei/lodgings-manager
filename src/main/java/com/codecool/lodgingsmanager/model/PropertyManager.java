@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 public class PropertyManager extends User implements Managing {
 
     public PropertyManager() {
+
     }
 
     public PropertyManager(
@@ -27,6 +28,6 @@ public class PropertyManager extends User implements Managing {
 
     @Override
     public String getUserType() {
-        return "PROPERTY_MANAGER";
+        return "PROPERTY_MANAGER";  // TODO use reflection?
     }
 }

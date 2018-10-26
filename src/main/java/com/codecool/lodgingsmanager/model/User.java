@@ -12,7 +12,7 @@ public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private long id;
     private String firstName;
     private String surname;
     private String email;
@@ -49,7 +49,7 @@ public abstract class User {
         this.passwordHash = passwordHash;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -130,6 +130,10 @@ public abstract class User {
     }
 
     public abstract String getUserType();
+
+    public String getFullName() {
+        return getFirstName() + " " + getSurname();
+    }
 
     @Override
     public String toString() {

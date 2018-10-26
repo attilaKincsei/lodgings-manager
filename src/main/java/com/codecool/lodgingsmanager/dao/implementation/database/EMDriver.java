@@ -6,10 +6,14 @@ import javax.persistence.Persistence;
 
 public class EMDriver {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-    private EntityManager em = emf.createEntityManager();
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
+    private static final EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    public EntityManager getEm() {
-            return em;
-        }
+
+    private EMDriver() {
+    }
+
+    public static EntityManager getEntityManager() {
+        return entityManager;
+    }
 }

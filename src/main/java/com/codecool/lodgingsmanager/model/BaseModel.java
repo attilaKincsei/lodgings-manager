@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class BaseModel {
 
-    protected int id;
+    protected long id;
     protected String name;
     protected String description;
 
@@ -31,7 +31,7 @@ public class BaseModel {
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -71,7 +71,7 @@ public class BaseModel {
                             .append(",");
                 }
             } catch (IllegalAccessException e) {
-
+                e.printStackTrace();
             }
         }
         return sb.toString();

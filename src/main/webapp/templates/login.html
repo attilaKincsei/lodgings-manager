@@ -5,6 +5,12 @@
     <meta name="author" content="Codecool"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+    <!-- MY JAVASCRIPT FILES -->
+    <script src="static/js/data_handler.js" defer></script>
+    <script src="static/js/dom.js" defer></script>
+    <script src="static/js/main.js" defer></script>
+
+
     <title>Login</title>
 </head>
 <body>
@@ -18,10 +24,12 @@
             <div class="form-group mx-auto">
                 <h4 class="color-text-red" th:text="${errorMessage}"></h4>
                 <label for="email-login">Email address</label>
-                <input id="email-login" class="form-control" placeholder="Enter email address" type="text" name="email" required><br>
+                <input id="email-login" class="form-control" placeholder="Enter email address" type="email" name="email"
+                       pattern="[a-z0-9._%+-]{1,100}+@[a-z0-9.-]{1.100}+\.[a-z]{2,3}$" required><br>
 
                 <label for="password-login">Password</label>
-                <input id="password-login" class="form-control" placeholder="Enter password" type="password" name="password" required><br>
+                <input id="password-login" class="form-control" placeholder="Enter password" type="password" name="password"
+                       pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required><br>
             </div>
             <button type="submit" value="login" class="btn btn-primary btn-block">Login</button>
         </form>

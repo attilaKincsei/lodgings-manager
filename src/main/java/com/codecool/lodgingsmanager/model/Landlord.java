@@ -10,7 +10,7 @@ import java.util.Set;
 @DiscriminatorValue(value = "LANDLORD")
 public class Landlord extends User implements Managing {
 
-    @OneToMany(mappedBy = "landlord", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "landlord", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     Set<Lodgings> lodgings = new HashSet<>();
 
     public Landlord() {

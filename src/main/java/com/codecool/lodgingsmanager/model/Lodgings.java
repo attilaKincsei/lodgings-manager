@@ -1,6 +1,6 @@
 package com.codecool.lodgingsmanager.model;
 
-import com.codecool.lodgingsmanager.model.enums.Type;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.*;
 
@@ -10,25 +10,24 @@ public class Lodgings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-
     @Enumerated
-    private Type type;
+    private LodgingsType lodgingsType;
+    private String country;
+    private String city;
+    private String zipCode;
+    private String address;
 
     private long pricePerDay;
     private long electricityBill;
     private long gasBill;
     private long telecommunicationBill;
     private long cleaningCost;
-    private String country;
-    private String city;
-    private String zipCode;
-    private String address;
     @ManyToOne
     private Landlord landlord;
 
-    public Lodgings(String name, Type type, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
+    public Lodgings(String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
         this.name = name;
-        this.type = type;
+        this.lodgingsType = lodgingsType;
         this.country = country;
         this.city = city;
         this.zipCode = zipCode;
@@ -60,12 +59,12 @@ public class Lodgings {
         this.name = name;
     }
 
-    public Type getType() {
-        return type;
+    public LodgingsType getLodgingsType() {
+        return lodgingsType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setLodgingsType(LodgingsType lodgingsType) {
+        this.lodgingsType = lodgingsType;
     }
 
     public String getCountry() {
@@ -135,6 +134,33 @@ public class Lodgings {
 
     public void setCleaningCost(long cleaningCost) {
         this.cleaningCost = cleaningCost;
+    }
+
+    public Landlord getLandlord() {
+        return landlord;
+    }
+
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
+    }
+
+    @Override
+    public String toString() {
+        return "Lodgings{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lodgingsType=" + lodgingsType +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
+                ", pricePerDay=" + pricePerDay +
+                ", electricityBill=" + electricityBill +
+                ", gasBill=" + gasBill +
+                ", telecommunicationBill=" + telecommunicationBill +
+                ", cleaningCost=" + cleaningCost +
+                ", landlord=" + landlord.getFullName() +
+                '}';
     }
 }
 

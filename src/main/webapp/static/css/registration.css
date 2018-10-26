@@ -13,3 +13,10 @@
 .color-text-green {
     color: darkgreen;
 }
+
+input:valid {
+    color: green;
+}
+input:invalid {
+    color: red;
+}
