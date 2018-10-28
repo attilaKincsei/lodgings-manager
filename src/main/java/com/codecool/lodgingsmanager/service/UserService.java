@@ -11,8 +11,8 @@ import java.util.List;
 
 public class UserService extends BaseService<User> {
 
-    UserDao userDataManager = new UserDaoDb();
-    LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+    private UserDao userDataManager = new UserDaoDb<>(User.class);
+    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
 
 
     @Override
@@ -22,7 +22,7 @@ public class UserService extends BaseService<User> {
 
     @Override
     public User handleBy(String userEmail) {
-        return userDataManager.findIdBy(userEmail);
+        return (User) userDataManager.findIdBy(userEmail);
     }
 
     @Override

@@ -25,7 +25,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 public class AddLodgingsController extends HttpServlet {
 
     private LodgingsDaoDb lodgingDataManager = new LodgingsDaoDb();
-    private UserDao userDataManager = new UserDaoDb();
+    private UserDao userDataManager = new UserDaoDb<>(User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -37,7 +37,7 @@ public class AddLodgingsController extends HttpServlet {
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             WebContext context = new WebContext(request, response, request.getServletContext());
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userDataManager.findIdBy(userEmail);
+            User user = (User) userDataManager.findIdBy(userEmail);
             context.setVariable("userData", user);
             engine.process("add_lodgings.html", context, response.getWriter());
         }
@@ -56,7 +56,7 @@ public class AddLodgingsController extends HttpServlet {
         } else {
 
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userDataManager.findIdBy(userEmail);
+            User user = (User) userDataManager.findIdBy(userEmail);
 
 
             String lodgingName = request.getParameter(LodgingDataField.LODGING_NAME.getInputString());

@@ -23,7 +23,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 public class MainPageController extends HttpServlet {
 
     private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
-    private UserDao userDataManager = new UserDaoDb();
+    private UserDao userDataManager = new UserDaoDb<>(User.class);
 
 
 
@@ -37,7 +37,7 @@ public class MainPageController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userDataManager.findIdBy(userEmail);
+            User user = (User) userDataManager.findIdBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);

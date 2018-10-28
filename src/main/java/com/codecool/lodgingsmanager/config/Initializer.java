@@ -16,15 +16,12 @@ import com.codecool.lodgingsmanager.util.UserType;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 @WebListener
 public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
-    private UserDao userDataManager = new UserDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
     private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
 
 
@@ -105,10 +102,11 @@ public class Initializer implements ServletContextListener {
         lodgingsDataManager.add(newLodging2);
 
         System.out.println("\n\n\n------------------------------------------------");
-        userDataManager.getAll().forEach(System.out::println);
-        lodgingsDataManager.getAll().forEach(System.out::println);
+//        userDataManager.getAllEmailAddresses().forEach(System.out::println);
+//        userDataManager.getAll().forEach(System.out::println);
 
         System.out.println(lodgingsDataManager.find(2L));
+        System.out.println(userDataManager.find(2L));
 
     }
 
