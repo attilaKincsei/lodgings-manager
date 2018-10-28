@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class LodgingsService extends BaseService<Lodgings> {
 
-    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
     @Override
     public List<Lodgings> handleBy(String lodgingsId, long userId) {

@@ -1,8 +1,9 @@
 package com.codecool.lodgingsmanager.util;
 
 public enum LodgingDataField {
-    LODGING_NAME("lodging_name"),
-    LODGING_TYPE("lodging_type"),
+    ID("id"),
+    NAME("lodging_name"),
+    TYPE("lodging_type"),
     DAILY_PRICE("daily_price"),
     ELECTRICITY_BILL("electricity_bill"),
     GAS_BILL("gas_bill"),

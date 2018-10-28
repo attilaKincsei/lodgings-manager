@@ -4,8 +4,8 @@ import com.codecool.lodgingsmanager.model.Lodgings;
 
 import java.util.List;
 
-public abstract class LodgingsDao extends BaseDAO<Lodgings> {
+public abstract class LodgingsDao<T> extends BaseDAO<T> {
 
-    public abstract List<Lodgings> getAllLodgingsBy(long userId);
+    public abstract List<T> getAllLodgingsBy(long userId);
 
 }

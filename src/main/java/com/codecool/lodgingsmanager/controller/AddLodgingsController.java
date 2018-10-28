@@ -1,6 +1,7 @@
 package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
+import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
@@ -24,8 +25,8 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/add-lodgings"})
 public class AddLodgingsController extends HttpServlet {
 
-    private LodgingsDaoDb lodgingDataManager = new LodgingsDaoDb();
-    private UserDao userDataManager = new UserDaoDb<>(User.class);
+    private LodgingsDao<Lodgings> lodgingDataManager = new LodgingsDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -37,7 +38,7 @@ public class AddLodgingsController extends HttpServlet {
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             WebContext context = new WebContext(request, response, request.getServletContext());
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = (User) userDataManager.findIdBy(userEmail);
+            User user = userDataManager.findIdBy(userEmail);
             context.setVariable("userData", user);
             engine.process("add_lodgings.html", context, response.getWriter());
         }
@@ -56,11 +57,11 @@ public class AddLodgingsController extends HttpServlet {
         } else {
 
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = (User) userDataManager.findIdBy(userEmail);
+            User user = userDataManager.findIdBy(userEmail);
 
 
-            String lodgingName = request.getParameter(LodgingDataField.LODGING_NAME.getInputString());
-            String lodgingType = request.getParameter(LodgingDataField.LODGING_TYPE.getInputString());
+            String lodgingName = request.getParameter(LodgingDataField.NAME.getInputString());
+            String lodgingType = request.getParameter(LodgingDataField.TYPE.getInputString());
             String dailyPrice = request.getParameter(LodgingDataField.DAILY_PRICE.getInputString());
             String electricityBill = request.getParameter(LodgingDataField.ELECTRICITY_BILL.getInputString());
             String gasBill = request.getParameter(LodgingDataField.GAS_BILL.getInputString());

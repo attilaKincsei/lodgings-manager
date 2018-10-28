@@ -22,7 +22,7 @@ public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
     private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
-    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
 
     @Override
@@ -105,7 +105,7 @@ public class Initializer implements ServletContextListener {
 //        userDataManager.getAllEmailAddresses().forEach(System.out::println);
 //        userDataManager.getAll().forEach(System.out::println);
 
-        System.out.println(lodgingsDataManager.find(2L));
+        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
         System.out.println(userDataManager.find(2L));
 
     }

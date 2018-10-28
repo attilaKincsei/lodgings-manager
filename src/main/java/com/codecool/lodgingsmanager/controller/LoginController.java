@@ -19,7 +19,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/login", "/login-incorrect"})
 public class LoginController extends HttpServlet {
 
-    private UserDao userDataManager = new UserDaoDb<>(User.class);
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
 
     @Override
@@ -49,7 +49,7 @@ public class LoginController extends HttpServlet {
         newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        User guestUser = (User) userDataManager.findIdBy(GUEST_EMAIL);
+        User guestUser = userDataManager.findIdBy(GUEST_EMAIL);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable("userData", guestUser);
@@ -77,8 +77,6 @@ public class LoginController extends HttpServlet {
 
         } catch (NoResultException | NullPointerException ex) {
             System.out.println("User not in database"); // todo: change it to logger
-            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-            WebContext context = new WebContext(request, response, request.getServletContext());
             response.sendRedirect("/login-incorrect");
         }
 

@@ -145,7 +145,7 @@
                             <arg>-Xlint:all,-options,-path</arg>
                         </compilerArgs>
                     </configuration>
-<!-- -Xlint:all,-options,-path -->
+
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>

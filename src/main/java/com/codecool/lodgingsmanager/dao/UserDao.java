@@ -1,5 +1,7 @@
 package com.codecool.lodgingsmanager.dao;
 
+import com.codecool.lodgingsmanager.util.UserDataField;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,7 +30,15 @@ public abstract class UserDao<U> extends BaseDAO<U> {
 
     @Override
     public U find(long id) throws NoResultException {
-        return em.find(classType, id);
+        // this is same as: "SELECT u FROM User u WHERE u.user_id = " + id
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<U> criteriaQuery = criteriaBuilder.createQuery(classType);
+        Root<U> userRoot = criteriaQuery.from(classType);
+        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.ID.getInputString()), id));
+
+        TypedQuery<U> query = em.createQuery(criteriaQuery);
+
+        return query.getSingleResult();
     }
 
 
@@ -37,7 +47,7 @@ public abstract class UserDao<U> extends BaseDAO<U> {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<U> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<U> userRoot = criteriaQuery.from(classType);
-        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get("email"), email));
+        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()), email));
         TypedQuery<U> query = em.createQuery(criteriaQuery);
         return query.getSingleResult();
 
@@ -48,7 +58,7 @@ public abstract class UserDao<U> extends BaseDAO<U> {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<String> criteriaQuery = criteriaBuilder.createQuery(String.class);
         Root<U> userRoot = criteriaQuery.from(classType);
-        criteriaQuery.select(userRoot.get("email"));
+        criteriaQuery.select(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()));
         TypedQuery<String> query = em.createQuery(criteriaQuery);
         return query.getResultList();
 

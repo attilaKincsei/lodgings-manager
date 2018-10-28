@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegistrationEmailChecker extends HttpServlet {
 
 //    private static final long serialVersionUID = 1L;
-    private final UserDao userDataManager = new UserDaoDb<>(User.class);
+    private final UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -30,7 +30,7 @@ public class RegistrationEmailChecker extends HttpServlet {
 
         String registeredEmail = "";
         try {
-            User mightBeRegisteredUser = (User) userDataManager.findIdBy(emailentered);
+            User mightBeRegisteredUser = userDataManager.findIdBy(emailentered);
             registeredEmail = mightBeRegisteredUser.getEmail();
         } catch (NoResultException nre) {
             // todo: change this to logger?
