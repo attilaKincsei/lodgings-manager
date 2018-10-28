@@ -16,24 +16,21 @@ public class UserDaoDb extends UserDao {
 
     @Override
     public List<User> getAll() throws NoResultException {
-        return em.createQuery("SELECT t FROM User t").getResultList();
+        TypedQuery<User> query = em.createQuery("SELECT t FROM User t", User.class);
+        return query.getResultList();
     }
 
     @Override
     public User findIdBy(String email) throws NoResultException {
-        return (User) em.createQuery(
-                "SELECT u " +
-                        "FROM User u " +
-                        "WHERE u.email = '" + email + "'")
-                .getSingleResult();
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = ?1", User.class);
+        return query.setParameter(1, email).getSingleResult();
 
     }
 
     @Override
     public List<String> getAllEmailAddresses() throws NoResultException {
-        return em.createQuery(
-                "SELECT u.email FROM User u")
-                .getResultList();
+        TypedQuery<String> query = em.createQuery("SELECT u.email FROM User u", String.class);
+        return query.getResultList();
 
     }
 

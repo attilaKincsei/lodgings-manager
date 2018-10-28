@@ -5,6 +5,7 @@ import com.codecool.lodgingsmanager.util.LodgingsType;
 import javax.persistence.*;
 
 @Entity
+//@NamedQueries({@NamedQuery(name = "Lodgings.getAll", query = )})
 public class Lodgings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

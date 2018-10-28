@@ -1,6 +1,8 @@
 package com.codecool.lodgingsmanager.dao;
 
 import com.codecool.lodgingsmanager.dao.implementation.database.EMDriver;
+import com.codecool.lodgingsmanager.model.User;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.List;
 public abstract class BaseDAO<T> {
 
     protected EntityManager em = EMDriver.getEntityManager();
+
 
     public void add(T object) {
         EntityTransaction transaction = em.getTransaction();
@@ -17,6 +20,14 @@ public abstract class BaseDAO<T> {
     }
 
     public abstract T find(long id);
+
+
+//    public T find(long id) throws NoResultException {
+//        TypeReference<T> typeReference = new TypeReference<T>() {};
+//        TypedQuery<T> instance = em.find(new TypedQuery<T>().getClass(), id);
+//        return instance;
+//    }
+
 
 
     public void update(T object) {

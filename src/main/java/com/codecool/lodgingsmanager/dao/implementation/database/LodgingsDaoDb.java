@@ -4,6 +4,7 @@ import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.model.Lodgings;
 
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class LodgingsDaoDb extends LodgingsDao {
@@ -21,7 +22,8 @@ public class LodgingsDaoDb extends LodgingsDao {
 
     @Override
     public List<Lodgings> getAllLodgingsBy(long userId) throws NoResultException {
-        return em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = " + userId, Lodgings.class).getResultList();
+        TypedQuery<Lodgings> query = em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = ?1", Lodgings.class);
+        return query.setParameter(1, userId).getResultList();
 
     }
 

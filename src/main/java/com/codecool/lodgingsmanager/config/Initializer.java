@@ -16,6 +16,9 @@ import com.codecool.lodgingsmanager.util.UserType;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -106,6 +109,7 @@ public class Initializer implements ServletContextListener {
         lodgingsDataManager.getAll().forEach(System.out::println);
 
         System.out.println(lodgingsDataManager.find(2L));
+
     }
 
 
