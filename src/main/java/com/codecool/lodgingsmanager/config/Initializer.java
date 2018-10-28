@@ -102,10 +102,11 @@ public class Initializer implements ServletContextListener {
         lodgingsDataManager.add(newLodging2);
 
         System.out.println("\n\n\n------------------------------------------------");
-//        userDataManager.getAllEmailAddresses().forEach(System.out::println);
+        userDataManager.getAllEmailAddresses().forEach(System.out::println);
 //        userDataManager.getAll().forEach(System.out::println);
 
-        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
+//        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
+//        System.out.println(lodgingsDataManager.find(2L));
         System.out.println(userDataManager.find(2L));
 
     }

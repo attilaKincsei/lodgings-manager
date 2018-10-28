@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -34,9 +35,10 @@ public abstract class UserDao<U> extends BaseDAO<U> {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<U> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<U> userRoot = criteriaQuery.from(classType);
-        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.ID.getInputString()), id));
-
+        ParameterExpression<Long> parameterExpression = criteriaBuilder.parameter(Long.class);
+        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.ID.getInputString()), parameterExpression));
         TypedQuery<U> query = em.createQuery(criteriaQuery);
+        query.setParameter(parameterExpression, id);
 
         return query.getSingleResult();
     }
@@ -47,8 +49,10 @@ public abstract class UserDao<U> extends BaseDAO<U> {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<U> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<U> userRoot = criteriaQuery.from(classType);
-        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()), email));
+        ParameterExpression<String> parameterExpression = criteriaBuilder.parameter(String.class);
+        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()), parameterExpression));
         TypedQuery<U> query = em.createQuery(criteriaQuery);
+        query.setParameter(parameterExpression, email);
         return query.getSingleResult();
 
     }
