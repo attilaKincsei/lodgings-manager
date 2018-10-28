@@ -7,6 +7,11 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "null")
+@NamedQueries({
+        @NamedQuery(name = "User.getAll", query = "SELECT t FROM User t"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = ?1"),
+        @NamedQuery(name = "User.getAllEmailAddresses", query = "SELECT u.email FROM User u")
+})
 public abstract class User {
 
     @Id
@@ -131,7 +136,7 @@ public abstract class User {
 
     public abstract String getUserType();
 
-    public String getFullName() {
+    String getFullName() {
         return getFirstName() + " " + getSurname();
     }
 

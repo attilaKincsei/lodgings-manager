@@ -16,20 +16,20 @@ public class UserDaoDb extends UserDao {
 
     @Override
     public List<User> getAll() throws NoResultException {
-        TypedQuery<User> query = em.createQuery("SELECT t FROM User t", User.class);
+        TypedQuery<User> query = em.createNamedQuery("User.getAll", User.class);
         return query.getResultList();
     }
 
     @Override
     public User findIdBy(String email) throws NoResultException {
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = ?1", User.class);
+        TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class);
         return query.setParameter(1, email).getSingleResult();
 
     }
 
     @Override
     public List<String> getAllEmailAddresses() throws NoResultException {
-        TypedQuery<String> query = em.createQuery("SELECT u.email FROM User u", String.class);
+        TypedQuery<String> query = em.createNamedQuery("User.getAllEmailAddresses", String.class);
         return query.getResultList();
 
     }

@@ -17,12 +17,13 @@ public class LodgingsDaoDb extends LodgingsDao {
 
     @Override
     public List<Lodgings> getAll() throws NoResultException {
-        return em.createQuery("SELECT l FROM Lodgings l", Lodgings.class).getResultList();
+        TypedQuery<Lodgings> query = em.createNamedQuery("Lodgings.getAll", Lodgings.class);
+        return query.getResultList();
     }
 
     @Override
     public List<Lodgings> getAllLodgingsBy(long userId) throws NoResultException {
-        TypedQuery<Lodgings> query = em.createQuery("SELECT l FROM Lodgings l WHERE l.landlord.id = ?1", Lodgings.class);
+        TypedQuery<Lodgings> query = em.createNamedQuery("Lodgings.getAllLodgingsByUserId", Lodgings.class);
         return query.setParameter(1, userId).getResultList();
 
     }
