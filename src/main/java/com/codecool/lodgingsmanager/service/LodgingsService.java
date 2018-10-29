@@ -3,6 +3,7 @@ package com.codecool.lodgingsmanager.service;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
+import com.codecool.lodgingsmanager.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,11 @@ import java.util.stream.Collectors;
 
 public class LodgingsService extends BaseService<Lodgings> {
 
-    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
+    private final LodgingsDao<Lodgings> lodgingsDataManager;
+
+    public LodgingsService(LodgingsDao<Lodgings> lodgingsDataManager) {
+        this.lodgingsDataManager = lodgingsDataManager;
+    }
 
     @Override
     public List<Lodgings> handleBy(String lodgingsId, long userId) {
@@ -39,4 +44,26 @@ public class LodgingsService extends BaseService<Lodgings> {
     public void delete(long id) {
         lodgingsDataManager.remove(id);
     }
+
+    @Override
+    public void handleAddNewLodgings(Lodgings newLodgings) {
+        lodgingsDataManager.add(newLodgings);
+    }
+
+    @Override
+    public List<Lodgings> handleGettingLodgingsBy(User user) {
+        return lodgingsDataManager.getAllLodgingsBy(user.getId());
+    }
+
+    @Override
+    public void handleAddNewUser(User newUser) {
+
+    }
+
+    @Override
+    public void handleUpdate(Lodgings user) {
+
+    }
+
+
 }

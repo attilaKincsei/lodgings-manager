@@ -1,5 +1,6 @@
 package com.codecool.lodgingsmanager.controller;
 
+import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
@@ -23,8 +24,8 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
-    private BaseService<User> userHandler = new UserService();
-    private BaseService<Lodgings> lodgingsHandler = new LodgingsService();
+    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
+    private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

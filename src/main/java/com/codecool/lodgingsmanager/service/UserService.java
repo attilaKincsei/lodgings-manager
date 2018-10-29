@@ -11,9 +11,13 @@ import java.util.List;
 
 public class UserService extends BaseService<User> {
 
-    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
-    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
+    private final UserDao<User> userDataManager;
+    private final LodgingsDao<Lodgings> lodgingsDataManager;
 
+    public UserService(UserDao<User> userDataManager, LodgingsDao<Lodgings> lodgingsDataManager) {
+        this.userDataManager = userDataManager;
+        this.lodgingsDataManager = lodgingsDataManager;
+    }
 
     @Override
     public List<User> handleBy(String stringParam, long longParam) {
@@ -34,6 +38,23 @@ public class UserService extends BaseService<User> {
         userDataManager.remove(id);
     }
 
+    @Override
+    public void handleAddNewLodgings(Lodgings newLodgings) {
 
+    }
 
+    @Override
+    public List<Lodgings> handleGettingLodgingsBy(User user) {
+        return lodgingsDataManager.getAllLodgingsBy(user.getId());
+    }
+
+    @Override
+    public void handleAddNewUser(User newUser) {
+        userDataManager.add(newUser);
+    }
+
+    @Override
+    public void handleUpdate(User user) {
+        userDataManager.update(user);
+    }
 }

@@ -5,9 +5,10 @@ import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
-import com.codecool.lodgingsmanager.model.Landlord;
-import com.codecool.lodgingsmanager.model.Lodgings;
-import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.model.*;
+import com.codecool.lodgingsmanager.service.*;
+import com.codecool.lodgingsmanager.service.ajax.EmailCheckerService;
+import com.codecool.lodgingsmanager.service.delete.DeleteService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserFactory;
@@ -21,9 +22,15 @@ import javax.servlet.annotation.WebListener;
 public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
-    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
-    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
+    private static final UserDao<User> userDataManager = new UserDaoDb<>(User.class);
+    private static final LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
+    public static final EmailCheckerService EMAIL_CHECKER_HANDLER = new EmailCheckerService(userDataManager);
+    public static final BaseService<User> USER_HANDLER = new UserService(userDataManager, lodgingsDataManager);
+    public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(lodgingsDataManager);
+    public static final BaseService<Comment> COMMENT_HANDLER = new CommentService();
+    public static final BaseService<ToDo> TO_DO_HANDLER = new ToDoService();
+    public static final DeleteService DELETE_HANDLER = new DeleteService();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
