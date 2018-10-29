@@ -11,8 +11,8 @@ import java.util.List;
 
 public class UserService extends BaseService<User> {
 
-    UserDao userDataManager = new UserDaoDb();
-    LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
+    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
 
     @Override

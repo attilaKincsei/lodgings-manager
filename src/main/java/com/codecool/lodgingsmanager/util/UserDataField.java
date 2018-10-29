@@ -2,7 +2,7 @@ package com.codecool.lodgingsmanager.util;
 
 public enum UserDataField {
     USER_OBJECT("user_object"),
-    USER_ID("user_id"),
+    ID("id"),
     FIRST_NAME("first_name"),
     SURNAME("surname"),
     FULL_NAME("full_name"),

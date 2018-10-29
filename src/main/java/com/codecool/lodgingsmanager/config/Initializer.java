@@ -21,8 +21,8 @@ import javax.servlet.annotation.WebListener;
 public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
-    private UserDao userDataManager = new UserDaoDb();
-    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
+    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
 
     @Override
@@ -102,10 +102,13 @@ public class Initializer implements ServletContextListener {
         lodgingsDataManager.add(newLodging2);
 
         System.out.println("\n\n\n------------------------------------------------");
-        userDataManager.getAll().forEach(System.out::println);
-        lodgingsDataManager.getAll().forEach(System.out::println);
+        userDataManager.getAllEmailAddresses().forEach(System.out::println);
+//        userDataManager.getAll().forEach(System.out::println);
 
-        System.out.println(lodgingsDataManager.find(2L));
+//        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
+//        System.out.println(lodgingsDataManager.find(2L));
+        System.out.println(userDataManager.find(2L));
+
     }
 
 

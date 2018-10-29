@@ -7,11 +7,14 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "null")
+@NamedQueries({
+        @NamedQuery(name = "User.getAllEmailAddresses", query = "SELECT u.email FROM User u")
+})
 public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true)
     private long id;
     private String firstName;
     private String surname;
@@ -131,7 +134,7 @@ public abstract class User {
 
     public abstract String getUserType();
 
-    public String getFullName() {
+    String getFullName() {
         return getFirstName() + " " + getSurname();
     }
 

@@ -15,8 +15,8 @@ public class PasswordHashing {
     }
 
     public static User checkPassword(String candidate, String email) throws NoResultException {
-        UserDao userDataManager = new UserDaoDb();
-        User user = userDataManager.findIdBy(email);
+        UserDao userDataManager = new UserDaoDb<>(User.class);
+        User user = (User) userDataManager.findIdBy(email);
         String hashed = user.getPasswordHash();
 
         if (BCrypt.checkpw(candidate, hashed)) {

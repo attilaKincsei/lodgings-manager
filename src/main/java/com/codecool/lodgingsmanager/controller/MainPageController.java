@@ -22,8 +22,8 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/", "/index"})
 public class MainPageController extends HttpServlet {
 
-    private LodgingsDao lodgingsDataManager = new LodgingsDaoDb();
-    private UserDao userDataManager = new UserDaoDb();
+    private LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
 
 

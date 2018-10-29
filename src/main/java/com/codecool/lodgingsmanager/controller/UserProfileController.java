@@ -20,7 +20,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
 public class UserProfileController extends HttpServlet {
 
-    private UserDao userDataManager = new UserDaoDb();
+    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
 
     @Override

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegistrationEmailChecker extends HttpServlet {
 
 //    private static final long serialVersionUID = 1L;
-    private final UserDao userDataManager = new UserDaoDb();
+    private final UserDao<User> userDataManager = new UserDaoDb<>(User.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

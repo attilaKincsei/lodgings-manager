@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/registration"})
 public class RegistrationController extends HttpServlet {
 
-    private UserDaoDb userDataManager = new UserDaoDb();
+    private UserDaoDb<User> userDataManager = new UserDaoDb<>(User.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
