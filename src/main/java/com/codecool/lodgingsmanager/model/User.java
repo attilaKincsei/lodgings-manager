@@ -1,15 +1,16 @@
 package com.codecool.lodgingsmanager.model;
 
+import com.codecool.lodgingsmanager.util.UserType;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "site_user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue(value = "null")
-@NamedQueries({
-        @NamedQuery(name = "User.getAllEmailAddresses", query = "SELECT u.email FROM User u")
-})
 public abstract class User {
 
     @Id
@@ -25,6 +26,23 @@ public abstract class User {
     private String zipCode;
     private String address;
     private String passwordHash;
+
+
+    @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Lodgings> propertyManagerLodgings = new HashSet<>();
+
+    @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Set<Lodgings> landlordLodgings = new HashSet<>();
+
+
+
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    Lodgings tenantLodgings = new Lodgings();
+
+
+
+
+
 
     public User() {
 
@@ -128,11 +146,6 @@ public abstract class User {
         return passwordHash;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
-    public abstract String getUserType();
 
     String getFullName() {
         return getFirstName() + " " + getSurname();

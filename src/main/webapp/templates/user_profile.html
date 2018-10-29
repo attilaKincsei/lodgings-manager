@@ -11,7 +11,8 @@
 <body>
 <div th:replace="navbar.html :: copy"></div>
 
-<input type="hidden" id="user-type" th:value="${userData.getUserType()}">
+<!--/*@thymesVar id="getClass" type="com.codecool.lodgingsmanager.model.User"*/-->
+<input type="text" id="user-type" th:value="${userClass}" hidden>
 
 <div id="profile-data" class="row">
     <div id="data-list" class="col-sm-3">

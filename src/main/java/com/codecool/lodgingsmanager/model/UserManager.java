@@ -2,20 +2,14 @@ package com.codecool.lodgingsmanager.model;
 
 import com.codecool.lodgingsmanager.util.UserType;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
+public abstract class UserManager extends User {
 
-@Entity
-@DiscriminatorValue(value = "TENANT")
-public class Tenant extends User {
+    private static final UserType USER_MANAGER = UserType.USER_MANAGER;
 
-
-    public Tenant() {
+    public UserManager() {
     }
 
-    public Tenant(
+    public UserManager(
             String firstName,
             String surname,
             String email,
@@ -29,5 +23,4 @@ public class Tenant extends User {
     ) {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
-
 }

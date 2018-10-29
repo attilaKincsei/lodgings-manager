@@ -20,7 +20,7 @@ public abstract class UserDao<U> extends BaseDAO<U> {
 
     @Override
     public List<U> getAll() throws NoResultException {
-        // this is same as: "SELECT t FROM User t"
+        // this is same as: "SELECT u FROM User u"
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<U> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<U> userRoot = criteriaQuery.from(classType);

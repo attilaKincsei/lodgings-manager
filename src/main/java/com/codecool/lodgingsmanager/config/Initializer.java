@@ -28,21 +28,6 @@ public class Initializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        User guestUser = UserFactory.createUserInstanceBy(
-                UserType.GUEST,
-                "Guest",
-                "User",
-                GUEST_EMAIL,
-                "+2211111111",
-                "Country",
-                "City",
-                "W-1111",
-                "1. Street",
-                PasswordHashing.hashPassword("11111111")
-        );
-
-        userDataManager.add(guestUser);
-
 
         User testUser = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
@@ -92,14 +77,32 @@ public class Initializer implements ServletContextListener {
                 (Landlord) testUser
         );
 
+        lodgingsDataManager.add(newLodging2);
 
-        testingMethod(newLodging2); // todo: delete later
+
+        User guestUser = UserFactory.createUserInstanceBy(
+                UserType.GUEST,
+                "Guest",
+                "User",
+                GUEST_EMAIL,
+                "+2211111111",
+                "Country",
+                "City",
+                "W-1111",
+                "1. Street",
+                PasswordHashing.hashPassword("11111111")
+        );
+
+        userDataManager.add(guestUser);
+
+
+
+        testingMethod(); // todo: delete later
 
 
     }
 
-    private void testingMethod(Lodgings newLodging2) {
-        lodgingsDataManager.add(newLodging2);
+    private void testingMethod() {
 
         System.out.println("\n\n\n------------------------------------------------");
         userDataManager.getAllEmailAddresses().forEach(System.out::println);

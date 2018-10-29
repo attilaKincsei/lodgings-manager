@@ -71,7 +71,9 @@ public class UserProfileController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
             User user = userDataManager.findIdBy(userEmail);
+            String userClass = user.getClass().getName();
             context.setVariable("userData", user);
+            context.setVariable("userClass", userClass);
 
             String firstName = request.getParameter(UserDataField.FIRST_NAME.getInputString());
             String surname = request.getParameter(UserDataField.SURNAME.getInputString());

@@ -3,12 +3,10 @@ package com.codecool.lodgingsmanager.model;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Lodgings.getAll", query = "SELECT l FROM Lodgings l"),
-        @NamedQuery(name = "Lodgings.getAllLodgingsByUserId", query = "SELECT l FROM Lodgings l WHERE l.landlord.id = ?1")
-})
 public class Lodgings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +24,17 @@ public class Lodgings {
     private long gasBill;
     private long telecommunicationBill;
     private long cleaningCost;
+
     @ManyToOne
     private Landlord landlord;
+
+    @ManyToOne
+    private PropertyManager propertyManager;
+
+//    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Set<User> tenants = new HashSet<>();
+//
+
 
     public Lodgings(String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
         this.name = name;
@@ -147,6 +154,26 @@ public class Lodgings {
     public void setLandlord(Landlord landlord) {
         this.landlord = landlord;
     }
+
+    public PropertyManager getPropertyManager() {
+        return propertyManager;
+    }
+
+    public void setPropertyManager(PropertyManager propertyManager) {
+        this.propertyManager = propertyManager;
+    }
+
+//    public Set<User> getTenants() {
+//        return tenants;
+//    }
+//
+//    public void addTenant(Tenant tenant) {
+//        tenants.add(tenant);
+//    }
+//
+//    public void removeTenant(Tenant tenant) {
+//        tenants.remove(tenant);
+//    }
 
     @Override
     public String toString() {
