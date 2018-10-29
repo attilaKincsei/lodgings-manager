@@ -1,13 +1,12 @@
 package com.codecool.lodgingsmanager.dao;
 
+import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.util.UserDataField;
+import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public abstract class UserDao<U> extends BaseDAO<U> {
@@ -68,4 +67,29 @@ public abstract class UserDao<U> extends BaseDAO<U> {
 
     }
 
+    /*
+      todo: Do this with Criteria API
+      select u.*, l.id, l.name
+      FROM site_user u
+             LEFT JOIN lodgings l on u.user_id = l.landlord_user_id
+             LEFT JOIN lodgings l2 on u.user_id = l2.propertymanager_user_id
+      where l.id = 1
+         or l2.id = 1;
+      @param lodgingsId
+     * @return
+     */
+//    public List<U> getAllUserBy(long lodgingsId) {
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<U> cq = cb.createQuery(classType);
+//        Root<U> userRoot = cq.from(classType);
+//        Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
+//        Join<U, Lodgings> lodgingsJoin = lodgingsRoot.join(UserType.LANDLORD.getStringValue(), JoinType.LEFT);
+//        cq.multiselect(lodgingsJoin);
+////        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+////        cq.select(userRoot).where(cb.equal(userRoot.get(UserDataField.LANDLORD_LODGINGS.getInputString()).get(UserDataField.ID.getInputString()), idParameter));
+//        TypedQuery<U> query = em.createQuery(cq);
+////        query.setParameter(idParameter, lodgingsId);
+//        return query.getResultList();
+//
+//    }
 }

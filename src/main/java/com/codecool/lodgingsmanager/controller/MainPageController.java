@@ -2,10 +2,6 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
@@ -25,6 +21,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 public class MainPageController extends HttpServlet {
 
     private final BaseService<User> userHandler = Initializer.USER_HANDLER;
+    private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
 
 
 
@@ -38,12 +35,12 @@ public class MainPageController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleBy(userEmail);
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
 
-            List<Lodgings> lodgingsList = userHandler.handleGettingLodgingsBy(user);
+            List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(user.getId());
             context.setVariable("lodgings", lodgingsList);
 
 

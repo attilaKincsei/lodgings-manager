@@ -25,18 +25,21 @@ public class Lodgings {
     private long telecommunicationBill;
     private long cleaningCost;
 
-    @ManyToOne
-    private Landlord landlord;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private User landlord;
 
-    @ManyToOne
-    private PropertyManager propertyManager;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private User propertyManager;
 
 //    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    private Set<User> tenants = new HashSet<>();
 //
 
-
-    public Lodgings(String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
+    public Lodgings(
+            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
+            User landlord
+    ) {
         this.name = name;
         this.lodgingsType = lodgingsType;
         this.country = country;
@@ -49,6 +52,27 @@ public class Lodgings {
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
         this.landlord = landlord;
+    }
+
+
+    public Lodgings(
+            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
+            User landlord, User propertyManager
+    ) {
+        this.name = name;
+        this.lodgingsType = lodgingsType;
+        this.country = country;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.pricePerDay = pricePerDay;
+        this.electricityBill = electricityBill;
+        this.gasBill = gasBill;
+        this.telecommunicationBill = telecommunicationBill;
+        this.cleaningCost = cleaningCost;
+        this.landlord = landlord;
+        this.propertyManager = propertyManager;
     }
 
     public Lodgings() {
@@ -147,19 +171,19 @@ public class Lodgings {
         this.cleaningCost = cleaningCost;
     }
 
-    public Landlord getLandlord() {
+    public User getLandlord() {
         return landlord;
     }
 
-    public void setLandlord(Landlord landlord) {
+    public void setLandlord(User landlord) {
         this.landlord = landlord;
     }
 
-    public PropertyManager getPropertyManager() {
+    public User getPropertyManager() {
         return propertyManager;
     }
 
-    public void setPropertyManager(PropertyManager propertyManager) {
+    public void setPropertyManager(User propertyManager) {
         this.propertyManager = propertyManager;
     }
 

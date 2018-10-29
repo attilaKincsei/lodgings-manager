@@ -2,7 +2,6 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.util.*;
@@ -24,7 +23,7 @@ public class RegistrationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-        User guestUser = userHandler.handleBy(Initializer.GUEST_EMAIL);
+        User guestUser = userHandler.handleGetSingleObjectBy(Initializer.GUEST_EMAIL);
 
         context.setVariable("userData", guestUser);
 
@@ -62,7 +61,7 @@ public class RegistrationController extends HttpServlet {
                 passwordHash
         );
 
-        userHandler.handleAddNewUser(newUser);
+        userHandler.handleAddNew(newUser);
 
         response.sendRedirect("/login");
     }

@@ -2,8 +2,6 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.util.UserDataField;
@@ -36,7 +34,7 @@ public class UserProfileController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
-            User user = userHandler.handleBy(userEmail);
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
             context.setVariable("userData", user);
 
             String templateToRender;
@@ -72,7 +70,7 @@ public class UserProfileController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
-            User user = userHandler.handleBy(userEmail);
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
             String userClass = user.getClass().getName();
             context.setVariable("userData", user);
             context.setVariable("userClass", userClass);

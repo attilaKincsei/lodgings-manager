@@ -2,8 +2,6 @@ package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
@@ -20,17 +18,32 @@ public class UserService extends BaseService<User> {
     }
 
     @Override
-    public List<User> handleBy(String stringParam, long longParam) {
-        return null;
+    public void handleAddNew(User newUser) {
+        userDataManager.add(newUser);
     }
 
     @Override
-    public User handleBy(String userEmail) {
+    public User handleGetSingleObjectBy(String userEmail) {
         return userDataManager.findIdBy(userEmail);
     }
 
     @Override
-    public void delete(long id) {
+    public List<User> handleGetListBy(long lodgingsId) {
+        return null; // userDataManager.getAllUserBy(lodgingsId);
+    }
+
+    @Override
+    public List<User> handleGetListBy(String stringParam, long longParam) {
+        return null; // todo
+    }
+
+    @Override
+    public void handleUpdate(User user) {
+        userDataManager.update(user);
+    }
+
+    @Override
+    public void handleDelete(long id) {
         List<Lodgings> lodgingsBy = lodgingsDataManager.getAllLodgingsBy(id);
         for (Lodgings lodgings : lodgingsBy) {
             lodgingsDataManager.remove(lodgings.getId());
@@ -38,23 +51,5 @@ public class UserService extends BaseService<User> {
         userDataManager.remove(id);
     }
 
-    @Override
-    public void handleAddNewLodgings(Lodgings newLodgings) {
 
-    }
-
-    @Override
-    public List<Lodgings> handleGettingLodgingsBy(User user) {
-        return lodgingsDataManager.getAllLodgingsBy(user.getId());
-    }
-
-    @Override
-    public void handleAddNewUser(User newUser) {
-        userDataManager.add(newUser);
-    }
-
-    @Override
-    public void handleUpdate(User user) {
-        userDataManager.update(user);
-    }
 }

@@ -2,15 +2,10 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
-import com.codecool.lodgingsmanager.service.LodgingsService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
@@ -41,7 +36,7 @@ public class AddLodgingsController extends HttpServlet {
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             WebContext context = new WebContext(request, response, request.getServletContext());
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleBy(userEmail);
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
             context.setVariable("userData", user);
             engine.process("add_lodgings.html", context, response.getWriter());
         }
@@ -72,7 +67,7 @@ public class AddLodgingsController extends HttpServlet {
             String cleaningCost = request.getParameter(LodgingDataField.CLEANING_COST.getInputString());
 
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleBy(userEmail);
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
 
 
             Lodgings newLodgings = new Lodgings(
@@ -87,10 +82,10 @@ public class AddLodgingsController extends HttpServlet {
                     Long.parseLong(gasBill),
                     Long.parseLong(telecommunicationBill),
                     Long.parseLong(cleaningCost),
-                    (Landlord) user
+                    user
             );
 
-            lodgingsHandler.handleAddNewLodgings(newLodgings);
+            lodgingsHandler.handleAddNew(newLodgings);
 
 
             response.sendRedirect("/index");

@@ -28,7 +28,7 @@ public class DeleteController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             Enumeration<String> parameterNames = request.getParameterNames();
-            deletHandler.handleDeleting(request, response, parameterNames);
+            deletHandler.handleAllDeletes(request, response, parameterNames);
 
         }
     }

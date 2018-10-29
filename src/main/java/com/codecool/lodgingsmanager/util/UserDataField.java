@@ -15,7 +15,9 @@ public enum UserDataField {
     COUNTRY("country"),
     CITY("city"),
     ZIP_CODE("zip_code"),
-    ADDRESS("address");
+    ADDRESS("address"),
+    PROPERTY_MANAGER_LODGINGS("propertyManagerLodgings"),
+    LANDLORD_LODGINGS("landlordLodgings");
 
     private final String inputString;
 

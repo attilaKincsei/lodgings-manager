@@ -8,32 +8,27 @@ import java.util.List;
 
 public class CommentService extends BaseService<Comment> {
     @Override
-    public List<Comment> handleBy(String stringParam, long longParam) {
+    public List<Comment> handleGetListBy(String stringParam, long longParam) {
         return null;
     }
 
     @Override
-    public Comment handleBy(String param) {
+    public Comment handleGetSingleObjectBy(String param) {
         return null;
     }
 
     @Override
-    public void delete(long id) {
-
-    }
-
-    @Override
-    public void handleAddNewLodgings(Lodgings newLodgings) {
-
-    }
-
-    @Override
-    public List<Lodgings> handleGettingLodgingsBy(User user) {
+    public List<Comment> handleGetListBy(long id) {
         return null;
     }
 
     @Override
-    public void handleAddNewUser(User newUser) {
+    public void handleDelete(long id) {
+
+    }
+
+    @Override
+    public void handleAddNew(Comment object) {
 
     }
 

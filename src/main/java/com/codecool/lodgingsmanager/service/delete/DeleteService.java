@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-public class DeleteService extends BaseService {
+public class DeleteService {
 
     private final BaseService<User> userHandler = Initializer.USER_HANDLER;
     private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
@@ -23,43 +23,7 @@ public class DeleteService extends BaseService {
     private final BaseService<ToDo> toDoHandler = Initializer.TO_DO_HANDLER;
 
 
-    @Override
-    public List handleBy(String stringParam, long longParam) {
-        return null;
-    }
-
-    @Override
-    public Object handleBy(String param) {
-        return null;
-    }
-
-    @Override
-    public void delete(long id) {
-
-    }
-
-    @Override
-    public void handleAddNewLodgings(Lodgings newLodgings) {
-
-    }
-
-    @Override
-    public List<Lodgings> handleGettingLodgingsBy(User user) {
-        return null;
-    }
-
-    @Override
-    public void handleAddNewUser(User newUser) {
-
-    }
-
-    @Override
-    public void handleUpdate(Object user) {
-
-    }
-
-
-    public void handleDeleting(HttpServletRequest request, HttpServletResponse response, Enumeration<String> parameterNames) throws IOException {
+    public void handleAllDeletes(HttpServletRequest request, HttpServletResponse response, Enumeration<String> parameterNames) throws IOException {
         List<String> deletableTypeList = createDeletableTypeList();
 
         while (parameterNames.hasMoreElements()) {
@@ -70,18 +34,18 @@ public class DeleteService extends BaseService {
                 DeletableType deletableType = DeletableType.valueOf(parameterName.toUpperCase());
                 switch (deletableType) {
                     case COMMENT:
-                        commentHandler.delete(id);
+                        commentHandler.handleDelete(id);
                         break;
                     case USER:
-                        userHandler.delete(id);
+                        userHandler.handleDelete(id);
                         response.sendRedirect("/login");
                         break;
                     case LODGINGS:
-                        lodgingsHandler.delete(id);
+                        lodgingsHandler.handleDelete(id);
                         response.sendRedirect("/lodgings");
                         break;
                     case TODO:
-                        toDoHandler.delete(id);
+                        toDoHandler.handleDelete(id);
                         break;
                 }
             }

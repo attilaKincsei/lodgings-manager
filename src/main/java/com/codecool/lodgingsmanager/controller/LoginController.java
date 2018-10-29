@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
         newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        User guestUser = userHandler.handleBy(GUEST_EMAIL);
+        User guestUser = userHandler.handleGetSingleObjectBy(GUEST_EMAIL);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable("userData", guestUser);

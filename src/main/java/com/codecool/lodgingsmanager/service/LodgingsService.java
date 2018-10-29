@@ -17,8 +17,24 @@ public class LodgingsService extends BaseService<Lodgings> {
         this.lodgingsDataManager = lodgingsDataManager;
     }
 
+
     @Override
-    public List<Lodgings> handleBy(String lodgingsId, long userId) {
+    public void handleAddNew(Lodgings newLodgings) {
+        lodgingsDataManager.add(newLodgings);
+    }
+
+    @Override
+    public Lodgings handleGetSingleObjectBy(String param) {
+        return null; // todo
+    }
+
+    @Override
+    public List<Lodgings> handleGetListBy(long userId) {
+        return lodgingsDataManager.getAllLodgingsBy(userId);
+    }
+
+    @Override
+    public List<Lodgings> handleGetListBy(String lodgingsId, long userId) {
 
         List<Lodgings> lodgingsList = new ArrayList<>();
 
@@ -36,33 +52,13 @@ public class LodgingsService extends BaseService<Lodgings> {
     }
 
     @Override
-    public Lodgings handleBy(String userEmail) {
-        return null;
+    public void handleUpdate(Lodgings lodgings) {
+        lodgingsDataManager.update(lodgings);
     }
 
     @Override
-    public void delete(long id) {
+    public void handleDelete(long id) {
         lodgingsDataManager.remove(id);
-    }
-
-    @Override
-    public void handleAddNewLodgings(Lodgings newLodgings) {
-        lodgingsDataManager.add(newLodgings);
-    }
-
-    @Override
-    public List<Lodgings> handleGettingLodgingsBy(User user) {
-        return lodgingsDataManager.getAllLodgingsBy(user.getId());
-    }
-
-    @Override
-    public void handleAddNewUser(User newUser) {
-
-    }
-
-    @Override
-    public void handleUpdate(Lodgings user) {
-
     }
 
 

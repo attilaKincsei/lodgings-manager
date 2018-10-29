@@ -10,37 +10,32 @@ import java.util.List;
 public class ToDoService extends BaseService<ToDo> {
 
     @Override
-    public List<ToDo> handleBy(String stringParam, long longParam) {
+    public List<ToDo> handleGetListBy(String stringParam, long longParam) {
         return null;
     }
 
     @Override
-    public ToDo handleBy(String param) {
+    public ToDo handleGetSingleObjectBy(String param) {
         return null;
     }
 
     @Override
-    public void delete(long id) {
-
-    }
-
-    @Override
-    public void handleAddNewLodgings(Lodgings newLodgings) {
-
-    }
-
-    @Override
-    public List<Lodgings> handleGettingLodgingsBy(User user) {
-        return null;
-    }
-
-    @Override
-    public void handleAddNewUser(User newUser) {
+    public void handleDelete(long id) {
 
     }
 
     @Override
     public void handleUpdate(ToDo user) {
 
+    }
+
+    @Override
+    public void handleAddNew(ToDo object) {
+
+    }
+
+    @Override
+    public List<ToDo> handleGetListBy(long id) {
+        return null;
     }
 }

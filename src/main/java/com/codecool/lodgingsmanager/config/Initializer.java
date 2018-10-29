@@ -36,7 +36,7 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
 
-        User testUser = UserFactory.createUserInstanceBy(
+        User testLandlord = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
                 "Attila",
                 "Kincsei",
@@ -49,7 +49,23 @@ public class Initializer implements ServletContextListener {
                 PasswordHashing.hashPassword("Qq111111")
         );
 
-        userDataManager.add(testUser);
+        userDataManager.add(testLandlord);
+
+        User testPropertyManager = UserFactory.createUserInstanceBy(
+                UserType.PROPERTY_MANAGER,
+                "Hugo",
+                "Menedzser",
+                "menedzser@gmail.com",
+                "+10000000000",
+                "ManCountry",
+                "ManCity",
+                "M-1001",
+                "1. Manager Street",
+                PasswordHashing.hashPassword("Qq111111")
+        );
+
+        userDataManager.add(testPropertyManager);
+
 
         Lodgings newLodging = new Lodgings(
                 "My little apartment",
@@ -63,7 +79,8 @@ public class Initializer implements ServletContextListener {
                 20L,
                 15L,
                 4L,
-                (Landlord) testUser
+                testLandlord,
+                testPropertyManager
         );
 
         lodgingsDataManager.add(newLodging);
@@ -81,7 +98,8 @@ public class Initializer implements ServletContextListener {
                 203L,
                 153L,
                 433L,
-                (Landlord) testUser
+                testLandlord,
+                testPropertyManager
         );
 
         lodgingsDataManager.add(newLodging2);
@@ -112,12 +130,13 @@ public class Initializer implements ServletContextListener {
     private void testingMethod() {
 
         System.out.println("\n\n\n------------------------------------------------");
-        userDataManager.getAllEmailAddresses().forEach(System.out::println);
+//        userDataManager.getAllEmailAddresses().forEach(System.out::println);
 //        userDataManager.getAll().forEach(System.out::println);
 
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));
-        System.out.println(userDataManager.find(2L));
+//        System.out.println(userDataManager.find(2L));
+        System.out.println(USER_HANDLER.handleGetListBy(1L));
 
     }
 

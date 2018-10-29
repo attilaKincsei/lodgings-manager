@@ -5,8 +5,6 @@ import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
-import com.codecool.lodgingsmanager.service.LodgingsService;
-import com.codecool.lodgingsmanager.service.UserService;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -39,8 +37,8 @@ public class LodgingsController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             String lodgingsIdString = request.getParameter("lodgingsId");
 
-            User user = userHandler.handleBy(userEmail);
-            List<Lodgings> lodgingsList = lodgingsHandler.handleBy(lodgingsIdString, user.getId());
+            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(lodgingsIdString, user.getId());
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
