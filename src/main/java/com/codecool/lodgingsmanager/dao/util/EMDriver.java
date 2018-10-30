@@ -1,4 +1,4 @@
-package com.codecool.lodgingsmanager.dao.implementation.database;
+package com.codecool.lodgingsmanager.dao.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

@@ -9,10 +9,10 @@ import java.util.List;
 
 public class UserService extends BaseService<User> {
 
-    private final UserDao<User> userDataManager;
-    private final LodgingsDao<Lodgings> lodgingsDataManager;
+    private final UserDao userDataManager;
+    private final LodgingsDao lodgingsDataManager;
 
-    public UserService(UserDao<User> userDataManager, LodgingsDao<Lodgings> lodgingsDataManager) {
+    public UserService(UserDao userDataManager, LodgingsDao lodgingsDataManager) {
         this.userDataManager = userDataManager;
         this.lodgingsDataManager = lodgingsDataManager;
     }

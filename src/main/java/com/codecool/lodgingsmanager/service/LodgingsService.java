@@ -1,9 +1,7 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
-import com.codecool.lodgingsmanager.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class LodgingsService extends BaseService<Lodgings> {
 
-    private final LodgingsDao<Lodgings> lodgingsDataManager;
+    private final LodgingsDao lodgingsDataManager;
 
-    public LodgingsService(LodgingsDao<Lodgings> lodgingsDataManager) {
+    public LodgingsService(LodgingsDao lodgingsDataManager) {
         this.lodgingsDataManager = lodgingsDataManager;
     }
 

@@ -1,8 +1,10 @@
 package com.codecool.lodgingsmanager.config;
 
 
+import com.codecool.lodgingsmanager.dao.LandlordDao;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
+import com.codecool.lodgingsmanager.dao.implementation.database.LandlordDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.*;
@@ -22,8 +24,10 @@ import javax.servlet.annotation.WebListener;
 public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
-    private static final UserDao<User> userDataManager = new UserDaoDb<>(User.class);
-    private static final LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
+
+    private static final UserDao userDataManager = UserDaoDb.getINSTANCE();
+    private static final LandlordDao landlordDataManager = LandlordDaoDb.getINSTANCE();
+    private static final LodgingsDao lodgingsDataManager = LodgingsDaoDb.getINSTANCE();
 
     public static final BaseService<User> USER_HANDLER = new UserService(userDataManager, lodgingsDataManager);
     public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(lodgingsDataManager);
@@ -125,12 +129,21 @@ public class Initializer implements ServletContextListener {
 
 
 
-//        testingMethod(); // todo: delete later
+//        testingCriteriaQueries(); // todo: delete later
+        testingDI();
 
 
     }
 
-    private void testingMethod() {
+    private void testingDI() {
+        System.out.println("\n\n\n------------------------------------------------");
+        for (User user :
+                landlordDataManager.getAll()) {
+            System.out.println(user);
+        }
+    }
+
+    private void testingCriteriaQueries() {
 
         System.out.println("\n\n\n------------------------------------------------");
 //        userDataManager.getAllEmailAddresses().forEach(System.out::println);
@@ -139,8 +152,7 @@ public class Initializer implements ServletContextListener {
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));
 //        System.out.println(userDataManager.find(2L));
-        for (User user :
-                USER_HANDLER.handleGetListBy(1L)) {
+        for (User user : USER_HANDLER.handleGetListBy(1L)) {
             System.out.println(user);
         }
 

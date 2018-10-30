@@ -1,12 +1,20 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
+import com.codecool.lodgingsmanager.dao.LandlordDao;
 
-import com.codecool.lodgingsmanager.model.Landlord;
-
-public class LandlordDaoDb extends UserDaoDb<Landlord> {
+public class LandlordDaoDb extends UserDaoDb implements LandlordDao {
 
 
-    public LandlordDaoDb(Class<Landlord> classType) {
-        super(classType);
+    private static LandlordDaoDb LANDLORD_INSTANCE = null;
+
+    private LandlordDaoDb() {
     }
+
+    public static LandlordDaoDb getINSTANCE() {
+        if (LANDLORD_INSTANCE == null) {
+            LANDLORD_INSTANCE = new LandlordDaoDb();
+        }
+        return LANDLORD_INSTANCE;
+    }
+
 }
