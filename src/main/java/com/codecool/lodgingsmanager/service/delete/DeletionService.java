@@ -1,6 +1,5 @@
 package com.codecool.lodgingsmanager.service.delete;
 
-import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.model.Comment;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.ToDo;
@@ -13,11 +12,17 @@ import java.util.List;
 
 public class DeletionService {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
-    private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
-    private final BaseService<Comment> commentHandler = Initializer.COMMENT_HANDLER;
-    private final BaseService<ToDo> toDoHandler = Initializer.TO_DO_HANDLER;
+    private final BaseService<User> userHandler;
+    private final BaseService<Lodgings> lodgingsHandler;
+    private final BaseService<Comment> commentHandler;
+    private final BaseService<ToDo> toDoHandler;
 
+    public DeletionService(BaseService<User> userHandler, BaseService<Lodgings> lodgingsHandler, BaseService<Comment> commentHandler, BaseService<ToDo> toDoHandler) {
+        this.userHandler = userHandler;
+        this.lodgingsHandler = lodgingsHandler;
+        this.commentHandler = commentHandler;
+        this.toDoHandler = toDoHandler;
+    }
 
     public String handleAllDeletionsBy(String parameterName, String stringId) {
         List<String> deletableTypeList = createDeletableTypeList();

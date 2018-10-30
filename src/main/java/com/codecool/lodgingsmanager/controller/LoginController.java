@@ -19,7 +19,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/login", "/login-incorrect"})
 public class LoginController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
+    private final BaseService<User> userHandler = Initializer.USER_HANDLER; // todo: shall we make a service class for this?
 
 
     @Override
@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
         newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        User guestUser = userHandler.handleGetSingleObjectBy(GUEST_EMAIL);
+        User guestUser = userHandler.handleGetUserBy(GUEST_EMAIL);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable("userData", guestUser);

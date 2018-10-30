@@ -16,7 +16,7 @@ public class EmailCheckerService {
     public String checkIfEmailRegistered(String emailentered) {
         String registeredEmail = "";
         try {
-            User mightBeRegisteredUser = userHandler.handleGetSingleObjectBy(emailentered);
+            User mightBeRegisteredUser = userHandler.handleGetUserBy(emailentered);
             registeredEmail = mightBeRegisteredUser.getEmail();
         } catch (NoResultException nre) {
             // todo: change this to logger?

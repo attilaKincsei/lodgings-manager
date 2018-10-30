@@ -1,7 +1,9 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
+import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
+import com.codecool.lodgingsmanager.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +11,33 @@ import java.util.stream.Collectors;
 
 public class LodgingsService extends BaseService<Lodgings> {
 
-    private final LodgingsDao lodgingsDataManager;
+    private final LodgingsDao lodgingsDataManager = LodgingsDaoDb.getINSTANCE();
+    private BaseService<User> userHandler;
 
-    public LodgingsService(LodgingsDao lodgingsDataManager) {
-        this.lodgingsDataManager = lodgingsDataManager;
+    public LodgingsService(BaseService<User> userHandler) {
+        this.userHandler = userHandler;
     }
 
+
+    @Override
+    public void injectDependency(BaseService userHandler) {
+        if (userHandler instanceof UserService) {
+            this.userHandler = (UserService) userHandler;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+
+    }
+
+    @Override
+    public User handleGetUserBy(String userEmail) {
+        return userHandler.handleGetUserBy(userEmail);
+    }
 
     @Override
     public void handleAddNew(Lodgings newLodgings) {
         lodgingsDataManager.add(newLodgings);
-    }
-
-    @Override
-    public Lodgings handleGetSingleObjectBy(String param) {
-        return null; // todo
     }
 
     @Override
@@ -57,6 +71,11 @@ public class LodgingsService extends BaseService<Lodgings> {
     @Override
     public void handleDeletion(long id) {
         lodgingsDataManager.remove(id);
+    }
+
+    @Override
+    public List<Lodgings> handleGetAllLodgingsBy(long userId) {
+        return lodgingsDataManager.getAllLodgingsBy(userId);
     }
 
 

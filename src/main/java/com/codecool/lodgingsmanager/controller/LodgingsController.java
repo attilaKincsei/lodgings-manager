@@ -22,7 +22,6 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
     private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
 
     @Override
@@ -37,7 +36,7 @@ public class LodgingsController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             String lodgingsIdString = request.getParameter("lodgingsId");
             System.out.println("user email address: " + userEmail);
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = lodgingsHandler.handleGetUserBy(userEmail);
             List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(lodgingsIdString, user.getId());
 
             WebContext context = new WebContext(request, response, request.getServletContext());

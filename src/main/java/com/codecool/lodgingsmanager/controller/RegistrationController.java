@@ -23,7 +23,7 @@ public class RegistrationController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-        User guestUser = userHandler.handleGetSingleObjectBy(Initializer.GUEST_EMAIL);
+        User guestUser = userHandler.handleGetUserBy(Initializer.GUEST_EMAIL);
 
         context.setVariable("userData", guestUser);
 

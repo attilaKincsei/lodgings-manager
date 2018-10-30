@@ -34,7 +34,7 @@ public class UserController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = userHandler.handleGetUserBy(userEmail);
             context.setVariable("userData", user);
 
             String templateToRender;
@@ -70,7 +70,7 @@ public class UserController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = userHandler.handleGetUserBy(userEmail);
             String userClass = user.getClass().getName();
             context.setVariable("userData", user);
             context.setVariable("userClass", userClass);

@@ -25,22 +25,23 @@ public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
 
-    private static final UserDao userDataManager = UserDaoDb.getINSTANCE();
-    private static final LandlordDao landlordDataManager = LandlordDaoDb.getINSTANCE();
-    private static final LodgingsDao lodgingsDataManager = LodgingsDaoDb.getINSTANCE();
-
-    public static final BaseService<User> USER_HANDLER = new UserService(userDataManager, lodgingsDataManager);
-    public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(lodgingsDataManager);
-
+    public static final BaseService<User> USER_HANDLER = new UserService();
+    public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(USER_HANDLER);
     public static final EmailCheckerService EMAIL_CHECKER_HANDLER = new EmailCheckerService(USER_HANDLER);
-
-
     public static final BaseService<Comment> COMMENT_HANDLER = new CommentService();
     public static final BaseService<ToDo> TO_DO_HANDLER = new ToDoService();
-    public static final DeletionService DELETION_HANDLER = new DeletionService();
+    public static final DeletionService DELETION_HANDLER = new DeletionService(USER_HANDLER, LODGINGS_HANDLER, COMMENT_HANDLER, TO_DO_HANDLER);
+
+    static {
+        USER_HANDLER.injectDependency(LODGINGS_HANDLER);
+    }
+
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        UserDao userDataManager = UserDaoDb.getINSTANCE();
+        LodgingsDao lodgingsDataManager = LodgingsDaoDb.getINSTANCE();
 
 
         User testLandlord = UserFactory.createUserInstanceBy(
@@ -136,9 +137,9 @@ public class Initializer implements ServletContextListener {
     }
 
     private void testingDI() {
+        LandlordDao landlordDataManager = LandlordDaoDb.getINSTANCE();
         System.out.println("\n\n\n------------------------------------------------");
-        for (User user :
-                landlordDataManager.getAll()) {
+        for (User user : landlordDataManager.getAll()) {
             System.out.println(user);
         }
     }

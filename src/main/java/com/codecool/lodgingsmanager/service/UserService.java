@@ -1,7 +1,7 @@
 package com.codecool.lodgingsmanager.service;
 
-import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
+import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
@@ -9,12 +9,17 @@ import java.util.List;
 
 public class UserService extends BaseService<User> {
 
-    private final UserDao userDataManager;
-    private final LodgingsDao lodgingsDataManager;
+    private final UserDao userDataManager = UserDaoDb.getINSTANCE();
 
-    public UserService(UserDao userDataManager, LodgingsDao lodgingsDataManager) {
-        this.userDataManager = userDataManager;
-        this.lodgingsDataManager = lodgingsDataManager;
+    private BaseService<Lodgings> lodgingsHandler = null;
+
+    @Override
+    public void injectDependency(BaseService lodgingsHandler) {
+        if (lodgingsHandler instanceof LodgingsService) {
+            this.lodgingsHandler = (LodgingsService) lodgingsHandler;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
@@ -23,7 +28,7 @@ public class UserService extends BaseService<User> {
     }
 
     @Override
-    public User handleGetSingleObjectBy(String userEmail) {
+    public User handleGetUserBy(String userEmail) {
         return userDataManager.findIdBy(userEmail);
     }
 
@@ -44,11 +49,16 @@ public class UserService extends BaseService<User> {
 
     @Override
     public void handleDeletion(long id) {
-        List<Lodgings> lodgingsBy = lodgingsDataManager.getAllLodgingsBy(id);
+        List<Lodgings> lodgingsBy = handleGetAllLodgingsBy(id);
         for (Lodgings lodgings : lodgingsBy) {
-            lodgingsDataManager.remove(lodgings.getId());
+            lodgingsHandler.handleDeletion(lodgings.getId());
         }
         userDataManager.remove(id);
+    }
+
+    @Override
+    public List<Lodgings> handleGetAllLodgingsBy(long userId) {
+        return lodgingsHandler.handleGetAllLodgingsBy(userId);
     }
 
 

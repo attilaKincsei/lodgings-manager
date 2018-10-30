@@ -2,10 +2,10 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
+import com.codecool.lodgingsmanager.service.UserService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
@@ -23,7 +23,6 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/add-lodgings"})
 public class AddLodgingsController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
     private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
 
     @Override
@@ -36,13 +35,10 @@ public class AddLodgingsController extends HttpServlet {
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             WebContext context = new WebContext(request, response, request.getServletContext());
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = lodgingsHandler.handleGetUserBy(userEmail);
             context.setVariable("userData", user);
             engine.process("add_lodgings.html", context, response.getWriter());
         }
-
-
-
 
     }
 
@@ -67,7 +63,7 @@ public class AddLodgingsController extends HttpServlet {
             String cleaningCost = request.getParameter(LodgingDataField.CLEANING_COST.getInputString());
 
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = lodgingsHandler.handleGetUserBy(userEmail);
 
 
             Lodgings newLodgings = new Lodgings(

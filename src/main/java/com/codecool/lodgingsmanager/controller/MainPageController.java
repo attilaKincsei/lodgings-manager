@@ -35,7 +35,7 @@ public class MainPageController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleGetSingleObjectBy(userEmail);
+            User user = userHandler.handleGetUserBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
