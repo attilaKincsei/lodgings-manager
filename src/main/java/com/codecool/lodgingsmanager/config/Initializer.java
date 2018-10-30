@@ -122,7 +122,7 @@ public class Initializer implements ServletContextListener {
 
 
 
-        testingMethod(); // todo: delete later
+//        testingMethod(); // todo: delete later
 
 
     }
@@ -136,7 +136,11 @@ public class Initializer implements ServletContextListener {
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));
 //        System.out.println(userDataManager.find(2L));
-        System.out.println(USER_HANDLER.handleGetListBy(1L));
+        for (User user :
+                USER_HANDLER.handleGetListBy(1L)) {
+            System.out.println(user);
+        }
+
 
     }
 

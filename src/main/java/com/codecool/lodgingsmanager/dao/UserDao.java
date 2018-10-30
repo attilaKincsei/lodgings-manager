@@ -3,10 +3,13 @@ package com.codecool.lodgingsmanager.dao;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import com.codecool.lodgingsmanager.util.UserType;
+import org.hibernate.Metamodel;
+import org.hibernate.type.EntityType;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserDao<U> extends BaseDAO<U> {
@@ -68,7 +71,6 @@ public abstract class UserDao<U> extends BaseDAO<U> {
     }
 
     /*
-      todo: Do this with Criteria API
       select u.*, l.id, l.name
       FROM site_user u
              LEFT JOIN lodgings l on u.user_id = l.landlord_user_id
@@ -78,18 +80,46 @@ public abstract class UserDao<U> extends BaseDAO<U> {
       @param lodgingsId
      * @return
      */
-//    public List<U> getAllUserBy(long lodgingsId) {
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<U> cq = cb.createQuery(classType);
-//        Root<U> userRoot = cq.from(classType);
-//        Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
-//        Join<U, Lodgings> lodgingsJoin = lodgingsRoot.join(UserType.LANDLORD.getStringValue(), JoinType.LEFT);
-//        cq.multiselect(lodgingsJoin);
-////        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
-////        cq.select(userRoot).where(cb.equal(userRoot.get(UserDataField.LANDLORD_LODGINGS.getInputString()).get(UserDataField.ID.getInputString()), idParameter));
-//        TypedQuery<U> query = em.createQuery(cq);
-////        query.setParameter(idParameter, lodgingsId);
-//        return query.getResultList();
+    public List<U> getAllUserBy(long lodgingsId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<U> cq = cb.createQuery(classType);
+
+        Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
+        Join<Lodgings, U> landlord = lodgingsRoot.join(UserType.LANDLORD.getStringValue(), JoinType.INNER);
+        ParameterExpression<Long> idParameter = cb.parameter(Long.class);
+        cq.select(landlord).where(cb.equal(lodgingsRoot.get("id"), idParameter));
+        TypedQuery<U> query = em.createQuery(cq);
+        query.setParameter(idParameter, lodgingsId);
+
+        List<U> allUserList = query.getResultList();
+
+        Join<Lodgings, U> propertyManager = lodgingsRoot.join(UserType.PROPERTY_MANAGER.getStringValue(), JoinType.INNER);
+        cq.select(propertyManager).where(cb.equal(lodgingsRoot.get("id"), idParameter));
+        TypedQuery<U> query2 = em.createQuery(cq);
+        query2.setParameter(idParameter, lodgingsId);
+        allUserList.addAll(query2.getResultList());
+
+        return allUserList;
+
+    }
+
+//    public static List<SecurityGroup> listByNetworkId(EntityManager em, String sgId, String networkId) {
 //
+//        // get Network or VM from port ID then Verify SGM ID and get GD ID...
+//
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//
+//        CriteriaQuery<SecurityGroup> query = cb.createQuery(SecurityGroup.class);
+//
+//        Root<SecurityGroup> root = query.from(SecurityGroup.class);
+//        Join<SecurityGroup, Object> join = root.join("securityGroupMembers");
+//        query = query.select(root)
+//                .distinct(true)
+//                .where(cb.and(
+//                        cb.equal(root.get("id"), sgId),
+//                        cb.equal(join.get("network").get("openstackId"), networkId)));
+//
+//        return em.createQuery(query).getResultList();
 //    }
+
 }

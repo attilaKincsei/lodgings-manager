@@ -29,10 +29,10 @@ public abstract class User {
 
 
     @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    Set<Lodgings> propertyManagerLodgings = new HashSet<>();
+    private Set<Lodgings> propertyManagerLodgings = new HashSet<>();
 
     @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    Set<Lodgings> landlordLodgings = new HashSet<>();
+    private Set<Lodgings> landlordLodgings = new HashSet<>();
 
 
 
@@ -146,6 +146,29 @@ public abstract class User {
         return passwordHash;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public Set<Lodgings> getPropertyManagerLodgings() {
+        return propertyManagerLodgings;
+    }
+
+    public void setPropertyManagerLodgings(Set<Lodgings> propertyManagerLodgings) {
+        this.propertyManagerLodgings = propertyManagerLodgings;
+    }
+
+    public Set<Lodgings> getLandlordLodgings() {
+        return landlordLodgings;
+    }
+
+    public void setLandlordLodgings(Set<Lodgings> landlordLodgings) {
+        this.landlordLodgings = landlordLodgings;
+    }
 
     String getFullName() {
         return getFirstName() + " " + getSurname();

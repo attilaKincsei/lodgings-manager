@@ -36,7 +36,7 @@ public class LodgingsController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             String lodgingsIdString = request.getParameter("lodgingsId");
-
+            System.out.println("user email address: " + userEmail);
             User user = userHandler.handleGetSingleObjectBy(userEmail);
             List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(lodgingsIdString, user.getId());
 

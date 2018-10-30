@@ -29,7 +29,7 @@ public class UserService extends BaseService<User> {
 
     @Override
     public List<User> handleGetListBy(long lodgingsId) {
-        return null; // userDataManager.getAllUserBy(lodgingsId);
+        return userDataManager.getAllUserBy(lodgingsId);
     }
 
     @Override

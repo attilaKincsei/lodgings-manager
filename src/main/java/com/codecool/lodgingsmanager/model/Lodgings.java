@@ -25,13 +25,13 @@ public class Lodgings {
     private long telecommunicationBill;
     private long cleaningCost;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private User landlord;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private User propertyManager;
 
-//    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY)
 //    private Set<User> tenants = new HashSet<>();
 //
 
