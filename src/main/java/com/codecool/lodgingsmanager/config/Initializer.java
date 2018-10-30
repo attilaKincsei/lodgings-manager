@@ -25,15 +25,15 @@ public class Initializer implements ServletContextListener {
 
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
 
-    public static final BaseService<User> USER_HANDLER = new UserService();
-    public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(USER_HANDLER);
-    public static final EmailCheckerService EMAIL_CHECKER_HANDLER = new EmailCheckerService(USER_HANDLER);
-    public static final BaseService<Comment> COMMENT_HANDLER = new CommentService();
-    public static final BaseService<ToDo> TO_DO_HANDLER = new ToDoService();
-    public static final DeletionService DELETION_HANDLER = new DeletionService(USER_HANDLER, LODGINGS_HANDLER, COMMENT_HANDLER, TO_DO_HANDLER);
+    public static final BaseService<User> USER_SERVICE = new UserService();
+    public static final BaseService<Lodgings> LODGINGS_SERVICE = new LodgingsService(USER_SERVICE);
+    public static final EmailCheckerService EMAIL_CHECKER_SERVICE = new EmailCheckerService(USER_SERVICE);
+    public static final BaseService<Comment> COMMENT_SERVICE = new CommentService();
+    public static final BaseService<ToDo> TO_DO_SERVICE = new ToDoService();
+    public static final DeletionService DELETION_SERVICE = new DeletionService(USER_SERVICE, LODGINGS_SERVICE, COMMENT_SERVICE, TO_DO_SERVICE);
 
     static {
-        USER_HANDLER.injectDependency(LODGINGS_HANDLER);
+        USER_SERVICE.injectDependency(LODGINGS_SERVICE);
     }
 
 
@@ -153,7 +153,7 @@ public class Initializer implements ServletContextListener {
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));
 //        System.out.println(userDataManager.find(2L));
-        for (User user : USER_HANDLER.handleGetListBy(1L)) {
+        for (User user : USER_SERVICE.handleGetAllBy(1L)) {
             System.out.println(user);
         }
 

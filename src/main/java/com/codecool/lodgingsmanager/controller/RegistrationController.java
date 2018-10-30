@@ -17,13 +17,13 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/registration"})
 public class RegistrationController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
+    private final BaseService<User> userService = Initializer.USER_SERVICE;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         WebContext context = new WebContext(request, response, request.getServletContext());
-        User guestUser = userHandler.handleGetUserBy(Initializer.GUEST_EMAIL);
+        User guestUser = userService.handleGetUserBy(Initializer.GUEST_EMAIL);
 
         context.setVariable("userData", guestUser);
 
@@ -61,7 +61,7 @@ public class RegistrationController extends HttpServlet {
                 passwordHash
         );
 
-        userHandler.handleAddNew(newUser);
+        userService.handleAddNew(newUser);
 
         response.sendRedirect("/login");
     }

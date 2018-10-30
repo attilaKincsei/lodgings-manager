@@ -20,7 +20,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
 public class UserController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
+    private final BaseService<User> userService = Initializer.USER_SERVICE;
 
 
     @Override
@@ -34,7 +34,7 @@ public class UserController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
-            User user = userHandler.handleGetUserBy(userEmail);
+            User user = userService.handleGetUserBy(userEmail);
             context.setVariable("userData", user);
 
             String templateToRender;
@@ -70,7 +70,7 @@ public class UserController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
-            User user = userHandler.handleGetUserBy(userEmail);
+            User user = userService.handleGetUserBy(userEmail);
             String userClass = user.getClass().getName();
             context.setVariable("userData", user);
             context.setVariable("userClass", userClass);
@@ -92,7 +92,7 @@ public class UserController extends HttpServlet {
             user.setAddress(address);
 
             try {
-                userHandler.handleUpdate(user);
+                userService.handleUpdate(user);
             } catch (NullPointerException npe) {
                 npe.printStackTrace();
                 System.out.println("New user could not be created");

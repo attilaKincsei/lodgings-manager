@@ -7,13 +7,7 @@ import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
-public class ToDoService extends BaseService<ToDo> {
-
-    @Override
-    public List<ToDo> handleGetListBy(String stringParam, long longParam) {
-        // todo
-        return null;
-    }
+public class ToDoService implements BaseService<ToDo> {
 
     @Override
     public User handleGetUserBy(String param) {
@@ -25,11 +19,6 @@ public class ToDoService extends BaseService<ToDo> {
     @Override
     public void handleDeletion(long id) {
         // todo
-    }
-
-    @Override
-    public List<Lodgings> handleGetAllLodgingsBy(long userId) {
-        return null;
     }
 
     @Override
@@ -48,7 +37,7 @@ public class ToDoService extends BaseService<ToDo> {
     }
 
     @Override
-    public List<ToDo> handleGetListBy(long id) {
+    public List<ToDo> handleGetAllBy(long id) {
         // todo
         return null;
     }

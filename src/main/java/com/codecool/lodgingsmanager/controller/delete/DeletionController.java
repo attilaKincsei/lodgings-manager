@@ -16,7 +16,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/delete-user", "/delete-lodgings", "/delete-comment", "/delete-todo"})
 public class DeletionController extends HttpServlet {
 
-    private final DeletionService deletionHandler = Initializer.DELETION_HANDLER;
+    private final DeletionService deletionService = Initializer.DELETION_SERVICE;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -31,7 +31,7 @@ public class DeletionController extends HttpServlet {
             String parameterName = requestPath.substring("/delete-".length());
             String stringId = request.getParameter(parameterName);
 
-            String redirectServletPath = deletionHandler.handleAllDeletionsBy(parameterName, stringId);
+            String redirectServletPath = deletionService.handleAllDeletionsBy(parameterName, stringId);
 
             response.sendRedirect(redirectServletPath);
 

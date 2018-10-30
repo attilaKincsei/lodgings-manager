@@ -5,6 +5,7 @@ import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
+import com.codecool.lodgingsmanager.service.LodgingsService;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -22,7 +23,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
-    private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
+    private final BaseService<Lodgings> lodgingsService = Initializer.LODGINGS_SERVICE;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,8 +37,8 @@ public class LodgingsController extends HttpServlet {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             String lodgingsIdString = request.getParameter("lodgingsId");
             System.out.println("user email address: " + userEmail);
-            User user = lodgingsHandler.handleGetUserBy(userEmail);
-            List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(lodgingsIdString, user.getId());
+            User user = lodgingsService.handleGetUserBy(userEmail);
+            List<Lodgings> lodgingsList = ((LodgingsService) lodgingsService).handleGetLodgingsBy(lodgingsIdString, user.getId());
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);

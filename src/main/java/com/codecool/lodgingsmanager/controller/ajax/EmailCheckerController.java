@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = "/check-email")
 public class EmailCheckerController extends HttpServlet {
 
-    private final EmailCheckerService emailCheckerHandler = Initializer.EMAIL_CHECKER_HANDLER;
+    private final EmailCheckerService emailCheckerService = Initializer.EMAIL_CHECKER_SERVICE;
 
 
     @Override
@@ -26,7 +26,7 @@ public class EmailCheckerController extends HttpServlet {
             emailentered = br.readLine();
         }
 
-        String registeredEmail = emailCheckerHandler.checkIfEmailRegistered(emailentered);
+        String registeredEmail = emailCheckerService.checkIfEmailRegistered(emailentered);
 
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");

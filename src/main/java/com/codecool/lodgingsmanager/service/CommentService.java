@@ -6,20 +6,14 @@ import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
-public class CommentService extends BaseService<Comment> {
-    @Override
-    public List<Comment> handleGetListBy(String stringParam, long longParam) {
-        // todo
-        return null;
-    }
-
+public class CommentService implements BaseService<Comment> {
     @Override
     public User handleGetUserBy(String userEmail) {
         return null;
     }
 
     @Override
-    public List<Comment> handleGetListBy(long id) {
+    public List<Comment> handleGetAllBy(long id) {
         // todo
         return null;
     }
@@ -27,11 +21,6 @@ public class CommentService extends BaseService<Comment> {
     @Override
     public void handleDeletion(long id) {
         // todo
-    }
-
-    @Override
-    public List<Lodgings> handleGetAllLodgingsBy(long userId) {
-        return null;
     }
 
     @Override

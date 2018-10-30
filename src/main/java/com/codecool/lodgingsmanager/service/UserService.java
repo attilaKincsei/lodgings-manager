@@ -7,9 +7,9 @@ import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
-public class UserService extends BaseService<User> {
+public class UserService implements BaseService<User> {
 
-    private final UserDao userDataManager = UserDaoDb.getINSTANCE();
+    private final UserDao userDao = UserDaoDb.getINSTANCE();
 
     private BaseService<Lodgings> lodgingsHandler = null;
 
@@ -24,41 +24,31 @@ public class UserService extends BaseService<User> {
 
     @Override
     public void handleAddNew(User newUser) {
-        userDataManager.add(newUser);
+        userDao.add(newUser);
     }
 
     @Override
     public User handleGetUserBy(String userEmail) {
-        return userDataManager.findIdBy(userEmail);
+        return userDao.findIdBy(userEmail);
     }
 
     @Override
-    public List<User> handleGetListBy(long lodgingsId) {
-        return userDataManager.getAllUserBy(lodgingsId);
-    }
-
-    @Override
-    public List<User> handleGetListBy(String stringParam, long longParam) {
-        return null; // todo
+    public List<User> handleGetAllBy(long lodgingsId) {
+        return userDao.getAllUserBy(lodgingsId);
     }
 
     @Override
     public void handleUpdate(User user) {
-        userDataManager.update(user);
+        userDao.update(user);
     }
 
     @Override
     public void handleDeletion(long id) {
-        List<Lodgings> lodgingsBy = handleGetAllLodgingsBy(id);
+        List<Lodgings> lodgingsBy = ((LodgingsService) lodgingsHandler).handleGetAllLodgingsBy(id);
         for (Lodgings lodgings : lodgingsBy) {
             lodgingsHandler.handleDeletion(lodgings.getId());
         }
-        userDataManager.remove(id);
-    }
-
-    @Override
-    public List<Lodgings> handleGetAllLodgingsBy(long userId) {
-        return lodgingsHandler.handleGetAllLodgingsBy(userId);
+        userDao.remove(id);
     }
 
 

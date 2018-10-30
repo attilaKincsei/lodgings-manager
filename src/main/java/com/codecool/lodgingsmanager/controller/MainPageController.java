@@ -20,8 +20,8 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/", "/index"})
 public class MainPageController extends HttpServlet {
 
-    private final BaseService<User> userHandler = Initializer.USER_HANDLER;
-    private final BaseService<Lodgings> lodgingsHandler = Initializer.LODGINGS_HANDLER;
+    private final BaseService<User> userService = Initializer.USER_SERVICE;
+    private final BaseService<Lodgings> lodgingsService = Initializer.LODGINGS_SERVICE;
 
 
 
@@ -35,12 +35,12 @@ public class MainPageController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = userHandler.handleGetUserBy(userEmail);
+            User user = userService.handleGetUserBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
 
-            List<Lodgings> lodgingsList = lodgingsHandler.handleGetListBy(user.getId());
+            List<Lodgings> lodgingsList = lodgingsService.handleGetAllBy(user.getId());
             context.setVariable("lodgings", lodgingsList);
 
 
