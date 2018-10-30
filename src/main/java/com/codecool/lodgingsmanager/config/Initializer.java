@@ -8,7 +8,7 @@ import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.*;
 import com.codecool.lodgingsmanager.service.*;
 import com.codecool.lodgingsmanager.service.ajax.EmailCheckerService;
-import com.codecool.lodgingsmanager.service.delete.DeleteService;
+import com.codecool.lodgingsmanager.service.delete.DeletionService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserFactory;
@@ -30,7 +30,7 @@ public class Initializer implements ServletContextListener {
     public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(lodgingsDataManager);
     public static final BaseService<Comment> COMMENT_HANDLER = new CommentService();
     public static final BaseService<ToDo> TO_DO_HANDLER = new ToDoService();
-    public static final DeleteService DELETE_HANDLER = new DeleteService();
+    public static final DeletionService DELETE_HANDLER = new DeletionService();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

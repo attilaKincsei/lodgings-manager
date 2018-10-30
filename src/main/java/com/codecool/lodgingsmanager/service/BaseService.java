@@ -12,5 +12,5 @@ public abstract class BaseService <E> {
 
     public abstract void handleUpdate(E object);
 
-    public abstract void handleDelete(long id);
+    public abstract void handleDeletion(long id);
 }

@@ -23,7 +23,7 @@ public class CommentService extends BaseService<Comment> {
     }
 
     @Override
-    public void handleDelete(long id) {
+    public void handleDeletion(long id) {
 
     }
 

@@ -43,7 +43,7 @@ public class UserService extends BaseService<User> {
     }
 
     @Override
-    public void handleDelete(long id) {
+    public void handleDeletion(long id) {
         List<Lodgings> lodgingsBy = lodgingsDataManager.getAllLodgingsBy(id);
         for (Lodgings lodgings : lodgingsBy) {
             lodgingsDataManager.remove(lodgings.getId());

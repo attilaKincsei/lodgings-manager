@@ -57,7 +57,7 @@ public class LodgingsService extends BaseService<Lodgings> {
     }
 
     @Override
-    public void handleDelete(long id) {
+    public void handleDeletion(long id) {
         lodgingsDataManager.remove(id);
     }
 

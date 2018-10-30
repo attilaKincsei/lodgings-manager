@@ -20,7 +20,7 @@ public class ToDoService extends BaseService<ToDo> {
     }
 
     @Override
-    public void handleDelete(long id) {
+    public void handleDeletion(long id) {
 
     }
 
