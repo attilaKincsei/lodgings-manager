@@ -1,22 +1,22 @@
 package com.codecool.lodgingsmanager.service.ajax;
 
-import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.service.BaseService;
 
 import javax.persistence.NoResultException;
 
 public class EmailCheckerService {
 
-    private final UserDao<User> userDataManager;
+    private final BaseService<User> userHandler;
 
-    public EmailCheckerService(UserDao<User> userDataManager) {
-        this.userDataManager = userDataManager;
+    public EmailCheckerService(BaseService<User> userHandler) {
+        this.userHandler = userHandler;
     }
 
     public String checkIfEmailRegistered(String emailentered) {
         String registeredEmail = "";
         try {
-            User mightBeRegisteredUser = userDataManager.findIdBy(emailentered);
+            User mightBeRegisteredUser = userHandler.handleGetSingleObjectBy(emailentered);
             registeredEmail = mightBeRegisteredUser.getEmail();
         } catch (NoResultException nre) {
             // todo: change this to logger?

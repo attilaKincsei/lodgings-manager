@@ -25,12 +25,15 @@ public class Initializer implements ServletContextListener {
     private static final UserDao<User> userDataManager = new UserDaoDb<>(User.class);
     private static final LodgingsDao<Lodgings> lodgingsDataManager = new LodgingsDaoDb();
 
-    public static final EmailCheckerService EMAIL_CHECKER_HANDLER = new EmailCheckerService(userDataManager);
     public static final BaseService<User> USER_HANDLER = new UserService(userDataManager, lodgingsDataManager);
     public static final BaseService<Lodgings> LODGINGS_HANDLER = new LodgingsService(lodgingsDataManager);
+
+    public static final EmailCheckerService EMAIL_CHECKER_HANDLER = new EmailCheckerService(USER_HANDLER);
+
+
     public static final BaseService<Comment> COMMENT_HANDLER = new CommentService();
     public static final BaseService<ToDo> TO_DO_HANDLER = new ToDoService();
-    public static final DeletionService DELETE_HANDLER = new DeletionService();
+    public static final DeletionService DELETION_HANDLER = new DeletionService();
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

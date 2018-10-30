@@ -18,7 +18,7 @@ import java.io.IOException;
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
-public class UserProfileController extends HttpServlet {
+public class UserController extends HttpServlet {
 
     private final BaseService<User> userHandler = Initializer.USER_HANDLER;
 

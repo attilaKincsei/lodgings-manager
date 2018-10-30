@@ -13,13 +13,10 @@ import java.io.IOException;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-
-
-
 @WebServlet(urlPatterns = {"/delete-user", "/delete-lodgings", "/delete-comment", "/delete-todo"})
 public class DeletionController extends HttpServlet {
 
-    private final DeletionService deletHandler = Initializer.DELETE_HANDLER;
+    private final DeletionService deletionHandler = Initializer.DELETION_HANDLER;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -34,7 +31,7 @@ public class DeletionController extends HttpServlet {
             String parameterName = requestPath.substring("/delete-".length());
             String stringId = request.getParameter(parameterName);
 
-            String redirectServletPath = deletHandler.handleAllDeletionsBy(parameterName, stringId);
+            String redirectServletPath = deletionHandler.handleAllDeletionsBy(parameterName, stringId);
 
             response.sendRedirect(redirectServletPath);
 
