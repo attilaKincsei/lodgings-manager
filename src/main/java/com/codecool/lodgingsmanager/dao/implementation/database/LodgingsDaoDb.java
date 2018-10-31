@@ -1,12 +1,12 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.model.Landlord;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.util.LodgingDataField;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import com.codecool.lodgingsmanager.util.UserType;
 
+import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +15,19 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class LodgingsDaoDb extends LodgingsDao<Lodgings> {
+public class LodgingsDaoDb implements LodgingsDao {
+
+    private static LodgingsDao INSTANCE = null;
+
+    private LodgingsDaoDb() {
+    }
+
+    public static LodgingsDao getINSTANCE() {
+        if (INSTANCE == null) {
+            INSTANCE = new LodgingsDaoDb();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public Lodgings find(long id) throws NoResultException {
@@ -30,6 +42,33 @@ public class LodgingsDaoDb extends LodgingsDao<Lodgings> {
 
         return query.getSingleResult();
     }
+
+    @Override
+    public void add(Lodgings object) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(object);
+        transaction.commit();
+
+    }
+
+    @Override
+    public void update(Lodgings object) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.merge(object);
+        transaction.commit();
+    }
+
+    @Override
+    public void remove(long id) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(find(id));
+        transaction.commit();
+    }
+
+
 
 
     @Override

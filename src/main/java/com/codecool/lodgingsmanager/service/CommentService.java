@@ -1,22 +1,40 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.model.Comment;
+import com.codecool.lodgingsmanager.model.Lodgings;
+import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
-public class CommentService extends BaseService<Comment> {
+public class CommentService implements BaseService<Comment> {
     @Override
-    public List<Comment> handleBy(String stringParam, long longParam) {
+    public User handleGetUserBy(String userEmail) {
         return null;
     }
 
     @Override
-    public Comment handleBy(String param) {
+    public List<Comment> handleGetAllBy(long id) {
+        // todo
         return null;
     }
 
     @Override
-    public void delete(long id) {
+    public void handleDeletion(long id) {
+        // todo
+    }
 
+    @Override
+    public void injectDependency(BaseService handler) {
+        // todo
+    }
+
+    @Override
+    public void handleAddNew(Comment object) {
+        // todo
+    }
+
+    @Override
+    public void handleUpdate(Comment user) {
+        // todo
     }
 }

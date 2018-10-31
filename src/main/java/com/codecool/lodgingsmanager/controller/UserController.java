@@ -1,9 +1,9 @@
 package com.codecool.lodgingsmanager.controller;
 
+import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -18,9 +18,9 @@ import java.io.IOException;
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
 @WebServlet(urlPatterns = {"/profile", "/edit-profile"})
-public class UserProfileController extends HttpServlet {
+public class UserController extends HttpServlet {
 
-    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
+    private final BaseService<User> userService = Initializer.USER_SERVICE;
 
 
     @Override
@@ -34,7 +34,7 @@ public class UserProfileController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
 
-            User user = userDataManager.findIdBy(userEmail);
+            User user = userService.handleGetUserBy(userEmail);
             context.setVariable("userData", user);
 
             String templateToRender;
@@ -70,8 +70,10 @@ public class UserProfileController extends HttpServlet {
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
-            User user = userDataManager.findIdBy(userEmail);
+            User user = userService.handleGetUserBy(userEmail);
+            String userClass = user.getClass().getName();
             context.setVariable("userData", user);
+            context.setVariable("userClass", userClass);
 
             String firstName = request.getParameter(UserDataField.FIRST_NAME.getInputString());
             String surname = request.getParameter(UserDataField.SURNAME.getInputString());
@@ -90,7 +92,7 @@ public class UserProfileController extends HttpServlet {
             user.setAddress(address);
 
             try {
-                userDataManager.update(user);
+                userService.handleUpdate(user);
             } catch (NullPointerException npe) {
                 npe.printStackTrace();
                 System.out.println("New user could not be created");

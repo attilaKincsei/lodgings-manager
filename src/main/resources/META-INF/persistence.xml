@@ -7,6 +7,7 @@
     <persistence-unit name="lodgingsmanagerPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.codecool.lodgingsmanager.model.User</class>
+        <class>com.codecool.lodgingsmanager.model.UserManager</class>
         <class>com.codecool.lodgingsmanager.model.Landlord</class>
         <class>com.codecool.lodgingsmanager.model.PropertyManager</class>
         <class>com.codecool.lodgingsmanager.model.Tenant</class>

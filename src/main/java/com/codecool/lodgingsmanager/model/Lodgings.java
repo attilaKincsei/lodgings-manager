@@ -3,12 +3,10 @@ package com.codecool.lodgingsmanager.model;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Lodgings.getAll", query = "SELECT l FROM Lodgings l"),
-        @NamedQuery(name = "Lodgings.getAllLodgingsByUserId", query = "SELECT l FROM Lodgings l WHERE l.landlord.id = ?1")
-})
 public class Lodgings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +24,22 @@ public class Lodgings {
     private long gasBill;
     private long telecommunicationBill;
     private long cleaningCost;
-    @ManyToOne
-    private Landlord landlord;
 
-    public Lodgings(String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address, long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost, Landlord landlord) {
+    @ManyToOne
+    private User landlord;
+
+    @ManyToOne
+    private User propertyManager;
+
+//    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY)
+//    private Set<User> tenants = new HashSet<>();
+//
+
+    public Lodgings(
+            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
+            User landlord
+    ) {
         this.name = name;
         this.lodgingsType = lodgingsType;
         this.country = country;
@@ -42,6 +52,27 @@ public class Lodgings {
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
         this.landlord = landlord;
+    }
+
+
+    public Lodgings(
+            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
+            User landlord, User propertyManager
+    ) {
+        this.name = name;
+        this.lodgingsType = lodgingsType;
+        this.country = country;
+        this.city = city;
+        this.zipCode = zipCode;
+        this.address = address;
+        this.pricePerDay = pricePerDay;
+        this.electricityBill = electricityBill;
+        this.gasBill = gasBill;
+        this.telecommunicationBill = telecommunicationBill;
+        this.cleaningCost = cleaningCost;
+        this.landlord = landlord;
+        this.propertyManager = propertyManager;
     }
 
     public Lodgings() {
@@ -140,13 +171,33 @@ public class Lodgings {
         this.cleaningCost = cleaningCost;
     }
 
-    public Landlord getLandlord() {
+    public User getLandlord() {
         return landlord;
     }
 
-    public void setLandlord(Landlord landlord) {
+    public void setLandlord(User landlord) {
         this.landlord = landlord;
     }
+
+    public User getPropertyManager() {
+        return propertyManager;
+    }
+
+    public void setPropertyManager(User propertyManager) {
+        this.propertyManager = propertyManager;
+    }
+
+//    public Set<User> getTenants() {
+//        return tenants;
+//    }
+//
+//    public void addTenant(Tenant tenant) {
+//        tenants.add(tenant);
+//    }
+//
+//    public void removeTenant(Tenant tenant) {
+//        tenants.remove(tenant);
+//    }
 
     @Override
     public String toString() {

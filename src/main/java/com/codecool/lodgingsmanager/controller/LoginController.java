@@ -1,9 +1,9 @@
 package com.codecool.lodgingsmanager.controller;
 
+import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
-import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
@@ -19,7 +19,7 @@ import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 @WebServlet(urlPatterns = {"/login", "/login-incorrect"})
 public class LoginController extends HttpServlet {
 
-    private UserDao<User> userDataManager = new UserDaoDb<>(User.class);
+    private final BaseService<User> userService = Initializer.USER_SERVICE; // todo: shall we make a service class for this?
 
 
     @Override
@@ -35,7 +35,6 @@ public class LoginController extends HttpServlet {
         } else {
             oldSession.invalidate();
             String requestPath = request.getServletPath();
-            String requestMethod = request.getMethod();
             if (requestPath.equals("/login-incorrect")) {
                 errorMessage = "Incorrect user name or password";
             } else if (loggedInUserEmail.equals(GUEST_EMAIL)) {
@@ -49,7 +48,7 @@ public class LoginController extends HttpServlet {
         newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-        User guestUser = userDataManager.findIdBy(GUEST_EMAIL);
+        User guestUser = userService.handleGetUserBy(GUEST_EMAIL);
 
         WebContext context = new WebContext(request, response, request.getServletContext());
         context.setVariable("userData", guestUser);
