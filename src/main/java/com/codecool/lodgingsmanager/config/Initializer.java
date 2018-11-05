@@ -10,7 +10,6 @@ import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.*;
 import com.codecool.lodgingsmanager.service.*;
 import com.codecool.lodgingsmanager.service.ajax.EmailCheckerService;
-import com.codecool.lodgingsmanager.service.delete.DeletionService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserFactory;
@@ -22,20 +21,12 @@ import javax.servlet.annotation.WebListener;
 
 @WebListener
 public class Initializer implements ServletContextListener {
-
+    // todo: do DI for daoDb objects as well
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
 
     public static final BaseService<User> USER_SERVICE = new UserService();
     public static final BaseService<Lodgings> LODGINGS_SERVICE = new LodgingsService(USER_SERVICE);
     public static final EmailCheckerService EMAIL_CHECKER_SERVICE = new EmailCheckerService(USER_SERVICE);
-    public static final BaseService<Comment> COMMENT_SERVICE = new CommentService();
-    public static final BaseService<ToDo> TO_DO_SERVICE = new ToDoService();
-    public static final DeletionService DELETION_SERVICE = new DeletionService(USER_SERVICE, LODGINGS_SERVICE, COMMENT_SERVICE, TO_DO_SERVICE);
-
-    static {
-        USER_SERVICE.injectDependency(LODGINGS_SERVICE);
-    }
-
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -131,7 +122,7 @@ public class Initializer implements ServletContextListener {
 
 
 //        testingCriteriaQueries(); // todo: delete later
-        testingDI();
+//        testingDI();
 
 
     }

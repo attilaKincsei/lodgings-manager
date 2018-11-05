@@ -2,24 +2,22 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.UserDao;
+import com.codecool.lodgingsmanager.dao.util.EMDriver;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import com.codecool.lodgingsmanager.util.UserType;
 
-import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-public class UserDaoDb implements UserDao {
-
-    private final Class<User> classType = User.class;
+public class UserDaoDb extends BaseDaoDb<User> implements UserDao {
 
     private static UserDao INSTANCE = null;
 
     UserDaoDb() {
+        super(User.class);
     }
 
     public static UserDao getINSTANCE() {
@@ -30,42 +28,8 @@ public class UserDaoDb implements UserDao {
     }
 
     @Override
-    public void add(User object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
-    }
-    @Override
-    public void update(User object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.merge(object);
-        transaction.commit();
-    }
-
-    @Override
     public void remove(long id) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.remove(find(id));
-        transaction.commit();
-    }
-
-    @Override
-    public List<User> getAll() throws NoResultException {
-        // this is same as: "SELECT u FROM User u"
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(classType);
-        Root<User> userRoot = criteriaQuery.from(classType);
-        criteriaQuery.select(userRoot);
-        TypedQuery<User> query = em.createQuery(criteriaQuery);
-        return query.getResultList();
-    }
-
-    @Override
-    public User find(long id) throws NoResultException {
-        // this is same as: "SELECT u FROM User u WHERE u.user_id = " + id
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<User> userRoot = criteriaQuery.from(classType);
@@ -73,13 +37,49 @@ public class UserDaoDb implements UserDao {
         criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.ID.getInputString()), parameterExpression));
         TypedQuery<User> query = em.createQuery(criteriaQuery);
         query.setParameter(parameterExpression, id);
+        User singleResult = query.getSingleResult();
 
-        return query.getSingleResult();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.remove(singleResult);
+        transaction.commit();
+        em.close();
+    }
+
+    @Override
+    public List<User> getAll() throws NoResultException {
+        // this is same as: "SELECT u FROM User u"
+        EntityManager em = EMDriver.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(classType);
+        Root<User> userRoot = criteriaQuery.from(classType);
+        criteriaQuery.select(userRoot);
+        TypedQuery<User> query = em.createQuery(criteriaQuery);
+        List<User> resultList = query.getResultList();
+        em.close();
+        return resultList;
+    }
+
+    @Override
+    public User find(long id) throws NoResultException {
+        // this is same as: "SELECT u FROM User u WHERE u.user_id = " + id
+        EntityManager em = EMDriver.getEntityManager();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(classType);
+        Root<User> userRoot = criteriaQuery.from(classType);
+        ParameterExpression<Long> parameterExpression = criteriaBuilder.parameter(Long.class);
+        criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.ID.getInputString()), parameterExpression));
+        TypedQuery<User> query = em.createQuery(criteriaQuery);
+        query.setParameter(parameterExpression, id);
+        User singleResult = query.getSingleResult();
+        em.close();
+        return singleResult;
     }
 
     @Override
     public User findIdBy(String email) throws NoResultException {
         // this is same as: "SELECT u FROM User u WHERE u.email = " + email
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(classType);
         Root<User> userRoot = criteriaQuery.from(classType);
@@ -87,19 +87,23 @@ public class UserDaoDb implements UserDao {
         criteriaQuery.select(userRoot).where(criteriaBuilder.equal(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()), parameterExpression));
         TypedQuery<User> query = em.createQuery(criteriaQuery);
         query.setParameter(parameterExpression, email);
-        return query.getSingleResult();
-
+        User singleResult = query.getSingleResult();
+        em.close();
+        return singleResult;
     }
 
     @Override
     public List<String> getAllEmailAddresses() throws NoResultException {
         // this is same as: "SELECT u.email FROM User u"
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<String> criteriaQuery = criteriaBuilder.createQuery(String.class);
         Root<User> userRoot = criteriaQuery.from(classType);
         criteriaQuery.select(userRoot.get(UserDataField.EMAIL_ADDRESS.getInputString()));
         TypedQuery<String> query = em.createQuery(criteriaQuery);
-        return query.getResultList();
+        List<String> resultList = query.getResultList();
+        em.close();
+        return resultList;
 
     }
 
@@ -115,6 +119,7 @@ public class UserDaoDb implements UserDao {
      */
     @Override
     public List<User> getAllUserBy(long lodgingsId) {
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> cq = cb.createQuery(classType);
 
@@ -132,7 +137,7 @@ public class UserDaoDb implements UserDao {
         TypedQuery<User> query2 = em.createQuery(cq);
         query2.setParameter(idParameter, lodgingsId);
         allUserList.addAll(query2.getResultList());
-
+        em.close();
         return allUserList;
 
     }

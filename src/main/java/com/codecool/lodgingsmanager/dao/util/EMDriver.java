@@ -7,13 +7,11 @@ import javax.persistence.Persistence;
 public class EMDriver {
 
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("lodgingsmanagerPU");
-    private static final EntityManager entityManager = entityManagerFactory.createEntityManager();
-
 
     private EMDriver() {
     }
 
     public static EntityManager getEntityManager() {
-        return entityManager;
+        return entityManagerFactory.createEntityManager();
     }
 }

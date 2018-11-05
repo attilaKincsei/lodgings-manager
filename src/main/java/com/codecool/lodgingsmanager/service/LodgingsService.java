@@ -18,17 +18,6 @@ public class LodgingsService implements BaseService<Lodgings> {
         this.userHandler = userHandler;
     }
 
-
-    @Override
-    public void injectDependency(BaseService userHandler) {
-        if (userHandler instanceof UserService) {
-            this.userHandler = (UserService) userHandler;
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-    }
-
     @Override
     public void handleAddNew(Lodgings newLodgings) {
         lodgingsDao.add(newLodgings);
@@ -76,5 +65,27 @@ public class LodgingsService implements BaseService<Lodgings> {
         return lodgingsList;
     }
 
-
+    @Override
+    public String handleCRUDBy(String requestPath, String lodgingsId) {
+        String templateToRender;
+        switch (requestPath) {
+            case "/lodgings":
+                templateToRender = "lodgings.html";
+                break;
+            case "/lodgings/add":
+                templateToRender = "add_lodgings.html";
+                break;
+            case "/lodgings/edit":
+                templateToRender = "edit_lodgings.html";
+                break;
+            case "/lodgings/delete":
+                handleDeletion(Long.parseLong(lodgingsId));
+                templateToRender = null;
+                break;
+            default:
+                templateToRender = "lodgings.html";
+                break;
+        }
+        return templateToRender;
+    }
 }
