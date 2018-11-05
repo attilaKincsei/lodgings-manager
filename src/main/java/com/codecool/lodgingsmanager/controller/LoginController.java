@@ -1,6 +1,5 @@
 package com.codecool.lodgingsmanager.controller;
 
-import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
@@ -10,17 +9,20 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.persistence.NoResultException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/login", "/login/incorrect", "/logout"})
 public class LoginController extends HttpServlet {
 
-    private final BaseService<User> userService = Initializer.USER_SERVICE; // todo: shall we make a service class for this?
+    private final String servletName;
+    private final BaseService<User> userService;
 
+    public LoginController(String servletName, BaseService<User> userService) {
+        this.servletName = servletName;
+        this.userService = userService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

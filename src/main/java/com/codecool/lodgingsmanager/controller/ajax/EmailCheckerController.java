@@ -11,11 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/check-email")
+//@WebServlet(urlPatterns = "/check-email")
 public class EmailCheckerController extends HttpServlet {
 
-    private final EmailCheckerService emailCheckerService = Initializer.EMAIL_CHECKER_SERVICE;
+    private final String servletName;
+    private final EmailCheckerService emailCheckerService;
 
+    public EmailCheckerController(String servletName, EmailCheckerService emailCheckerService) {
+        this.servletName = servletName;
+        this.emailCheckerService = emailCheckerService;
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

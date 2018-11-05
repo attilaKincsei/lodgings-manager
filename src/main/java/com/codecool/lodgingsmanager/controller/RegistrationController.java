@@ -8,16 +8,22 @@ import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/registration"})
 public class RegistrationController extends HttpServlet {
 
-    private final BaseService<User> userService = Initializer.USER_SERVICE;
+    private final String servletName;
+    private final BaseService<User> userService;
+
+    public RegistrationController(String servletName, BaseService<User> userService) {
+        this.servletName = servletName;
+        this.userService = userService;
+    }
+
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

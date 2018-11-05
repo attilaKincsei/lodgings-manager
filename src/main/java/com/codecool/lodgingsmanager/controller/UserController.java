@@ -8,7 +8,6 @@ import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +16,17 @@ import java.io.IOException;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/user", "/user/edit", "/user/delete"})
+
 public class UserController extends HttpServlet {
 
-    private final BaseService<User> userService = Initializer.USER_SERVICE;
+    private final String servletName;
+    private final BaseService<User> userService;
+
+    public UserController(String servletName, BaseService<User> userService) {
+        this.servletName = servletName;
+        this.userService = userService;
+    }
+
 
 
     @Override

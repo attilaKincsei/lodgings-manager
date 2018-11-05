@@ -1,6 +1,5 @@
 package com.codecool.lodgingsmanager.controller;
 
-import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
@@ -12,7 +11,6 @@ import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +20,16 @@ import java.util.List;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/lodgings", "/lodgings/add", "/lodgings/edit", "/lodgings/delete"}) // todo: edit lodgings is not implemented
+// todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
-    private final BaseService<Lodgings> lodgingsService = Initializer.LODGINGS_SERVICE;
+    private final String servletName;
+    private final BaseService<Lodgings> lodgingsService;
+
+    public LodgingsController(String servletName, BaseService<Lodgings> lodgingsService) {
+        this.servletName = servletName;
+        this.lodgingsService = lodgingsService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

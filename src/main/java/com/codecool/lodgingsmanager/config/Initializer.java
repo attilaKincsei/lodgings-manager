@@ -1,6 +1,8 @@
 package com.codecool.lodgingsmanager.config;
 
 
+import com.codecool.lodgingsmanager.controller.*;
+import com.codecool.lodgingsmanager.controller.ajax.EmailCheckerController;
 import com.codecool.lodgingsmanager.dao.LandlordDao;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
@@ -15,29 +17,59 @@ import com.codecool.lodgingsmanager.util.PasswordHashing;
 import com.codecool.lodgingsmanager.util.UserFactory;
 import com.codecool.lodgingsmanager.util.UserType;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
 public class Initializer implements ServletContextListener {
-    // todo: do DI for daoDb objects as well
+
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
-
-    private static final LodgingsDao LODGINGS_DAO_DB = LodgingsDaoDb.getINSTANCE();
-    private static final UserDao USER_DAO_DB = UserDaoDb.getINSTANCE();
-
-    public static final BaseService<User> USER_SERVICE = new UserService(USER_DAO_DB);
-    public static final BaseService<Lodgings> LODGINGS_SERVICE = new LodgingsService(LODGINGS_DAO_DB, USER_SERVICE);
-    public static final EmailCheckerService EMAIL_CHECKER_SERVICE = new EmailCheckerService(USER_SERVICE);
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        UserDao userDataManager = UserDaoDb.getINSTANCE();
-        LodgingsDao lodgingsDataManager = LodgingsDaoDb.getINSTANCE();
+        // Initialize dao and service objects
+        UserDao userDaoDb = UserDaoDb.getINSTANCE();
+        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
+
+        BaseService<User> userService = new UserService(userDaoDb);
+        BaseService<Lodgings> lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
+        EmailCheckerService emailCheckerService = new EmailCheckerService(userService);
 
 
+        // Initialize servlets with dependency injection
+        ServletContext context = sce.getServletContext();
+
+        context
+                .addServlet("MainPageController", new MainPageController("MainPageController", userService, lodgingsService))
+                .addMapping("/", "/index");
+
+        context
+                .addServlet("UserController", new UserController("UserController", userService))
+                .addMapping("/user", "/user/edit", "/user/delete");
+
+        context
+                .addServlet("LodgingsController", new LodgingsController("LodgingsController", lodgingsService))
+                .addMapping("/lodgings", "/lodgings/add", "/lodgings/edit", "/lodgings/delete");
+
+
+        context
+                .addServlet("EmailChecker", new EmailCheckerController("EmailCheckerController", emailCheckerService))
+                .addMapping("/check-email");
+
+        context
+                .addServlet("LoginController", new LoginController("LoginController", userService))
+                .addMapping("/login", "/login/incorrect", "/logout");
+
+        context
+                .addServlet("RegistrationController", new RegistrationController("RegistrationController", userService))
+                .addMapping("/registration");
+
+
+
+        // initialize model objects for testing todo: dele later
         User testLandlord = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
                 "Attila",
@@ -51,7 +83,7 @@ public class Initializer implements ServletContextListener {
                 PasswordHashing.hashPassword("Qq111111")
         );
 
-        userDataManager.add(testLandlord);
+        userDaoDb.add(testLandlord);
 
         User testPropertyManager = UserFactory.createUserInstanceBy(
                 UserType.PROPERTY_MANAGER,
@@ -66,7 +98,7 @@ public class Initializer implements ServletContextListener {
                 PasswordHashing.hashPassword("Qq111111")
         );
 
-        userDataManager.add(testPropertyManager);
+        userDaoDb.add(testPropertyManager);
 
 
         Lodgings newLodging = new Lodgings(
@@ -85,7 +117,7 @@ public class Initializer implements ServletContextListener {
                 testPropertyManager
         );
 
-        lodgingsDataManager.add(newLodging);
+        lodgingsDaoDb.add(newLodging);
 
 
         Lodgings newLodging2 = new Lodgings(
@@ -104,7 +136,7 @@ public class Initializer implements ServletContextListener {
                 testPropertyManager
         );
 
-        lodgingsDataManager.add(newLodging2);
+        lodgingsDaoDb.add(newLodging2);
 
 
         User guestUser = UserFactory.createUserInstanceBy(
@@ -120,13 +152,12 @@ public class Initializer implements ServletContextListener {
                 PasswordHashing.hashPassword("11111111")
         );
 
-        userDataManager.add(guestUser);
+        userDaoDb.add(guestUser);
 
+    }
 
-
-//        testingCriteriaQueries(); // todo: delete later
-//        testingDI();
-
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
 
     }
 
@@ -147,9 +178,11 @@ public class Initializer implements ServletContextListener {
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));
 //        System.out.println(userDataManager.find(2L));
-        for (User user : USER_SERVICE.handleGetAllBy(1L)) {
-            System.out.println(user);
-        }
+//        UserDao USER_DAO_DB = UserDaoDb.getINSTANCE();
+//        BaseService<User> USER_SERVICE = new UserService(USER_DAO_DB);
+//        for (User user : USER_SERVICE.handleGetAllBy(1L)) {
+//            System.out.println(user);
+//        }
 
 
     }
