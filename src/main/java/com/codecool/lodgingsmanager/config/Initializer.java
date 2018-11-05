@@ -24,8 +24,11 @@ public class Initializer implements ServletContextListener {
     // todo: do DI for daoDb objects as well
     public static final String GUEST_EMAIL = "guest@fakedomain.com";
 
-    public static final BaseService<User> USER_SERVICE = new UserService();
-    public static final BaseService<Lodgings> LODGINGS_SERVICE = new LodgingsService(USER_SERVICE);
+    private static final LodgingsDao LODGINGS_DAO_DB = LodgingsDaoDb.getINSTANCE();
+    private static final UserDao USER_DAO_DB = UserDaoDb.getINSTANCE();
+
+    public static final BaseService<User> USER_SERVICE = new UserService(USER_DAO_DB);
+    public static final BaseService<Lodgings> LODGINGS_SERVICE = new LodgingsService(LODGINGS_DAO_DB, USER_SERVICE);
     public static final EmailCheckerService EMAIL_CHECKER_SERVICE = new EmailCheckerService(USER_SERVICE);
 
     @Override

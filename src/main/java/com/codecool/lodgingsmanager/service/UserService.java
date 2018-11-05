@@ -1,14 +1,17 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;
 
 public class UserService implements BaseService<User> {
 
-    private final UserDao userDao = UserDaoDb.getINSTANCE();
+    private final UserDao userDao;
+
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public void handleAddNew(User newUser) {

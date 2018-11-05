@@ -1,7 +1,6 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
@@ -11,10 +10,11 @@ import java.util.stream.Collectors;
 
 public class LodgingsService implements BaseService<Lodgings> {
 
-    private final LodgingsDao lodgingsDao = LodgingsDaoDb.getINSTANCE();
-    private BaseService<User> userHandler;
+    private final LodgingsDao lodgingsDao;
+    private final BaseService<User> userHandler;
 
-    public LodgingsService(BaseService<User> userHandler) {
+    public LodgingsService(LodgingsDao lodgingsDao, BaseService<User> userHandler) {
+        this.lodgingsDao = lodgingsDao;
         this.userHandler = userHandler;
     }
 
