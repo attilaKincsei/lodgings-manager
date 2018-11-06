@@ -1,6 +1,5 @@
 package com.codecool.lodgingsmanager.controller;
 
-import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
@@ -10,17 +9,20 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.persistence.NoResultException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/login", "/login-incorrect"})
 public class LoginController extends HttpServlet {
 
-    private final BaseService<User> userService = Initializer.USER_SERVICE; // todo: shall we make a service class for this?
+    private final String servletName;
+    private final BaseService<User> userService;
 
+    public LoginController(String servletName, BaseService<User> userService) {
+        this.servletName = servletName;
+        this.userService = userService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -35,7 +37,7 @@ public class LoginController extends HttpServlet {
         } else {
             oldSession.invalidate();
             String requestPath = request.getServletPath();
-            if (requestPath.equals("/login-incorrect")) {
+            if (requestPath.equals("/login/incorrect")) {
                 errorMessage = "Incorrect user name or password";
             } else if (loggedInUserEmail.equals(GUEST_EMAIL)) {
                 errorMessage = "You are not logged in. Register or log in, please";
@@ -76,7 +78,7 @@ public class LoginController extends HttpServlet {
 
         } catch (NoResultException | NullPointerException ex) {
             System.out.println("User not in database"); // todo: change it to logger
-            response.sendRedirect("/login-incorrect");
+            response.sendRedirect("/login/incorrect");
         }
 
     }

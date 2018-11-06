@@ -8,7 +8,6 @@ import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,10 +16,17 @@ import java.io.IOException;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/profile", "/edit-profile"})
+
 public class UserController extends HttpServlet {
 
-    private final BaseService<User> userService = Initializer.USER_SERVICE;
+    private final String servletName;
+    private final BaseService<User> userService;
+
+    public UserController(String servletName, BaseService<User> userService) {
+        this.servletName = servletName;
+        this.userService = userService;
+    }
+
 
 
     @Override
@@ -33,28 +39,21 @@ public class UserController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-
             User user = userService.handleGetUserBy(userEmail);
-            context.setVariable("userData", user);
 
-            String templateToRender;
             String requestPath = request.getServletPath();
+            String userId = request.getParameter("userId"); // todo: send user id with post request, not safe
 
-            switch (requestPath) {
-                case "/profile":
-                    templateToRender = "user_profile.html";
-                    break;
-                case "/edit-profile":
-                    templateToRender = "edit_profile.html";
-                    break;
-                default:
-                    templateToRender = "/login";
-                    break;
+            String templateToRender = userService.handleCRUDBy(requestPath, userId); // todo: thing about a better name
+
+            if (templateToRender == null) {
+                response.sendRedirect("/login");
+            } else {
+                TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+                context.setVariable("userData", user);
+                engine.process(templateToRender, context, response.getWriter());
             }
 
-
-            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-            engine.process(templateToRender, context, response.getWriter());
 
         }
     }
@@ -98,7 +97,7 @@ public class UserController extends HttpServlet {
                 System.out.println("New user could not be created");
             }
 
-            response.sendRedirect("/profile");
+            response.sendRedirect("/user");
 
         }
     }

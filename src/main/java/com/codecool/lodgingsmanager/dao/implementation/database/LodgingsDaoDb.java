@@ -1,11 +1,13 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
+import com.codecool.lodgingsmanager.dao.util.EMDriver;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.util.LodgingDataField;
 import com.codecool.lodgingsmanager.util.UserDataField;
 import com.codecool.lodgingsmanager.util.UserType;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -15,11 +17,12 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class LodgingsDaoDb implements LodgingsDao {
+public class LodgingsDaoDb extends BaseDaoDb<Lodgings> implements LodgingsDao {
 
     private static LodgingsDao INSTANCE = null;
 
     private LodgingsDaoDb() {
+        super(Lodgings.class);
     }
 
     public static LodgingsDao getINSTANCE() {
@@ -31,59 +34,58 @@ public class LodgingsDaoDb implements LodgingsDao {
 
     @Override
     public Lodgings find(long id) throws NoResultException {
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Lodgings> cq = cb.createQuery(Lodgings.class);
-        Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
+        CriteriaQuery<Lodgings> cq = cb.createQuery(classType);
+        Root<Lodgings> lodgingsRoot = cq.from(classType);
         ParameterExpression<Long> pe = cb.parameter(Long.class);
         cq.select(lodgingsRoot).where(cb.equal(lodgingsRoot.get(LodgingDataField.ID.getInputString()), pe));
 
         TypedQuery<Lodgings> query = em.createQuery(cq);
         query.setParameter(pe, id);
 
-        return query.getSingleResult();
-    }
-
-    @Override
-    public void add(Lodgings object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
-
-    }
-
-    @Override
-    public void update(Lodgings object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.merge(object);
-        transaction.commit();
+        Lodgings singleResult = query.getSingleResult();
+        em.close();
+        return singleResult;
     }
 
     @Override
     public void remove(long id) {
+        EntityManager em = EMDriver.getEntityManager();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Lodgings> cq = cb.createQuery(Lodgings.class);
+        Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
+        ParameterExpression<Long> pe = cb.parameter(Long.class);
+        cq.select(lodgingsRoot).where(cb.equal(lodgingsRoot.get(LodgingDataField.ID.getInputString()), pe));
+        TypedQuery<Lodgings> query = em.createQuery(cq);
+        query.setParameter(pe, id);
+        Lodgings singleResult = query.getSingleResult();
+
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        em.remove(find(id));
+        em.remove(singleResult);
         transaction.commit();
+        em.close();
     }
-
-
-
 
     @Override
     public List<Lodgings> getAll() throws NoResultException {
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Lodgings> cq = cb.createQuery(Lodgings.class);
         Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
         cq.select(lodgingsRoot);
-
         TypedQuery<Lodgings> query = em.createQuery(cq);
-        return query.getResultList();
+        List<Lodgings> resultList = query.getResultList();
+        em.close();
+        return resultList;
+
     }
 
     @Override
     public List<Lodgings> getAllLodgingsBy(long userId) throws NoResultException {
+        EntityManager em = EMDriver.getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Lodgings> cq = cb.createQuery(Lodgings.class);
         Root<Lodgings> lodgingsRoot = cq.from(Lodgings.class);
@@ -91,8 +93,9 @@ public class LodgingsDaoDb implements LodgingsDao {
         cq.select(lodgingsRoot).where(cb.equal(lodgingsRoot.get(UserType.LANDLORD.getStringValue()).get(UserDataField.ID.getInputString()), pe));
         TypedQuery<Lodgings> query = em.createQuery(cq);
         query.setParameter(pe, userId);
-        return query.getResultList();
-
+        List<Lodgings> resultList = query.getResultList();
+        em.close();
+        return resultList;
     }
 
 }

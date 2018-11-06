@@ -1,7 +1,6 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
-import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
@@ -11,22 +10,12 @@ import java.util.stream.Collectors;
 
 public class LodgingsService implements BaseService<Lodgings> {
 
-    private final LodgingsDao lodgingsDao = LodgingsDaoDb.getINSTANCE();
-    private BaseService<User> userHandler;
+    private final LodgingsDao lodgingsDao;
+    private final BaseService<User> userHandler;
 
-    public LodgingsService(BaseService<User> userHandler) {
+    public LodgingsService(LodgingsDao lodgingsDao, BaseService<User> userHandler) {
+        this.lodgingsDao = lodgingsDao;
         this.userHandler = userHandler;
-    }
-
-
-    @Override
-    public void injectDependency(BaseService userHandler) {
-        if (userHandler instanceof UserService) {
-            this.userHandler = (UserService) userHandler;
-        } else {
-            throw new IllegalArgumentException();
-        }
-
     }
 
     @Override
@@ -76,5 +65,27 @@ public class LodgingsService implements BaseService<Lodgings> {
         return lodgingsList;
     }
 
-
+    @Override
+    public String handleCRUDBy(String requestPath, String lodgingsId) {
+        String templateToRender;
+        switch (requestPath) {
+            case "/lodgings":
+                templateToRender = "lodgings.html";
+                break;
+            case "/lodgings/add":
+                templateToRender = "add_lodgings.html";
+                break;
+            case "/lodgings/edit":
+                templateToRender = "edit_lodgings.html";
+                break;
+            case "/lodgings/delete":
+                handleDeletion(Long.parseLong(lodgingsId));
+                templateToRender = null;
+                break;
+            default:
+                templateToRender = "lodgings.html";
+                break;
+        }
+        return templateToRender;
+    }
 }
