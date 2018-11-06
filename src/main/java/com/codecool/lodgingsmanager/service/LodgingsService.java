@@ -3,8 +3,10 @@ package com.codecool.lodgingsmanager.service;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,4 +90,58 @@ public class LodgingsService implements BaseService<Lodgings> {
         }
         return templateToRender;
     }
+
+    @Override
+    public List<String> getEnumAsStringList() {
+        return Arrays.stream(LodgingsType.values()).map(LodgingsType::getLodgingsTypeString).collect(Collectors.toList());
+    }
+
+    @Override
+    public void handleAddOrEditWithPostRequest(
+            String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
+            String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
+            String userEmail, String requestPath, String lodgingsIdString
+    ) {
+        User user = handleGetUserBy(userEmail);
+
+        if (requestPath.equals("/lodgings/add")) {
+
+
+            Lodgings newLodgings = new Lodgings(
+                    lodgingName,
+                    LodgingsType.valueOf(lodgingType.toUpperCase()),
+                    country,
+                    city,
+                    zipCode,
+                    address,
+                    Long.parseLong(dailyPrice),
+                    Long.parseLong(electricityBill),
+                    Long.parseLong(gasBill),
+                    Long.parseLong(telecommunicationBill),
+                    Long.parseLong(cleaningCost),
+                    user
+            );
+
+            handleAddNew(newLodgings);
+        } else if (requestPath.equals("/lodgings/edit")) {
+
+            Lodgings lodgings = handleGetLodgingsBy(lodgingsIdString, user.getId()).get(0);
+
+            lodgings.setName(lodgingName);
+            lodgings.setLodgingsType(LodgingsType.valueOf(lodgingType.toUpperCase()));
+            lodgings.setCountry(country);
+            lodgings.setCity(city);
+            lodgings.setZipCode(zipCode);
+            lodgings.setAddress(address);
+            lodgings.setPricePerDay(Long.parseLong(dailyPrice));
+            lodgings.setElectricityBill(Long.parseLong(electricityBill));
+            lodgings.setGasBill(Long.parseLong(gasBill));
+            lodgings.setTelecommunicationBill(Long.parseLong(telecommunicationBill));
+            lodgings.setCleaningCost(Long.parseLong(cleaningCost));
+
+            handleUpdate(lodgings);
+        }
+    }
+
+
 }

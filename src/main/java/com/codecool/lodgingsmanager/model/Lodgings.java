@@ -12,7 +12,7 @@ public class Lodgings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private LodgingsType lodgingsType;
     private String country;
     private String city;

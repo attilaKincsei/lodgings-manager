@@ -45,10 +45,13 @@ public class LodgingsController extends HttpServlet {
 
             User user = lodgingsService.handleGetUserBy(userEmail);
             List<Lodgings> lodgingsList = ((LodgingsService) lodgingsService).handleGetLodgingsBy(lodgingsIdString, user.getId());
+            List<String> lodgingsTypeList = lodgingsService.getEnumAsStringList();
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
             context.setVariable("lodgings", lodgingsList);
+            context.setVariable("lodgingsTypes", lodgingsTypeList);
+
 
             String requestPath = request.getServletPath();
             String lodgingsId = request.getParameter("lodgingsId");
@@ -84,29 +87,19 @@ public class LodgingsController extends HttpServlet {
             String cleaningCost = request.getParameter(LodgingDataField.CLEANING_COST.getInputString());
 
             String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
-            User user = lodgingsService.handleGetUserBy(userEmail);
 
 
-            Lodgings newLodgings = new Lodgings(
-                    lodgingName,
-                    LodgingsType.valueOf(lodgingType.toUpperCase()),
-                    country,
-                    city,
-                    zipCode,
-                    address,
-                    Long.parseLong(dailyPrice),
-                    Long.parseLong(electricityBill),
-                    Long.parseLong(gasBill),
-                    Long.parseLong(telecommunicationBill),
-                    Long.parseLong(cleaningCost),
-                    user
-            );
+            String requestPath = request.getServletPath();
+            String lodgingsIdString = request.getParameter("lodgingsId");
+            System.out.println("\n--------------------------------------\n" + lodgingsIdString);
 
-            lodgingsService.handleAddNew(newLodgings);
+
+            lodgingsService.handleAddOrEditWithPostRequest(lodgingName, lodgingType, country, city, zipCode, address, dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, userEmail, requestPath, lodgingsIdString);
 
 
             response.sendRedirect("/index");
         }
     }
+
 
 }

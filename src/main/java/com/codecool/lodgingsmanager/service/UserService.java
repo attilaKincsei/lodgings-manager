@@ -58,4 +58,14 @@ public class UserService implements BaseService<User> {
         }
         return templateToRender;
     }
+
+    @Override
+    public List<String> getEnumAsStringList() { // todo: implement
+        return null;
+    }
+
+    @Override
+    public void handleAddOrEditWithPostRequest(String lodgingName, String lodgingType, String country, String city, String zipCode, String address, String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost, String userEmail, String requestPath, String lodgingsIdString) {
+        // todo: implement
+    }
 }

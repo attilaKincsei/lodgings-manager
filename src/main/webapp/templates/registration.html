@@ -70,19 +70,19 @@
 
                     <label for="country-input">Country</label>
                     <input id="country-input" class="form-control" type="text" name="country" placeholder="Length: minimum 1 maximum 255 characters"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/_%-]{1,255}$" required><br>
 
                     <label for="city-input">City</label>
                     <input id="city-input" class="form-control" type="text" name="city" placeholder="Length: minimum 1 maximum 255 characters"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/_%-]{1,255}$" required><br>
 
                     <label for="zip-input">Zip code</label>
                     <input id="zip-input" class="form-control" type="text" name="zip_code" placeholder="Length: minimum 1 maximum 255 characters"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/_%-]{1,255}$" required><br>
 
                     <label for="address-input">Address</label>
                     <input id="address-input" class="form-control" type="text" name="address" placeholder="Length: minimum 1 maximum 255 characters"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required>
+                           pattern="^[\w\.\/_%-]{1,255}$" required>
                 </div>
 
                 <button form="registration-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block" disabled>Submit</button>
