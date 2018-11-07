@@ -6,8 +6,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 @FunctionalInterface
-public interface TransactionWithReturn<T> {
+public interface TransactionWithReturn<U> {
 
-    T executeQuery(EntityManager em, CriteriaBuilder cb, CriteriaQuery<T> cq, Root<T> tRoot);
+    U executeQuery(EntityManager em, CriteriaBuilder cb, CriteriaQuery<U> cq, Root<U> tRoot);
 
 }

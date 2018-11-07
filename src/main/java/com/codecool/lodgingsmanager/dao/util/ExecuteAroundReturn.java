@@ -1,13 +1,8 @@
 package com.codecool.lodgingsmanager.dao.util;
 
-import com.codecool.lodgingsmanager.util.FieldType;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 
 public class ExecuteAroundReturn {
