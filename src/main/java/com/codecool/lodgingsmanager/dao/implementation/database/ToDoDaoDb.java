@@ -8,11 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-public class ToDoDaoDb implements ToDoDao {
+public class ToDoDaoDb extends BaseDaoDb<ToDo> implements ToDoDao {
 
     private static ToDoDao INSTANCE = null;
 
     private ToDoDaoDb() {
+        super(ToDo.class);
     }
 
     public static ToDoDao getINSTANCE() {
@@ -30,16 +31,6 @@ public class ToDoDaoDb implements ToDoDao {
         Query findQuery = em.createQuery("SELECT t FROM ToDo t WHERE t.id = " + id);
         ToDo result = (ToDo) findQuery.getSingleResult();
         return null;
-    }
-
-    @Override
-    public void add(ToDo object) {
-        // todo
-    }
-
-    @Override
-    public void update(ToDo object) {
-        // todo
     }
 
     @Override

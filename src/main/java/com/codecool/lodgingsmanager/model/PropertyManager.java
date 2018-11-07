@@ -11,6 +11,9 @@ import java.util.Set;
 @DiscriminatorValue(value = "PROPERTY_MANAGER")
 public class PropertyManager extends UserManager {
 
+    @OneToMany(mappedBy = "personInCharge", fetch = FetchType.LAZY)
+    private Set<ToDo> todos = new HashSet<>();
+
 
     public PropertyManager() {
 

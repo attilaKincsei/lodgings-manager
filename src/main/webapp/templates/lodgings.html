@@ -52,6 +52,8 @@
                 <button type="submit" class="btn btn-info">Edit</button>
             </form>
 
+            <a th:attr="href='todo/add?lodgingsId='+${lodging.getId()}" class="btn btn-info" name="lodgingsId">Add ToDo</a>
+
             <form id="delete-lodgings" method="get" action="/lodgings/delete">
                 <button form="delete-lodgings" type="submit" class="btn btn-secondary" name="lodgingsId" th:value="${lodging.getId()}">Delete</button>
             </form>

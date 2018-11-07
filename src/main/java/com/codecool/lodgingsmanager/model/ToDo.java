@@ -3,7 +3,7 @@ package com.codecool.lodgingsmanager.model;
 import com.codecool.lodgingsmanager.util.Status;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class ToDo {
@@ -11,16 +11,18 @@ public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String name;
     @ManyToOne
     private Lodgings lodgings;
     @ManyToOne
     private PropertyManager personInCharge;
+    @Temporal(TemporalType.DATE)
     private Date deadline;
     private String description;
     private long price;
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
-    private Status status = Status.IN_PROGRESS;
+    private Status status = Status.NEW;
     private boolean obsolete = true;
 
     public ToDo() {
@@ -40,6 +42,14 @@ public class ToDo {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Lodgings getLodgings() {

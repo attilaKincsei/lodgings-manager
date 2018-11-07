@@ -4,6 +4,7 @@ import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +25,9 @@ public class Lodgings {
     private long gasBill;
     private long telecommunicationBill;
     private long cleaningCost;
+
+    @OneToMany(mappedBy = "lodgings", fetch = FetchType.LAZY)
+    private Set<ToDo> todos = new HashSet<ToDo>();
 
     @ManyToOne
     private User landlord;
@@ -198,6 +202,18 @@ public class Lodgings {
 //    public void removeTenant(Tenant tenant) {
 //        tenants.remove(tenant);
 //    }
+
+    public void addTodo(ToDo toDo){
+        this.todos.add(toDo);
+    }
+
+    public Set<ToDo> getTodos() {
+        return todos;
+    }
+
+    public void setTodos(Set<ToDo> todos) {
+        this.todos = todos;
+    }
 
     @Override
     public String toString() {
