@@ -67,6 +67,10 @@ public class Initializer implements ServletContextListener {
                 .addServlet("RegistrationController", new RegistrationController("RegistrationController", userService))
                 .addMapping("/registration");
 
+        context
+                .addServlet("ToDoController", new ToDoController("ToDoController", lodgingsService))
+                .addMapping("/todo");
+
 
 
         // initialize model objects for testing todo: dele later

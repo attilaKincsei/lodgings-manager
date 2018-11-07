@@ -1,8 +1,11 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.ToDoDao;
+import com.codecool.lodgingsmanager.dao.util.EMDriver;
 import com.codecool.lodgingsmanager.model.ToDo;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 public class ToDoDaoDb implements ToDoDao {
@@ -23,7 +26,9 @@ public class ToDoDaoDb implements ToDoDao {
 
     @Override
     public ToDo find(long id) {
-        // todo
+        EntityManager em = EMDriver.getEntityManager();
+        Query findQuery = em.createQuery("SELECT t FROM ToDo t WHERE t.id = " + id);
+        ToDo result = (ToDo) findQuery.getSingleResult();
         return null;
     }
 
