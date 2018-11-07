@@ -103,7 +103,7 @@ public class Initializer implements ServletContextListener {
 
         Lodgings newLodging = new Lodgings(
                 "My little apartment",
-                LodgingsType.APARTMENT,
+                LodgingsType.ROOM,
                 "Molvania",
                 "Molvania City",
                 "MO-2342",

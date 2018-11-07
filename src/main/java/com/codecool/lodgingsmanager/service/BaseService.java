@@ -13,4 +13,12 @@ public interface BaseService <E> {
     void handleDeletion(long id);
 
     String handleCRUDBy(String requestPath, String id);
+
+    List<String> getEnumAsStringList();
+
+    void handleAddOrEditWithPostRequest(
+            String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
+            String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
+            String userEmail, String requestPath, String lodgingsIdString
+    );
 }
