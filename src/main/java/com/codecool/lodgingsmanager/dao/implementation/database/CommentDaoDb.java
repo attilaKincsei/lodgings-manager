@@ -10,21 +10,6 @@ import java.util.List;
 public class CommentDaoDb implements CommentDao {
 
 
-    private static CommentDao INSTANCE = null;
-
-
-    private CommentDaoDb() {
-    }
-
-    public static CommentDao getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new CommentDaoDb();
-        }
-        return INSTANCE;
-    }
-
-
-
     @Override
     public Comment find(long id) {
         // todo

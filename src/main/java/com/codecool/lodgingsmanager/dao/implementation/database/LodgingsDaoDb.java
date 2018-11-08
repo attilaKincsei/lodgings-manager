@@ -17,17 +17,9 @@ import java.util.List;
 
 public class LodgingsDaoDb extends BaseDaoDb<Lodgings> implements LodgingsDao {
 
-    private static LodgingsDao INSTANCE = null;
 
-    private LodgingsDaoDb() {
+    public LodgingsDaoDb() {
         super(Lodgings.class);
-    }
-
-    public static LodgingsDao getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new LodgingsDaoDb();
-        }
-        return INSTANCE;
     }
 
     @Override

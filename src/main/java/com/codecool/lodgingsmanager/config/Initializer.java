@@ -31,8 +31,8 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         // Initialize dao and service objects
-        UserDao userDaoDb = UserDaoDb.getINSTANCE();
-        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
+        UserDao userDaoDb = new UserDaoDb();
+        LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
 
         BaseService<User> userService = new UserService(userDaoDb);
         BaseService<Lodgings> lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
@@ -164,7 +164,7 @@ public class Initializer implements ServletContextListener {
     }
 
     private void testingDI() {
-        LandlordDao landlordDataManager = LandlordDaoDb.getINSTANCE();
+        LandlordDao landlordDataManager = new LandlordDaoDb();
         System.out.println("\n\n\n------------------------------------------------");
         for (User user : landlordDataManager.getAll()) {
             System.out.println(user);
@@ -173,8 +173,8 @@ public class Initializer implements ServletContextListener {
 
     private void testingCriteriaQueries() {
 
-        UserDao userDaoDb = UserDaoDb.getINSTANCE();
-        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
+        UserDao userDaoDb = new UserDaoDb();
+        LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
 
         System.out.println("\n\n\n------------------------------------------------");
 //        userDataManager.getAllEmailAddresses().forEach(System.out::println);
