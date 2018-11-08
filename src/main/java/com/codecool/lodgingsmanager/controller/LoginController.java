@@ -3,8 +3,8 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
+import com.codecool.lodgingsmanager.util.FieldType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
-import com.codecool.lodgingsmanager.util.UserDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -31,7 +31,7 @@ public class LoginController extends HttpServlet {
 
         String errorMessage;
 
-        String loggedInUserEmail = (String) oldSession.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+        String loggedInUserEmail = (String) oldSession.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
         if (loggedInUserEmail == null) {
             errorMessage = "You are not logged in. Register or log in, please";
         } else {
@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet {
         }
 
         HttpSession newSession = request.getSession();
-        newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
+        newSession.setAttribute(FieldType.EMAIL_ADDRESS.getInputString(), GUEST_EMAIL);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
         User guestUser = userService.handleGetUserBy(GUEST_EMAIL);
@@ -61,16 +61,16 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String email = request.getParameter(UserDataField.EMAIL_ADDRESS.getInputString());
-        String password = request.getParameter(UserDataField.PASSWORD.getInputString());
+        String email = request.getParameter(FieldType.EMAIL_ADDRESS.getInputString());
+        String password = request.getParameter(FieldType.PASSWORD.getInputString());
 
         try {
             User mightBeUser = PasswordHashing.checkPassword(password, email);
             HttpSession newSession = request.getSession(true);
-            newSession.setAttribute(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+            newSession.setAttribute(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
             newSession.setMaxInactiveInterval(30*60);
 
-            Cookie userEmail = new Cookie(UserDataField.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+            Cookie userEmail = new Cookie(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
             userEmail.setMaxAge(30*60);
             response.addCookie(userEmail);
 

@@ -19,37 +19,53 @@
             <ul>
                 <h4>Address</h4>
                 <li class="new-row">
-                    <div class="new-column"><span>Country:  </span><span th:text="${lodging.getCountry()}">price</span>
+                    <div class="new-column"><span>Country: </span>
+                        <span th:text="${lodging.getCountry()}">price</span>
                     </div>
-                    <div class="new-column"><span>City: </span><span
-                            th:text="${lodging.getCity()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>City: </span>
+                        <span th:text="${lodging.getCity()}">electricity bill</span>
+                    </div>
                 </li>
                 <li class="new-row">
                     <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span>
                     </div>
+                </li>
+                <li class="new-row">
                     <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span>
                     </div>
                 </li>
                 <h4>Overhead Costs</h4>
                 <li class="new-row">
-                    <div class="new-column"><span>Daily Price:  </span><span
-                            th:text="${lodging.getPricePerDay()}">price</span></div>
-                    <div class="new-column"><span>Electricity Bill: </span><span
-                            th:text="${lodging.getElectricityBill()}">electricity bill</span></div>
+                    <div class="new-column"><span>Daily Price:  </span>
+                        <span th:text="${lodging.getPricePerDay()}">price</span>
+                    </div>
+
                 </li>
                 <li class="new-row">
-                    <div class="new-column"><span>Gasbill:  </span><span th:text="${lodging.getGasBill()}">price</span>
+                    <div class="new-column"><span>Electricity Bill: </span>
+                        <span th:text="${lodging.getElectricityBill()}">electricity bill</span>
                     </div>
-                    <div class="new-column"><span>Telecommunication Bill: </span><span
-                            th:text="${lodging.getTelecommunicationBill()}">electricity bill</span></div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Gasbill: </span>
+                        <span th:text="${lodging.getGasBill()}">price</span>
+                    </div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Telecommunication Bill: </span>
+                        <span th:text="${lodging.getTelecommunicationBill()}">electricity bill</span>
+                    </div>
                 </li>
                 <li class="new-row">
                     <div class="new-column"><span>Cleaning Cost:  </span><span
-                            th:text="${lodging.getTelecommunicationBill()}">price</span></div>
+                            th:text="${lodging.getCleaningCost()}"></span>
+                    </div>
                 </li>
             </ul>
-            <form id="edit-button" method="get" action="#">
-                <button type="submit" class="btn btn-info">Edit</button>
+            <form id="edit-button" method="get" action="/lodgings/edit">
+                <button type="submit" class="btn btn-info" name="lodgingsId" th:value="${lodging.getId()}">Edit</button>
             </form>
 
             <a th:attr="href='todo/add?lodgingsId='+${lodging.getId()}" class="btn btn-info" name="lodgingsId">Add ToDo</a>
