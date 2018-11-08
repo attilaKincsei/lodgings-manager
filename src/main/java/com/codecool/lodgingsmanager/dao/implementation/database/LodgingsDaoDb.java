@@ -3,12 +3,10 @@ package com.codecool.lodgingsmanager.dao.implementation.database;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.dao.util.EMDriver;
 import com.codecool.lodgingsmanager.model.Lodgings;
-import com.codecool.lodgingsmanager.util.LodgingDataField;
 import com.codecool.lodgingsmanager.util.FieldType;
 import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;

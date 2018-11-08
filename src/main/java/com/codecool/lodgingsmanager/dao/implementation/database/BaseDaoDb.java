@@ -1,14 +1,10 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
 import com.codecool.lodgingsmanager.dao.BaseDAO;
-import com.codecool.lodgingsmanager.dao.util.ExecuteAroundReturn;
-import com.codecool.lodgingsmanager.dao.util.ExecuteAroundReturnList;
-import com.codecool.lodgingsmanager.dao.util.ExecuteAroundVoid;
-import com.codecool.lodgingsmanager.dao.util.EMDriver;
+import com.codecool.lodgingsmanager.dao.util.ExecuteAroundCriteria;
 import com.codecool.lodgingsmanager.util.FieldType;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,16 +23,16 @@ public abstract class BaseDaoDb<T> implements BaseDAO<T> {
 
     @Override
     public void add(T object) {
-        ExecuteAroundVoid.manageDML(em -> em.persist(object));
+        ExecuteAroundCriteria.executeAroundVoid(em -> em.persist(object));
     }
     @Override
     public void update(T object) {
-        ExecuteAroundVoid.manageDML(em -> em.merge(object));
+        ExecuteAroundCriteria.executeAroundVoid(em -> em.merge(object));
     }
 
     @Override
     public void remove(long id) {
-        ExecuteAroundVoid.manageDML(em -> removeFunction(id, em));
+        ExecuteAroundCriteria.executeAroundVoid(em -> removeFunction(id, em));
     }
 
     private void removeFunction(long id, EntityManager em) {
@@ -54,7 +50,7 @@ public abstract class BaseDaoDb<T> implements BaseDAO<T> {
     @Override
     public T find(long id) throws NoResultException {
         // this is same as: "SELECT u FROM T u WHERE u.id = " + id
-        return ExecuteAroundReturn.manageQuerying(classType, id, ((em, cb, cq, tRoot) -> findFunction(id, em, cb, cq, tRoot)));
+        return ExecuteAroundCriteria.executeAroundQuerySingle(classType, id, ((em, cb, cq, tRoot) -> findFunction(id, em, cb, cq, tRoot)));
 
     }
 
@@ -69,7 +65,7 @@ public abstract class BaseDaoDb<T> implements BaseDAO<T> {
     @Override
     public List<T> getAll() throws NoResultException {
         // this is same as: "SELECT u FROM T u"
-        return ExecuteAroundReturnList.manageQueryingMultiple(classType, this::getAllFunction);
+        return ExecuteAroundCriteria.executeAroundQueryMultiple(classType, this::getAllFunction);
 
     }
 
