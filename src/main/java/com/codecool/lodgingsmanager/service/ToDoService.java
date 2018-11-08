@@ -47,7 +47,7 @@ public class ToDoService implements BaseService<ToDo> {
         String templateToRender;
         switch (requestPath) {
             case "/todo":
-                templateToRender = "todo.html";
+                templateToRender = "todos.html";
                 break;
             case "/todo/add":
                 templateToRender = "add_todo.html";
@@ -59,7 +59,7 @@ public class ToDoService implements BaseService<ToDo> {
                 templateToRender = null;
                 break;
             default:
-                templateToRender = "todo.html";
+                templateToRender = "todos.html";
                 break;
         }
         return templateToRender;

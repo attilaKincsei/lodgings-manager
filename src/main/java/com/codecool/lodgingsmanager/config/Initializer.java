@@ -73,7 +73,7 @@ public class Initializer implements ServletContextListener {
 
         context
                 .addServlet("ToDoController", new ToDoController("ToDoController", userService, lodgingsService, toDoService))
-                .addMapping("/todo/add");
+                .addMapping("/todo/add", "/todo");
 
 
 
