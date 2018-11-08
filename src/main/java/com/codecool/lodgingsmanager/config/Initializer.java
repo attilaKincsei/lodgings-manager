@@ -35,6 +35,7 @@ public class Initializer implements ServletContextListener {
         // Initialize dao and service objects
         UserDao userDaoDb = new UserDaoDb();
         LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
+        ToDoDao toDoDaoDb = new ToDoDaoDb();
 
         BaseService<User> userService = new UserService(userDaoDb);
         LodgingsService lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
