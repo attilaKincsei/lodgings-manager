@@ -12,7 +12,9 @@ public class ExecuteAroundVoid {
         EntityManager em = EMDriver.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
+
         t.executeVoidTransaction(em);
+
         transaction.commit();
         em.close();
     }

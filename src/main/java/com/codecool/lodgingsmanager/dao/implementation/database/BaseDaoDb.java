@@ -36,8 +36,10 @@ public abstract class BaseDaoDb<T> implements BaseDAO<T> {
 
     @Override
     public void remove(long id) {
-        EntityManager em = EMDriver.getEntityManager();
+        ExecuteAroundVoid.manageDML(em -> removeFunction(id, em));
+    }
 
+    private void removeFunction(long id, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = cb.createQuery(classType);
         Root<T> userRoot = criteriaQuery.from(classType);
@@ -46,35 +48,34 @@ public abstract class BaseDaoDb<T> implements BaseDAO<T> {
         TypedQuery<T> query = em.createQuery(criteriaQuery);
         query.setParameter(pe, id);
         T singleResult = query.getSingleResult();
-
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
         em.remove(singleResult);
-        transaction.commit();
-        em.close();
     }
 
     @Override
     public T find(long id) throws NoResultException {
         // this is same as: "SELECT u FROM T u WHERE u.id = " + id
-        return ExecuteAroundReturn.manageQuerying(classType, id, ((em, cb, cq, tRoot) -> {
-            ParameterExpression<Long> pe = cb.parameter(Long.class);
-            cq.select(tRoot).where(cb.equal(tRoot.get(FieldType.ID.getInputString()), pe));
-            TypedQuery<T> query = em.createQuery(cq);
-            query.setParameter(pe, id);
-            return query.getSingleResult();
-        }));
+        return ExecuteAroundReturn.manageQuerying(classType, id, ((em, cb, cq, tRoot) -> findFunction(id, em, cb, cq, tRoot)));
 
+    }
+
+    private T findFunction(long id, EntityManager em, CriteriaBuilder cb, CriteriaQuery<T> cq, Root<T> tRoot) {
+        ParameterExpression<Long> pe = cb.parameter(Long.class);
+        cq.select(tRoot).where(cb.equal(tRoot.get(FieldType.ID.getInputString()), pe));
+        TypedQuery<T> query = em.createQuery(cq);
+        query.setParameter(pe, id);
+        return query.getSingleResult();
     }
 
     @Override
     public List<T> getAll() throws NoResultException {
         // this is same as: "SELECT u FROM T u"
-        return ExecuteAroundReturnList.manageQueryingMultiple(classType, (em, cq, tRoot) -> {
-            cq.select(tRoot);
-            TypedQuery<T> query = em.createQuery(cq);
-            return query.getResultList();
-        });
+        return ExecuteAroundReturnList.manageQueryingMultiple(classType, this::getAllFunction);
 
+    }
+
+    private List<T> getAllFunction(EntityManager em, CriteriaQuery<T> cq, Root<T> tRoot) {
+        cq.select(tRoot);
+        TypedQuery<T> query = em.createQuery(cq);
+        return query.getResultList();
     }
 }
