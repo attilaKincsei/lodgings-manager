@@ -52,7 +52,7 @@ public class ToDoController extends HttpServlet {
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
-            //context.setVariable("lodginsId", request.getParameter("lodgingsId"));
+            context.setVariable("lodgingsId", request.getParameter("lodgingsId"));
 
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             engine.process("add_todo.html", context, response.getWriter());
@@ -71,11 +71,11 @@ public class ToDoController extends HttpServlet {
             String description = request.getParameter("description");
             long price = Long.parseLong(request.getParameter("price"));
 
-            SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
 
             try {
-                date = formatter.parse(request.getParameter("price"));
+                date = formatter.parse(request.getParameter("date"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -88,7 +88,7 @@ public class ToDoController extends HttpServlet {
             PropertyManager propertyManager = (PropertyManager) lodgings.getPropertyManager();
 
 
-            ToDo toDo = new ToDo(lodgings, propertyManager, date, description, price);
+            ToDo toDo = new ToDo(name,lodgings, propertyManager, date, description, price);
 
             toDoService.handleAddNew(toDo);
 

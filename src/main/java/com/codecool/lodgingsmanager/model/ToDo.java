@@ -28,7 +28,8 @@ public class ToDo {
     public ToDo() {
     }
 
-    public ToDo(Lodgings lodgings, PropertyManager personInCharge, Date deadline, String description, long price) {
+    public ToDo(String name, Lodgings lodgings, PropertyManager personInCharge, Date deadline, String description, long price) {
+        this.name = name;
         this.lodgings = lodgings;
         this.personInCharge = personInCharge;
         this.deadline = deadline;
