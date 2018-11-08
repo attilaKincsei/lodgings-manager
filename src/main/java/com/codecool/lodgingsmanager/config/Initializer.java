@@ -162,6 +162,9 @@ public class Initializer implements ServletContextListener {
 
         userDaoDb.add(guestUser);
 
+        // todo: for testing, delete later
+        testingCriteriaQueries();
+
     }
 
     @Override
@@ -179,9 +182,12 @@ public class Initializer implements ServletContextListener {
 
     private void testingCriteriaQueries() {
 
+        UserDao userDaoDb = UserDaoDb.getINSTANCE();
+        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
+
         System.out.println("\n\n\n------------------------------------------------");
 //        userDataManager.getAllEmailAddresses().forEach(System.out::println);
-//        userDataManager.getAll().forEach(System.out::println);
+        userDaoDb.getAll().forEach(System.out::println);
 
 //        System.out.println(lodgingsDataManager.getAllLodgingsBy(2L));
 //        System.out.println(lodgingsDataManager.find(2L));

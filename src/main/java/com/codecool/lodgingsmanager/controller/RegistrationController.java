@@ -39,18 +39,18 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String userType = request.getParameter(UserDataField.USER_TYPE.getInputString());
+        String userType = request.getParameter(FieldType.USER_TYPE.getInputString());
 
-        String firstName = request.getParameter(UserDataField.FIRST_NAME.getInputString());
-        String surname = request.getParameter(UserDataField.SURNAME.getInputString());
-        String email = request.getParameter(UserDataField.EMAIL_ADDRESS.getInputString());
-        String phoneNumber = request.getParameter(UserDataField.PHONE_NUMBER.getInputString());
-        String country = request.getParameter(UserDataField.COUNTRY.getInputString());
-        String city = request.getParameter(UserDataField.CITY.getInputString());
-        String zipCode = request.getParameter(UserDataField.ZIP_CODE.getInputString());
-        String address = request.getParameter(UserDataField.ADDRESS.getInputString());
+        String firstName = request.getParameter(FieldType.FIRST_NAME.getInputString());
+        String surname = request.getParameter(FieldType.SURNAME.getInputString());
+        String email = request.getParameter(FieldType.EMAIL_ADDRESS.getInputString());
+        String phoneNumber = request.getParameter(FieldType.PHONE_NUMBER.getInputString());
+        String country = request.getParameter(FieldType.COUNTRY.getInputString());
+        String city = request.getParameter(FieldType.CITY.getInputString());
+        String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
+        String address = request.getParameter(FieldType.ADDRESS.getInputString());
 
-        String password = request.getParameter(UserDataField.PASSWORD.getInputString());
+        String password = request.getParameter(FieldType.PASSWORD.getInputString());
         String passwordHash = PasswordHashing.hashPassword(password);
 
 
