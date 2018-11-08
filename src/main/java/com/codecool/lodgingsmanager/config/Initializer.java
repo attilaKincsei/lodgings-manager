@@ -132,8 +132,7 @@ public class Initializer implements ServletContextListener {
                 203L,
                 153L,
                 433L,
-                testLandlord,
-                testPropertyManager
+                testLandlord
         );
 
         lodgingsDaoDb.add(newLodging2);

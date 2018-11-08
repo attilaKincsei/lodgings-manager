@@ -63,6 +63,18 @@
                             th:text="${lodging.getCleaningCost()}"></span>
                     </div>
                 </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Landlord's full name: </span><span
+                            th:text="${lodging.getLandlord().getFullName()}"></span>
+                    </div>
+                </li>
+                <li class="new-row">
+                    <div class="new-column"><span>Property Manager's full name: </span>
+                        <span th:if="${lodging.getPropertyManager() == null}" th:text="'No property manager has been added yet'"></span>
+                        <span th:unless="${lodging.getPropertyManager() == null}" th:text="${lodging.getPropertyManager().getFullName()}"></span>
+                    </div>
+                </li>
+
             </ul>
             <form id="edit-button" method="get" action="/lodgings/edit">
                 <button type="submit" class="btn btn-info" name="lodgingsId" th:value="${lodging.getId()}">Edit</button>

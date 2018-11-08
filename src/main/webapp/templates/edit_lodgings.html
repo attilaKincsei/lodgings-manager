@@ -71,6 +71,18 @@
                            pattern="^[\w\.\/\s_%-]{1,255}$" required>
                 </div>
 
+                <div>
+                    <label id="email-address-label" for="email-address">Property Manager's email address</label>
+                    <input th:if="${lodgings.get(0).getPropertyManager() != null}" id="email-address" class="form-control" name="email" type="email" th:value="${lodgings.get(0).getPropertyManager().getEmail()}"
+                           pattern="[a-z0-9._%+-]{1,100}+@[a-z0-9.-]{1.100}+\.[a-z]{2,3}$" placeholder="pattern: som3thing@s0mething.som"><br>
+                    <input th:unless="${lodgings.get(0).getPropertyManager() != null}" id="email-address-empty" class="form-control" name="email" type="email"
+                           pattern="[a-z0-9._%+-]{1,100}+@[a-z0-9.-]{1.100}+\.[a-z]{2,3}$" placeholder="pattern: som3thing@s0mething.som"><br>
+
+                </div>
+
+                <br>
+
+
                 <button form="add-lodgings-form" type="submit" id="submit" class="btn btn-primary btn-block" name="lodgingsId" th:value="${lodgings.get(0).getId()}">Submit</button>
             </div>
         </form>

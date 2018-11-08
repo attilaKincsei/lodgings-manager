@@ -84,7 +84,7 @@ public class UserController extends HttpServlet {
 
             boolean isOldPasswrdCorrect = userService.handleAddAndEditPost(
                     userEmail, firstName, surname, oldPassword, newPassword, phoneNumber, country, city, zipCode, address, requestPath,
-                    "fake1", "fake2", "fake3");
+                    "fake1", "fake2", "fake3", "fake4");
 
             if (isOldPasswrdCorrect) {
                 response.sendRedirect("/user");

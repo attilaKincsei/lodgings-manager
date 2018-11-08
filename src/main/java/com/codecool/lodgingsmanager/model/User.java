@@ -168,7 +168,7 @@ public abstract class User {
         this.landlordLodgings = landlordLodgings;
     }
 
-    String getFullName() {
+    public String getFullName() {
         return getFirstName() + " " + getSurname();
     }
 

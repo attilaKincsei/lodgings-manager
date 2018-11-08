@@ -65,7 +65,7 @@ public class UserService implements BaseService<User> {
     public boolean handleAddAndEditPost(
             String userEmail, String firstName, String surname, String oldPassword, String newPassword,
             String phoneNumber, String country, String city, String zipCode, String address,
-            String requestPath, String fake1, String fake2, String fake3) {
+            String requestPath, String fake1, String fake2, String fake3, String param15) {
 
         User user = handleGetUserBy(userEmail);
 
