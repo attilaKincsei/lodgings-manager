@@ -54,7 +54,7 @@ public class ToDoController extends HttpServlet {
             List<ToDo> toDoList = toDoService.handleGetAllTodosBy(lodgingsList);
 
             String requestPath = request.getServletPath();
-            String templateToRender = toDoService.handleCRUDBy(requestPath, "1");
+            String templateToRender = toDoService.handleCrudGetBy(requestPath, "1");
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
