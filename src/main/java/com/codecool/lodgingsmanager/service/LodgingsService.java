@@ -37,11 +37,6 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
-    public void handleUpdate(Lodgings lodgings) {
-        lodgingsDao.update(lodgings);
-    }
-
-    @Override
     public void handleDeletion(long id) {
         lodgingsDao.remove(id);
     }
@@ -68,7 +63,7 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
-    public String handleCRUDBy(String requestPath, String lodgingsId) {
+    public String handleCrudGetBy(String requestPath, String lodgingsId) {
         String templateToRender;
         switch (requestPath) {
             case "/lodgings":
@@ -97,11 +92,14 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
-    public void handleAddOrEditWithPostRequest(
+    public boolean handleAddAndEditPost(
             String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
             String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
             String userEmail, String requestPath, String lodgingsIdString
     ) {
+
+        boolean isSuccessful = false;
+
         User user = handleGetUserBy(userEmail);
 
         if (requestPath.equals("/lodgings/add")) {
@@ -123,6 +121,9 @@ public class LodgingsService implements BaseService<Lodgings> {
             );
 
             handleAddNew(newLodgings);
+
+            isSuccessful = true;
+
         } else if (requestPath.equals("/lodgings/edit")) {
 
             Lodgings lodgings = handleGetLodgingsBy(lodgingsIdString, user.getId()).get(0);
@@ -139,8 +140,11 @@ public class LodgingsService implements BaseService<Lodgings> {
             lodgings.setTelecommunicationBill(Long.parseLong(telecommunicationBill));
             lodgings.setCleaningCost(Long.parseLong(cleaningCost));
 
-            handleUpdate(lodgings);
+            lodgingsDao.update(lodgings);
+            isSuccessful = true;
         }
+
+        return isSuccessful;
     }
 
 
