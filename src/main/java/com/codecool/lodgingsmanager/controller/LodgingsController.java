@@ -54,7 +54,7 @@ public class LodgingsController extends HttpServlet {
 
             String requestPath = request.getServletPath();
             String lodgingsId = request.getParameter("lodgingsId");
-            String templateToRender = lodgingsService.handleCrudGetBy(requestPath, lodgingsId); // todo: thing about a better name
+            String templateToRender = lodgingsService.handleCrudGetBy(requestPath, lodgingsId); // todo: think about a better name
 
             if (templateToRender == null) {
                 response.sendRedirect("/lodgings");
@@ -84,19 +84,22 @@ public class LodgingsController extends HttpServlet {
             String gasBill = request.getParameter(LodgingDataField.GAS_BILL.getInputString());
             String telecommunicationBill = request.getParameter(LodgingDataField.TELECOMMUNICATION_BILL.getInputString());
             String cleaningCost = request.getParameter(LodgingDataField.CLEANING_COST.getInputString());
+            String propertyManagerEmail = request.getParameter(FieldType.EMAIL_ADDRESS.getInputString());
 
-            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
+            String landlordEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
 
 
             String requestPath = request.getServletPath();
             String lodgingsIdString = request.getParameter("lodgingsId");
-            System.out.println("\n--------------------------------------\n" + lodgingsIdString);
+
+            lodgingsService.handleAddAndEditPost(
+                    lodgingName, lodgingType, country, city, zipCode, address,
+                    dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, landlordEmail,
+                    requestPath, lodgingsIdString, propertyManagerEmail
+            );
 
 
-            lodgingsService.handleAddAndEditPost(lodgingName, lodgingType, country, city, zipCode, address, dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, userEmail, requestPath, lodgingsIdString);
-
-
-            response.sendRedirect("/index");
+            response.sendRedirect("/lodgings");
         }
     }
 

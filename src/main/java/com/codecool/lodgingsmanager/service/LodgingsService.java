@@ -5,6 +5,7 @@ import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -95,12 +96,12 @@ public class LodgingsService implements BaseService<Lodgings> {
     public boolean handleAddAndEditPost(
             String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
             String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
-            String userEmail, String requestPath, String lodgingsIdString
-    ) {
+            String landlordEmail, String requestPath, String lodgingsIdString,
+            String propertyManagerEmail) {
 
         boolean isSuccessful = false;
 
-        User user = handleGetUserBy(userEmail);
+        User user = handleGetUserBy(landlordEmail);
 
         if (requestPath.equals("/lodgings/add")) {
 
@@ -139,6 +140,16 @@ public class LodgingsService implements BaseService<Lodgings> {
             lodgings.setGasBill(Long.parseLong(gasBill));
             lodgings.setTelecommunicationBill(Long.parseLong(telecommunicationBill));
             lodgings.setCleaningCost(Long.parseLong(cleaningCost));
+
+            if (!propertyManagerEmail.equals("")) {
+                try {
+                    User mightBePropertyManager = userHandler.handleGetUserBy(propertyManagerEmail);
+                    lodgings.setPropertyManager(mightBePropertyManager);
+                } catch (NoResultException nre) {
+                    // todo: logging
+                    System.out.println("User email is not in the database, but NP");
+                }
+            }
 
             lodgingsDao.update(lodgings);
             isSuccessful = true;

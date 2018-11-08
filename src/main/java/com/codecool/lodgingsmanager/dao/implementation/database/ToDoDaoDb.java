@@ -12,20 +12,9 @@ import java.util.List;
 
 public class ToDoDaoDb extends BaseDaoDb<ToDo> implements ToDoDao {
 
-    private static ToDoDao INSTANCE = null;
-
-    private ToDoDaoDb() {
+    public ToDoDaoDb() {
         super(ToDo.class);
     }
-
-    public static ToDoDao getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new ToDoDaoDb();
-        }
-        return INSTANCE;
-    }
-
-
 
     @Override
     public ToDo find(long id) {

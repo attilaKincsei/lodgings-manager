@@ -10,7 +10,10 @@ import javax.persistence.NoResultException;
 
 public class PasswordHashing {
 
-    private static final UserDao userDataManager = UserDaoDb.getINSTANCE();
+
+
+    private final static UserDao userDataManager = new UserDaoDb();
+
     public static String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }

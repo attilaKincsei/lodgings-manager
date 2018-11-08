@@ -23,6 +23,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.Calendar;
+import java.util.Date;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -33,9 +35,9 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         // Initialize dao and service objects
-        UserDao userDaoDb = UserDaoDb.getINSTANCE();
-        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
-        ToDoDao toDoDaoDb = ToDoDaoDb.getINSTANCE();
+        UserDao userDaoDb = new UserDaoDb();
+        LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
+        ToDoDao toDoDaoDb = new ToDoDaoDb();
 
         BaseService<User> userService = new UserService(userDaoDb);
         LodgingsService lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
@@ -140,8 +142,7 @@ public class Initializer implements ServletContextListener {
                 203L,
                 153L,
                 433L,
-                testLandlord,
-                testPropertyManager
+                testLandlord
         );
 
         lodgingsDaoDb.add(newLodging2);
@@ -162,6 +163,9 @@ public class Initializer implements ServletContextListener {
 
         userDaoDb.add(guestUser);
 
+
+        ToDo testToDo = new ToDo("pay bills", newLodging, new Date(118, 10, 10), "Go to post office and pay cheques", 25000L);
+        toDoDaoDb.add(testToDo);
         // todo: for testing, delete later
         testingCriteriaQueries();
 
@@ -173,7 +177,7 @@ public class Initializer implements ServletContextListener {
     }
 
     private void testingDI() {
-        LandlordDao landlordDataManager = LandlordDaoDb.getINSTANCE();
+        LandlordDao landlordDataManager = new LandlordDaoDb();
         System.out.println("\n\n\n------------------------------------------------");
         for (User user : landlordDataManager.getAll()) {
             System.out.println(user);
@@ -182,8 +186,8 @@ public class Initializer implements ServletContextListener {
 
     private void testingCriteriaQueries() {
 
-        UserDao userDaoDb = UserDaoDb.getINSTANCE();
-        LodgingsDao lodgingsDaoDb = LodgingsDaoDb.getINSTANCE();
+        UserDao userDaoDb = new UserDaoDb();
+        LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
 
         System.out.println("\n\n\n------------------------------------------------");
 //        userDataManager.getAllEmailAddresses().forEach(System.out::println);

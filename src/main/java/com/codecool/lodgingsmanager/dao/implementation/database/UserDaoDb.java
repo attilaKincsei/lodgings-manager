@@ -14,17 +14,8 @@ import java.util.List;
 
 public class UserDaoDb extends BaseDaoDb<User> implements UserDao {
 
-    private static UserDao INSTANCE = null;
-
-    UserDaoDb() {
+    public UserDaoDb() {
         super(User.class);
-    }
-
-    public static UserDao getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new UserDaoDb();
-        }
-        return INSTANCE;
     }
 
     @Override
