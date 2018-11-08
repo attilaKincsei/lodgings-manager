@@ -53,6 +53,9 @@ public class ToDoController extends HttpServlet {
             List<Lodgings> lodgingsList = lodgingsService.handleGetAllLodgingsBy(user.getId());
             List<ToDo> toDoList = toDoService.handleGetAllTodosBy(lodgingsList);
 
+            String requestPath = request.getServletPath();
+            String templateToRender = toDoService.handleCRUDBy(requestPath, "1");
+
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
             context.setVariable("todoList", toDoList);
@@ -61,7 +64,7 @@ public class ToDoController extends HttpServlet {
 
 
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-            engine.process("add_todo.html", context, response.getWriter());
+            engine.process(templateToRender, context, response.getWriter());
         }
     }
 

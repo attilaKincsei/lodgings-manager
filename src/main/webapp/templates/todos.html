@@ -12,69 +12,29 @@
 <div th:replace="navbar.html :: copy"></div>
 
 <div id="add">
-    <div th:each=" todo : ${todoList}" class="panel panel-default">
-        <div class="panel-heading" th:text="${todo.getLodgings().getName()}"><b><a href="/todos">My ToDos</a></b></div>
-        <div class="panel-body">
-            <ul>
-                <h4>Name</h4>
-                <li class="new-row">
-                    <div class="new-column"><span>Country: </span>
-                        <span th:text="${todo.ge}">price</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>City: </span>
-                        <span th:text="${lodging.getCity()}">electricity bill</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Zipcode:  </span><span th:text="${lodging.getZipCode()}">price</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Address: </span><span th:text="${lodging.getAddress()}">electricity bill</span>
-                    </div>
-                </li>
-                <h4>Overhead Costs</h4>
-                <li class="new-row">
-                    <div class="new-column"><span>Daily Price:  </span>
-                        <span th:text="${lodging.getPricePerDay()}">price</span>
-                    </div>
 
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Electricity Bill: </span>
-                        <span th:text="${lodging.getElectricityBill()}">electricity bill</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Gasbill: </span>
-                        <span th:text="${lodging.getGasBill()}">price</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Telecommunication Bill: </span>
-                        <span th:text="${lodging.getTelecommunicationBill()}">electricity bill</span>
-                    </div>
-                </li>
-                <li class="new-row">
-                    <div class="new-column"><span>Cleaning Cost:  </span><span
-                            th:text="${lodging.getCleaningCost()}"></span>
-                    </div>
-                </li>
-            </ul>
-            <form id="edit-button" method="get" action="/lodgings/edit">
-                <button type="submit" class="btn btn-sm btn-info" name="lodgingsId" th:value="${lodging.getId()}">Edit</button>
-            </form>
-
-            <a th:attr="href='todo/add?lodgingsId='+${lodging.getId()}" class="btn btn-sm btn-info" name="lodgingsId">Add ToDo</a>
-
-            <form id="delete-lodgings" method="get" action="/lodgings/delete">
-                <button form="delete-lodgings" type="submit" class="btn  btn-sm btn-secondary" name="lodgingsId" th:value="${lodging.getId()}">Delete</button>
-            </form>
-
-        </div>
+    <table class="table">
+        <thead>
+        <th>Lodgings name</th>
+        <th>ToDo</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        </thead>
+        <tbody th:each="todo : ${todoList}">
+        <tr>
+            <td th:text="${todo.getLodgings().getName()}"></td>
+            <td th:text="${todo.getName()}"></td>
+            <td th:text="${todo.getDescription()}"></td>
+            <td th:text="${todo.getPrice()}"></td>
+            <td th:text="${todo.getDeadline().toString()}"></td>
+            <td th:text="${todo.getStatus().name()}"></td>
+        </tr>
+        </tbody>
+    </table>
     </div>
+
 </div>
 
 <div th:replace="footer.html :: copy"></div>
