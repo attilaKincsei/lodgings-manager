@@ -32,10 +32,6 @@ public class ToDoService implements BaseService<ToDo> {
         return null;
     }
 
-    @Override
-    public void handleUpdate(ToDo object) {
-
-    }
 
     @Override
     public void handleDeletion(long id) {
@@ -43,11 +39,11 @@ public class ToDoService implements BaseService<ToDo> {
     }
 
     @Override
-    public String handleCRUDBy(String requestPath, String id) {
+    public String handleCrudGetBy(String requestPath, String id) {
         String templateToRender;
         switch (requestPath) {
             case "/todo":
-                templateToRender = "todo.html";
+                templateToRender = "todos.html";
                 break;
             case "/todo/add":
                 templateToRender = "add_todo.html";
@@ -59,7 +55,7 @@ public class ToDoService implements BaseService<ToDo> {
                 templateToRender = null;
                 break;
             default:
-                templateToRender = "todo.html";
+                templateToRender = "todos.html";
                 break;
         }
         return templateToRender;
@@ -71,9 +67,10 @@ public class ToDoService implements BaseService<ToDo> {
     }
 
     @Override
-    public void handleAddOrEditWithPostRequest(String lodgingName, String lodgingType, String country, String city, String zipCode, String address, String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost, String userEmail, String requestPath, String lodgingsIdString) {
-
+    public boolean handleAddAndEditPost(String param1, String param2, String param3, String param4, String param5, String param6, String param7, String param8, String param9, String param10, String param11, String param12, String param13, String param14) {
+        return false;
     }
+
 
     public List<ToDo> handleGetAllTodosBy(List<Lodgings> lodgingsList) {
         return toDoDao.getAllTodosBy(lodgingsList);
