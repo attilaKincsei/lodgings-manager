@@ -8,7 +8,7 @@ import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.service.LodgingsService;
 import com.codecool.lodgingsmanager.service.ToDoService;
-import com.codecool.lodgingsmanager.util.UserDataField;
+import com.codecool.lodgingsmanager.util.FieldType;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
@@ -44,16 +43,16 @@ public class ToDoController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
 
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
-            //context.setVariable("lodginsId", request.getParameter("lodgingsId"));
+            context.setVariable("lodgingsId", request.getParameter("lodgingsId"));
 
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             engine.process("add_todo.html", context, response.getWriter());
@@ -64,7 +63,7 @@ public class ToDoController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
 
@@ -72,16 +71,16 @@ public class ToDoController extends HttpServlet {
             String description = request.getParameter("description");
             long price = Long.parseLong(request.getParameter("price"));
 
-            SimpleDateFormat formatter = new SimpleDateFormat("mm-dd-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = null;
 
             try {
-                date = formatter.parse(request.getParameter("price"));
+                date = formatter.parse(request.getParameter("date"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
             String LodgingsId = request.getParameter("lodgingsId");
             long userId = user.getId();
@@ -89,7 +88,7 @@ public class ToDoController extends HttpServlet {
             PropertyManager propertyManager = (PropertyManager) lodgings.getPropertyManager();
 
 
-            ToDo toDo = new ToDo(lodgings, propertyManager, date, description, price);
+            ToDo toDo = new ToDo(name,lodgings, propertyManager, date, description, price);
 
             toDoService.handleAddNew(toDo);
 
