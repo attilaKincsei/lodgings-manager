@@ -8,7 +8,7 @@ import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.service.LodgingsService;
 import com.codecool.lodgingsmanager.service.ToDoService;
-import com.codecool.lodgingsmanager.util.UserDataField;
+import com.codecool.lodgingsmanager.util.FieldType;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
@@ -44,11 +43,11 @@ public class ToDoController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
 
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
@@ -64,7 +63,7 @@ public class ToDoController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
 
@@ -81,7 +80,7 @@ public class ToDoController extends HttpServlet {
                 e.printStackTrace();
             }
 
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
             String LodgingsId = request.getParameter("lodgingsId");
             long userId = user.getId();
