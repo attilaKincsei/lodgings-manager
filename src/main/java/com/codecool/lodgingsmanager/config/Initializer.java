@@ -23,6 +23,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.Calendar;
+import java.util.Date;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -161,6 +163,9 @@ public class Initializer implements ServletContextListener {
 
         userDaoDb.add(guestUser);
 
+
+        ToDo testToDo = new ToDo("pay bills", newLodging, new Date(118, 10, 10), "Go to post office and pay cheques", 25000L);
+        toDoDaoDb.add(testToDo);
         // todo: for testing, delete later
         testingCriteriaQueries();
 

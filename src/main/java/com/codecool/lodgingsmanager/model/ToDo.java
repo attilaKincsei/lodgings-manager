@@ -21,7 +21,7 @@ public class ToDo {
     @Column(name = "Status")
     @Enumerated(EnumType.STRING)
     private Status status = Status.NEW;
-    private boolean obsolete = true;
+    private boolean obsolete = false;
 
     public ToDo() {
     }
