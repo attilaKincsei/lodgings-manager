@@ -54,7 +54,7 @@ public class LodgingsController extends HttpServlet {
 
             String requestPath = request.getServletPath();
             String lodgingsId = request.getParameter("lodgingsId");
-            String templateToRender = lodgingsService.handleCRUDBy(requestPath, lodgingsId); // todo: thing about a better name
+            String templateToRender = lodgingsService.handleCrudGetBy(requestPath, lodgingsId); // todo: thing about a better name
 
             if (templateToRender == null) {
                 response.sendRedirect("/lodgings");
@@ -93,7 +93,7 @@ public class LodgingsController extends HttpServlet {
             System.out.println("\n--------------------------------------\n" + lodgingsIdString);
 
 
-            lodgingsService.handleAddOrEditWithPostRequest(lodgingName, lodgingType, country, city, zipCode, address, dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, userEmail, requestPath, lodgingsIdString);
+            lodgingsService.handleAddAndEditPost(lodgingName, lodgingType, country, city, zipCode, address, dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, userEmail, requestPath, lodgingsIdString);
 
 
             response.sendRedirect("/index");

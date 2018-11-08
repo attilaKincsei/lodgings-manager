@@ -40,7 +40,7 @@
 
                 <label id="old-password-label" for="old-password">New password</label>
                 <input id="new-password" class="form-control" type="password" name="password_confirmation" placeholder="Length: minimum 1 maximum 255 characterss; e.g.: abc1Dfgh"
-                       pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required ><br>
+                       pattern="(?=^.{8,255}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"><br>
 
                 <label for="phone-input">Phone Number</label>
                 <input id="phone-input" class="form-control" type="tel" name="phone_number" placeholder="pattern: +36205561234" th:value="${userData.getPhoneNumber()}"

@@ -9,16 +9,16 @@ public interface BaseService <E> {
     void handleAddNew(E object);
     User handleGetUserBy(String userEmail);
     List<E> handleGetAllBy(long id);
-    void handleUpdate(E object);
     void handleDeletion(long id);
 
-    String handleCRUDBy(String requestPath, String id);
+    String handleCrudGetBy(String requestPath, String id);
 
     List<String> getEnumAsStringList();
 
-    void handleAddOrEditWithPostRequest(
-            String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
-            String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
-            String userEmail, String requestPath, String lodgingsIdString
+    boolean handleAddAndEditPost(
+            String param1, String param2, String param3, String param4, String param5,
+            String param6, String param7, String param8, String param9, String param10,
+            String param11, String param12, String param13, String param14
     );
+
 }

@@ -38,12 +38,13 @@ public class UserController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
+            System.out.println("\n--------------------------\n" + userEmail);
             User user = userService.handleGetUserBy(userEmail);
 
             String requestPath = request.getServletPath();
             String userId = request.getParameter("userId"); // todo: send user id with post request, not safe
 
-            String templateToRender = userService.handleCRUDBy(requestPath, userId); // todo: thing about a better name
+            String templateToRender = userService.handleCrudGetBy(requestPath, userId); // todo: thing about a better name
 
             if (templateToRender == null) {
                 response.sendRedirect("/login");
@@ -67,36 +68,29 @@ public class UserController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
-            WebContext context = new WebContext(request, response, request.getServletContext());
-            User user = userService.handleGetUserBy(userEmail);
-            String userClass = user.getClass().getName();
-            context.setVariable("userData", user);
-            context.setVariable("userClass", userClass);
-
             String firstName = request.getParameter(FieldType.FIRST_NAME.getInputString());
             String surname = request.getParameter(FieldType.SURNAME.getInputString());
+
+            String oldPassword = request.getParameter(FieldType.PASSWORD.getInputString());
+            String newPassword = request.getParameter(FieldType.PASSWORD_CONFIRMATION.getInputString());
+
             String phoneNumber = request.getParameter(FieldType.PHONE_NUMBER.getInputString());
             String country = request.getParameter(FieldType.COUNTRY.getInputString());
             String city = request.getParameter(FieldType.CITY.getInputString());
             String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
             String address = request.getParameter(FieldType.ADDRESS.getInputString());
 
-            user.setFirstName(firstName);
-            user.setSurname(surname);
-            user.setPhoneNumber(phoneNumber);
-            user.setCountry(country);
-            user.setCity(city);
-            user.setZipCode(zipCode);
-            user.setAddress(address);
+            String requestPath = request.getServletPath();
 
-            try {
-                userService.handleUpdate(user);
-            } catch (NullPointerException npe) {
-                npe.printStackTrace();
-                System.out.println("New user could not be created");
+            boolean isOldPasswrdCorrect = userService.handleAddAndEditPost(
+                    userEmail, firstName, surname, oldPassword, newPassword, phoneNumber, country, city, zipCode, address, requestPath,
+                    "fake1", "fake2", "fake3");
+
+            if (isOldPasswrdCorrect) {
+                response.sendRedirect("/user");
+            } else {
+                response.sendRedirect("/user/edit");
             }
-
-            response.sendRedirect("/user");
 
         }
     }

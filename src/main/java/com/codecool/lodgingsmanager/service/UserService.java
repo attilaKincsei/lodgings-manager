@@ -2,7 +2,9 @@ package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.util.PasswordHashing;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class UserService implements BaseService<User> {
@@ -19,7 +21,7 @@ public class UserService implements BaseService<User> {
     }
 
     @Override
-    public User handleGetUserBy(String userEmail) {
+    public User handleGetUserBy(String userEmail) throws NoResultException {
         return userDao.findIdBy(userEmail);
     }
 
@@ -29,17 +31,12 @@ public class UserService implements BaseService<User> {
     }
 
     @Override
-    public void handleUpdate(User user) {
-        userDao.update(user);
-    }
-
-    @Override
     public void handleDeletion(long id) {
         userDao.remove(id);
     }
 
     @Override
-    public String handleCRUDBy(String requestPath, String userId) {
+    public String handleCrudGetBy(String requestPath, String userId) {
         String templateToRender;
         switch (requestPath) {
             case "/user":
@@ -65,7 +62,32 @@ public class UserService implements BaseService<User> {
     }
 
     @Override
-    public void handleAddOrEditWithPostRequest(String lodgingName, String lodgingType, String country, String city, String zipCode, String address, String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost, String userEmail, String requestPath, String lodgingsIdString) {
-        // todo: implement
+    public boolean handleAddAndEditPost(
+            String userEmail, String firstName, String surname, String oldPassword, String newPassword,
+            String phoneNumber, String country, String city, String zipCode, String address,
+            String requestPath, String fake1, String fake2, String fake3) {
+
+        User user = handleGetUserBy(userEmail);
+
+        boolean isOldPasswordCorrect = PasswordHashing.isPasswordCorrect(oldPassword, userEmail);
+
+        boolean isPasswordUpdated = false;
+        if (isOldPasswordCorrect && !newPassword.equals("")) {
+            user.setPasswordHash(PasswordHashing.hashPassword(newPassword));
+
+            user.setFirstName(firstName);
+            user.setSurname(surname);
+            user.setPhoneNumber(phoneNumber);
+            user.setCountry(country);
+            user.setCity(city);
+            user.setZipCode(zipCode);
+            user.setAddress(address);
+            userDao.update(user);
+            isPasswordUpdated = true;
+        }
+
+        return isPasswordUpdated;
+
     }
+
 }
