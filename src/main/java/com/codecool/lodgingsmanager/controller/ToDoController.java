@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
@@ -49,10 +50,15 @@ public class ToDoController extends HttpServlet {
 
             String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
+            List<Lodgings> lodgingsList = lodgingsService.handleGetAllLodgingsBy(user.getId());
+            List<ToDo> toDoList = toDoService.handleGetAllTodosBy(lodgingsList);
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
+            context.setVariable("todoList", toDoList);
             context.setVariable("lodgingsId", request.getParameter("lodgingsId"));
+
+
 
             TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
             engine.process("add_todo.html", context, response.getWriter());
@@ -85,10 +91,8 @@ public class ToDoController extends HttpServlet {
             String LodgingsId = request.getParameter("lodgingsId");
             long userId = user.getId();
             Lodgings lodgings = lodgingsService.handleGetLodgingsBy(LodgingsId,userId).get(0);
-            PropertyManager propertyManager = (PropertyManager) lodgings.getPropertyManager();
 
-
-            ToDo toDo = new ToDo(name,lodgings, propertyManager, date, description, price);
+            ToDo toDo = new ToDo(name,lodgings, date, description, price);
 
             toDoService.handleAddNew(toDo);
 

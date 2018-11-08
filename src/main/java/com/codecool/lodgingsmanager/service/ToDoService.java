@@ -1,6 +1,7 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.ToDoDao;
+import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.ToDo;
 import com.codecool.lodgingsmanager.model.User;
 
@@ -43,7 +44,25 @@ public class ToDoService implements BaseService<ToDo> {
 
     @Override
     public String handleCRUDBy(String requestPath, String id) {
-        return null;
+        String templateToRender;
+        switch (requestPath) {
+            case "/todo":
+                templateToRender = "todo.html";
+                break;
+            case "/todo/add":
+                templateToRender = "add_todo.html";
+                break;
+            case "/todo/edit":
+                templateToRender = "edit_todo.html";
+                break;
+            case "/todo/delete":
+                templateToRender = null;
+                break;
+            default:
+                templateToRender = "todo.html";
+                break;
+        }
+        return templateToRender;
     }
 
     @Override
@@ -54,5 +73,9 @@ public class ToDoService implements BaseService<ToDo> {
     @Override
     public void handleAddOrEditWithPostRequest(String lodgingName, String lodgingType, String country, String city, String zipCode, String address, String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost, String userEmail, String requestPath, String lodgingsIdString) {
 
+    }
+
+    public List<ToDo> handleGetAllTodosBy(List<Lodgings> lodgingsList) {
+        return toDoDao.getAllTodosBy(lodgingsList);
     }
 }

@@ -14,8 +14,6 @@ public class ToDo {
     private String name;
     @ManyToOne
     private Lodgings lodgings;
-    @ManyToOne
-    private PropertyManager personInCharge;
     @Temporal(TemporalType.DATE)
     private Date deadline;
     private String description;
@@ -28,10 +26,9 @@ public class ToDo {
     public ToDo() {
     }
 
-    public ToDo(String name, Lodgings lodgings, PropertyManager personInCharge, Date deadline, String description, long price) {
+    public ToDo(String name, Lodgings lodgings, Date deadline, String description, long price) {
         this.name = name;
         this.lodgings = lodgings;
-        this.personInCharge = personInCharge;
         this.deadline = deadline;
         this.description = description;
         this.price = price;
@@ -59,14 +56,6 @@ public class ToDo {
 
     public void setLodgings(Lodgings lodgings) {
         this.lodgings = lodgings;
-    }
-
-    public PropertyManager getPersonInCharge() {
-        return personInCharge;
-    }
-
-    public void setPersonInCharge(PropertyManager personInCharge) {
-        this.personInCharge = personInCharge;
     }
 
     public Date getDeadline() {
