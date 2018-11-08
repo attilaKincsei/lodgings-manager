@@ -1,10 +1,9 @@
 package com.codecool.lodgingsmanager.controller;
 
-import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
-import com.codecool.lodgingsmanager.util.UserDataField;
+import com.codecool.lodgingsmanager.util.FieldType;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -35,10 +34,10 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession(false);
         WebContext context = new WebContext(request, response, request.getServletContext());
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             User user = userService.handleGetUserBy(userEmail);
 
             String requestPath = request.getServletPath();
@@ -64,23 +63,23 @@ public class UserController extends HttpServlet {
 
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()) == null) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()) == null) {
             response.sendRedirect("/login");
         } else {
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             WebContext context = new WebContext(request, response, request.getServletContext());
             User user = userService.handleGetUserBy(userEmail);
             String userClass = user.getClass().getName();
             context.setVariable("userData", user);
             context.setVariable("userClass", userClass);
 
-            String firstName = request.getParameter(UserDataField.FIRST_NAME.getInputString());
-            String surname = request.getParameter(UserDataField.SURNAME.getInputString());
-            String phoneNumber = request.getParameter(UserDataField.PHONE_NUMBER.getInputString());
-            String country = request.getParameter(UserDataField.COUNTRY.getInputString());
-            String city = request.getParameter(UserDataField.CITY.getInputString());
-            String zipCode = request.getParameter(UserDataField.ZIP_CODE.getInputString());
-            String address = request.getParameter(UserDataField.ADDRESS.getInputString());
+            String firstName = request.getParameter(FieldType.FIRST_NAME.getInputString());
+            String surname = request.getParameter(FieldType.SURNAME.getInputString());
+            String phoneNumber = request.getParameter(FieldType.PHONE_NUMBER.getInputString());
+            String country = request.getParameter(FieldType.COUNTRY.getInputString());
+            String city = request.getParameter(FieldType.CITY.getInputString());
+            String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
+            String address = request.getParameter(FieldType.ADDRESS.getInputString());
 
             user.setFirstName(firstName);
             user.setSurname(surname);
