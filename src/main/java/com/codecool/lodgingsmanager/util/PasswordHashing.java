@@ -15,18 +15,11 @@ public class PasswordHashing {
         return BCrypt.hashpw(password, BCrypt.gensalt(12));
     }
 
-    public static User checkPassword(String candidate, String email) throws NoResultException {
-
+    public static boolean isPasswordCorrect(String candidate, String email) {
         User user = userDataManager.findIdBy(email);
         String hashed = user.getPasswordHash();
 
-        if (BCrypt.checkpw(candidate, hashed)) {
-            return user;
-        } else {
-            return null;
-        }
-
-
+        return BCrypt.checkpw(candidate, hashed);
     }
 
 }

@@ -64,22 +64,33 @@ public class LoginController extends HttpServlet {
         String email = request.getParameter(FieldType.EMAIL_ADDRESS.getInputString());
         String password = request.getParameter(FieldType.PASSWORD.getInputString());
 
-        try {
-            User mightBeUser = PasswordHashing.checkPassword(password, email);
-            HttpSession newSession = request.getSession(true);
-            newSession.setAttribute(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
-            newSession.setMaxInactiveInterval(30*60);
+        boolean isPasswordCorrect = PasswordHashing.isPasswordCorrect(password, email);
+        if (isPasswordCorrect) {
+            User mightBeUser = userService.handleGetUserBy(email);
 
-            Cookie userEmail = new Cookie(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
-            userEmail.setMaxAge(30*60);
-            response.addCookie(userEmail);
+            try {
+                HttpSession newSession = request.getSession(true);
+                newSession.setAttribute(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+                newSession.setMaxInactiveInterval(30*60);
 
-            response.sendRedirect("/index");
+                Cookie userEmail = new Cookie(FieldType.EMAIL_ADDRESS.getInputString(), mightBeUser.getEmail());
+                userEmail.setMaxAge(30*60);
+                response.addCookie(userEmail);
 
-        } catch (NoResultException | NullPointerException ex) {
-            System.out.println("User not in database"); // todo: change it to logger
+                response.sendRedirect("/index");
+
+            } catch (NoResultException ex) {
+                System.out.println("User not in database"); // todo: change it to logger
+                response.sendRedirect("/login/incorrect");
+            }
+
+
+        } else {
             response.sendRedirect("/login/incorrect");
         }
+
+
+
 
     }
 
