@@ -12,6 +12,7 @@ import java.util.Set;
 public class PropertyManager extends UserManager {
 
 
+
     public PropertyManager() {
 
     }

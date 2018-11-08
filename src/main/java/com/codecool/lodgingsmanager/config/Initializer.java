@@ -5,9 +5,11 @@ import com.codecool.lodgingsmanager.controller.*;
 import com.codecool.lodgingsmanager.controller.ajax.EmailCheckerController;
 import com.codecool.lodgingsmanager.dao.LandlordDao;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
+import com.codecool.lodgingsmanager.dao.ToDoDao;
 import com.codecool.lodgingsmanager.dao.UserDao;
 import com.codecool.lodgingsmanager.dao.implementation.database.LandlordDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
+import com.codecool.lodgingsmanager.dao.implementation.database.ToDoDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.*;
 import com.codecool.lodgingsmanager.service.*;
@@ -35,8 +37,9 @@ public class Initializer implements ServletContextListener {
         LodgingsDao lodgingsDaoDb = new LodgingsDaoDb();
 
         BaseService<User> userService = new UserService(userDaoDb);
-        BaseService<Lodgings> lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
+        LodgingsService lodgingsService = new LodgingsService(lodgingsDaoDb, userService);
         EmailCheckerService emailCheckerService = new EmailCheckerService(userService);
+        ToDoService toDoService = new ToDoService(toDoDaoDb, userService);
 
 
         // Initialize servlets with dependency injection
@@ -66,6 +69,10 @@ public class Initializer implements ServletContextListener {
         context
                 .addServlet("RegistrationController", new RegistrationController("RegistrationController", userService))
                 .addMapping("/registration");
+
+        context
+                .addServlet("ToDoController", new ToDoController("ToDoController", userService, lodgingsService, toDoService))
+                .addMapping("/todo/add", "/todo");
 
 
 

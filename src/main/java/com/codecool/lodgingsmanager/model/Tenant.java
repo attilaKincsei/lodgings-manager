@@ -30,4 +30,8 @@ public class Tenant extends User {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
