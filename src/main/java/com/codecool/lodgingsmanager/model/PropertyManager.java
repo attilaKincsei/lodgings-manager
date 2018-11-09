@@ -1,11 +1,17 @@
 package com.codecool.lodgingsmanager.model;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import com.codecool.lodgingsmanager.util.UserType;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @DiscriminatorValue(value = "PROPERTY_MANAGER")
-public class PropertyManager extends User implements Managing {
+public class PropertyManager extends UserManager {
+
+
 
     public PropertyManager() {
 
@@ -26,8 +32,4 @@ public class PropertyManager extends User implements Managing {
         super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
     }
 
-    @Override
-    public String getUserType() {
-        return "PROPERTY_MANAGER";  // TODO use reflection?
-    }
 }

@@ -1,4 +1,6 @@
 package com.codecool.lodgingsmanager.dao.implementation.database;
 
-public class TenantDaoDb extends UserDaoDb {
+import com.codecool.lodgingsmanager.dao.TenantDao;
+
+public class TenantDaoDb extends UserDaoDb implements TenantDao {
 }

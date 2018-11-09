@@ -1,6 +1,8 @@
 package com.codecool.lodgingsmanager.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "site_user")
@@ -11,7 +13,7 @@ public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true)
     private long id;
     private String firstName;
     private String surname;
@@ -22,6 +24,23 @@ public abstract class User {
     private String zipCode;
     private String address;
     private String passwordHash;
+
+
+    @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Lodgings> propertyManagerLodgings = new HashSet<>();
+
+    @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Lodgings> landlordLodgings = new HashSet<>();
+
+
+
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    Lodgings tenantLodgings = new Lodgings();
+
+
+
+
+
 
     public User() {
 
@@ -125,11 +144,29 @@ public abstract class User {
         return passwordHash;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
 
-    public abstract String getUserType();
+    public Set<Lodgings> getPropertyManagerLodgings() {
+        return propertyManagerLodgings;
+    }
+
+    public void setPropertyManagerLodgings(Set<Lodgings> propertyManagerLodgings) {
+        this.propertyManagerLodgings = propertyManagerLodgings;
+    }
+
+    public Set<Lodgings> getLandlordLodgings() {
+        return landlordLodgings;
+    }
+
+    public void setLandlordLodgings(Set<Lodgings> landlordLodgings) {
+        this.landlordLodgings = landlordLodgings;
+    }
 
     public String getFullName() {
         return getFirstName() + " " + getSurname();

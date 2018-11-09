@@ -1,8 +1,18 @@
 package com.codecool.lodgingsmanager.util;
 
 public enum LodgingsType {
-    APARTMENT,
-    FAMILY_HOUSE,
-    ROOM,
-    PENTHOUSE
+    APARTMENT("APARTMENT"),
+    FAMILY_HOUSE("FAMILY_HOUSE"),
+    ROOM("ROOM"),
+    PENTHOUSE("PENTHOUSE");
+
+    private final String lodgingsTypeString;
+
+    LodgingsType(String lodgingsTypeString) {
+        this.lodgingsTypeString = lodgingsTypeString;
+    }
+
+    public String getLodgingsTypeString() {
+        return lodgingsTypeString;
+    }
 }

@@ -2,10 +2,12 @@ package com.codecool.lodgingsmanager.dao;
 
 import com.codecool.lodgingsmanager.model.User;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
-public abstract class UserDao extends BaseDAO<User> {
+public interface UserDao extends BaseDAO<User> {
 
-    public abstract User findIdBy(String email);
-    public abstract List<String> getAllEmailAddresses();
+    User findIdBy(String email) throws NoResultException;
+    List<String> getAllEmailAddresses() throws NoResultException;
+    List<User> getAllUserBy(long lodgingsId);
 }

@@ -5,12 +5,11 @@ import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.service.LodgingsService;
-import com.codecool.lodgingsmanager.service.UserService;
-import com.codecool.lodgingsmanager.util.UserDataField;
+import com.codecool.lodgingsmanager.util.FieldType;
+import com.codecool.lodgingsmanager.util.LodgingDataField;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,11 +19,16 @@ import java.util.List;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-@WebServlet(urlPatterns = {"/lodgings", "/edit-lodgings"}) // todo: edit lodgings is not implemented
+// todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
-    private BaseService<User> userHandler = new UserService();
-    private BaseService<Lodgings> lodgingsHandler = new LodgingsService();
+    private final String servletName;
+    private final BaseService<Lodgings> lodgingsService;
+
+    public LodgingsController(String servletName, BaseService<Lodgings> lodgingsService) {
+        this.servletName = servletName;
+        this.lodgingsService = lodgingsService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -32,22 +36,72 @@ public class LodgingsController extends HttpServlet {
         // Handling log-in
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
             response.sendRedirect("/login");
         } else {
-            String userEmail = (String) session.getAttribute(UserDataField.EMAIL_ADDRESS.getInputString());
+            String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
             String lodgingsIdString = request.getParameter("lodgingsId");
 
-            User user = userHandler.handleBy(userEmail);
-            List<Lodgings> lodgingsList = lodgingsHandler.handleBy(lodgingsIdString, user.getId());
+            User user = lodgingsService.handleGetUserBy(userEmail);
+            List<Lodgings> lodgingsList = ((LodgingsService) lodgingsService).handleGetLodgingsBy(lodgingsIdString, user.getId());
+            List<String> lodgingsTypeList = lodgingsService.getEnumAsStringList();
 
             WebContext context = new WebContext(request, response, request.getServletContext());
             context.setVariable("userData", user);
             context.setVariable("lodgings", lodgingsList);
-            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
-            engine.process("lodgings.html", context, response.getWriter());
+            context.setVariable("lodgingsTypes", lodgingsTypeList);
 
+
+            String requestPath = request.getServletPath();
+            String lodgingsId = request.getParameter("lodgingsId");
+            String templateToRender = lodgingsService.handleCrudGetBy(requestPath, lodgingsId); // todo: think about a better name
+
+            if (templateToRender == null) {
+                response.sendRedirect("/lodgings");
+            } else {
+                TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
+                engine.process(templateToRender, context, response.getWriter());
+            }
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString()).equals(GUEST_EMAIL)) {
+            response.sendRedirect("/login");
+        } else {
+
+            String lodgingName = request.getParameter(LodgingDataField.NAME.getInputString());
+            String lodgingType = request.getParameter(LodgingDataField.TYPE.getInputString());
+            String country = request.getParameter(FieldType.COUNTRY.getInputString());
+            String city = request.getParameter(FieldType.CITY.getInputString());
+            String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
+            String address = request.getParameter(FieldType.ADDRESS.getInputString());
+            String dailyPrice = request.getParameter(LodgingDataField.DAILY_PRICE.getInputString());
+            String electricityBill = request.getParameter(LodgingDataField.ELECTRICITY_BILL.getInputString());
+            String gasBill = request.getParameter(LodgingDataField.GAS_BILL.getInputString());
+            String telecommunicationBill = request.getParameter(LodgingDataField.TELECOMMUNICATION_BILL.getInputString());
+            String cleaningCost = request.getParameter(LodgingDataField.CLEANING_COST.getInputString());
+            String propertyManagerEmail = request.getParameter(FieldType.EMAIL_ADDRESS.getInputString());
+
+            String landlordEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
+
+
+            String requestPath = request.getServletPath();
+            String lodgingsIdString = request.getParameter("lodgingsId");
+
+            lodgingsService.handleAddAndEditPost(
+                    lodgingName, lodgingType, country, city, zipCode, address,
+                    dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, landlordEmail,
+                    requestPath, lodgingsIdString, propertyManagerEmail
+            );
+
+
+            response.sendRedirect("/lodgings");
+        }
+    }
+
 
 }

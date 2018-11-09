@@ -14,13 +14,13 @@
 <div class="container" style="margin-bottom: 15px">
     <div class="col-lg-6 col-lg-offset-3">
         <h3 class="bg-success text-white p-5">Add new lodgings</h3>
-        <form id="add-lodgings-form" action="/add-lodgings" method="post">
+        <form id="add-lodgings-form" action="/lodgings/add" method="post">
             <div class="form-group mx-auto">
 
                 <div>
                     <label for="lodging-name">Lodging name</label>
                     <input id="lodging-name" class="form-control" type="text" name="lodging_name" placeholder="Lodging Name"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required>
+                           pattern="^[\w\.\/_%-]{1,255}$" required>
                 </div>
                 <br>
 
@@ -35,38 +35,43 @@
                 </div>
 
                 <label for="lod-price">Daily price</label>
-                <input id="lod-price" class="form-control" type="text"  name="daily_price" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}" required><br>
+                <input id="lod-price" class="form-control" type="text"  name="daily_price"
+                       placeholder="Digits only. Length: 1-12" pattern="^[1-9]{1}[0-9]{0,11}|[0]{1}$" required><br>
 
                 <label for="lod-electricity">Electricity Bill</label>
-                <input id="lod-electricity" class="form-control" type="text"  name="electricity_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
+                <input id="lod-electricity" class="form-control" type="text"  name="electricity_bill"
+                       placeholder="Digits only. Length: 1-12" pattern="^[1-9]{1}[0-9]{0,11}|[0]{1}$" required><br>
 
                 <label for="lod-gas">Gas Bill</label>
-                <input id="lod-gas" class="form-control" type="text"  name="gas_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
+                <input id="lod-gas" class="form-control" type="text"  name="gas_bill"
+                       placeholder="Digits only. Length: 1-12" pattern="^[1-9]{1}[0-9]{0,11}|[0]{1}$" required><br>
 
                 <label for="lod-telecom">Telecommunication Bill</label>
-                <input id="lod-telecom" class="form-control" type="text"  name="telecommunication_bill" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
+                <input id="lod-telecom" class="form-control" type="text"  name="telecommunication_bill"
+                       placeholder="Digits only. Length: 1-12" pattern="^[1-9]{1}[0-9]{0,11}|[0]{1}$" required><br>
 
                 <label for="lod-cleaning">Cleaning Cost</label>
-                <input id="lod-cleaning" class="form-control" type="text"  name="cleaning_cost" placeholder="Digits only. Length: 1-12" pattern="[0-9]{1,12}"  required><br>
+                <input id="lod-cleaning" class="form-control" type="text"  name="cleaning_cost"
+                       placeholder="Digits only. Length: 1-12" pattern="^[1-9]{1}[0-9]{0,11}|[0]{1}$" required><br>
 
                 <div class="form-group">
                     <h3 class="bg-success text-white p-5">Address</h3>
 
                     <label for="lod-country">Country</label>
                     <input id="lod-country" class="form-control" type="text" name="country"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/\s_%-]{1,255}$" required><br>
 
                     <label for="lod-city">City</label>
                     <input id="lod-city" class="form-control" type="text" name="city"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/\s_%-]{1,255}$" required><br>
 
                     <label for="lod-zip">Zip code</label>
                     <input id="lod-zip" class="form-control" type="text" name="zip_code"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required><br>
+                           pattern="^[\w\.\/\s_%-]{1,255}$" required><br>
 
                     <label for="lod-address">Address</label>
                     <input id="lod-address" class="form-control" type="text" name="address"
-                           pattern="^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$" required>
+                           pattern="^[\w\.\/\s_%-]{1,255}$" required><br>
                 </div>
 
                 <button form="add-lodgings-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>

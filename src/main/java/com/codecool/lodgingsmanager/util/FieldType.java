@@ -1,8 +1,8 @@
 package com.codecool.lodgingsmanager.util;
 
-public enum UserDataField {
+public enum FieldType {
     USER_OBJECT("user_object"),
-    USER_ID("user_id"),
+    ID("id"),
     FIRST_NAME("first_name"),
     SURNAME("surname"),
     FULL_NAME("full_name"),
@@ -15,11 +15,13 @@ public enum UserDataField {
     COUNTRY("country"),
     CITY("city"),
     ZIP_CODE("zip_code"),
-    ADDRESS("address");
+    ADDRESS("address"),
+    PROPERTY_MANAGER_LODGINGS("propertyManagerLodgings"),
+    LANDLORD_LODGINGS("landlordLodgings");
 
     private final String inputString;
 
-    UserDataField(String inputString) {
+    FieldType(String inputString) {
         this.inputString = inputString;
     }
 
