@@ -63,7 +63,7 @@
 
                     <label for="address-input">Address</label>
                     <input id="address-input" class="form-control" type="text" name="address" placeholder="Length: minimum 1 maximum 255 characters"
-                           th:value="${userData.getAddress()}" pattern="^[\w\.\/\s_%-]{1,255}$" required>
+                           th:value="${userData.getFullAddress()}" pattern="^[\w\.\/\s_%-]{1,255}$" required>
                 </div>
 
                 <button form="edit-profile-form" type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Submit</button>

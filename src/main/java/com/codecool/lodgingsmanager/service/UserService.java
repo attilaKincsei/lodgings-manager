@@ -81,7 +81,7 @@ public class UserService implements BaseService<User> {
             user.setCountry(country);
             user.setCity(city);
             user.setZipCode(zipCode);
-            user.setAddress(address);
+            user.setFullAddress(address);
             userDao.update(user);
             isPasswordUpdated = true;
         }

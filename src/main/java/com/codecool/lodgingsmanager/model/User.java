@@ -1,5 +1,7 @@
 package com.codecool.lodgingsmanager.model;
 
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,28 +21,15 @@ public abstract class User {
     private String surname;
     private String email;
     private String phoneNumber;
-    private String country;
-    private String city;
-    private String zipCode;
-    private String address;
     private String passwordHash;
-
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private AddressBuilder fullAddress;
 
     @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Lodgings> propertyManagerLodgings = new HashSet<>();
 
     @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Lodgings> landlordLodgings = new HashSet<>();
-
-
-
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    Lodgings tenantLodgings = new Lodgings();
-
-
-
-
-
 
     public User() {
 
@@ -51,21 +40,15 @@ public abstract class User {
             String surname,
             String email,
             String phoneNumber,
-            String country,
-            String city,
-            String zipCode,
-            String address,
-            String passwordHash
+            String passwordHash,
+            AddressBuilder fullAddress
     ) {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.country = country;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
         this.passwordHash = passwordHash;
+        this.fullAddress = fullAddress;
     }
 
     public long getId() {
@@ -109,35 +92,35 @@ public abstract class User {
     }
 
     public String getCountry() {
-        return country;
+        return fullAddress.getCountry();
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.fullAddress.setCountry(country);
     }
 
     public String getCity() {
-        return city;
+        return fullAddress.getCity();
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.fullAddress.setCity(city);
     }
 
     public String getZipCode() {
-        return zipCode;
+        return fullAddress.getZipCode();
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.fullAddress.setZipCode(zipCode);
     }
 
-    public String getAddress() {
-        return address;
+    public String getFullAddress() {
+        return fullAddress.getAddress();
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFullAddress(String address) {
+        this.fullAddress.setAddress(address);;
     }
 
     public String getPasswordHash() {
@@ -179,10 +162,10 @@ public abstract class User {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", address='" + address + '\'' +
+                ", country='" + fullAddress.getCountry() + '\'' +
+                ", city='" + fullAddress.getCity() + '\'' +
+                ", zipCode='" + fullAddress.getZipCode() + '\'' +
+                ", address='" + fullAddress.getAddress() + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }

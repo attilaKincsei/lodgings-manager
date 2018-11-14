@@ -28,7 +28,7 @@ public class ToDoService implements BaseService<ToDo> {
     }
 
     @Override
-    public List handleGetAllBy(long id) {
+    public List<ToDo> handleGetAllBy(long id) {
         return null;
     }
 
