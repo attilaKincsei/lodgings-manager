@@ -1,5 +1,6 @@
 package com.codecool.lodgingsmanager.model.builder;
 
+import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
 import javax.persistence.*;
@@ -18,7 +19,11 @@ public class AddressBuilder {
     private String address;
 
     @OneToMany(mappedBy = "fullAddress", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<User> ownerList = new HashSet<>();
+    private Set<User> userSet = new HashSet<>();
+
+    @OneToOne(mappedBy = "fullAddress", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    Lodgings lodgings;
+
 
     public AddressBuilder() {
     }
@@ -62,11 +67,19 @@ public class AddressBuilder {
         this.address = address;
     }
 
-    public Set<User> getOwnerList() {
-        return ownerList;
+    public Set<User> getUserSet() {
+        return userSet;
     }
 
-    public void setOwnerList(Set<User> ownerList) {
-        this.ownerList = ownerList;
+    public void setUserSet(Set<User> ownerList) {
+        this.userSet = ownerList;
+    }
+
+    public Lodgings getLodgings() {
+        return lodgings;
+    }
+
+    public void setLodgings(Lodgings lodgings) {
+        this.lodgings = lodgings;
     }
 }

@@ -22,7 +22,8 @@ public abstract class User {
     private String email;
     private String phoneNumber;
     private String passwordHash;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private AddressBuilder fullAddress;
 
     @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -115,12 +116,12 @@ public abstract class User {
         this.fullAddress.setZipCode(zipCode);
     }
 
-    public String getFullAddress() {
+    public String getAddress() {
         return fullAddress.getAddress();
     }
 
-    public void setFullAddress(String address) {
-        this.fullAddress.setAddress(address);;
+    public void setAddress(String address) {
+        this.fullAddress.setAddress(address);
     }
 
     public String getPasswordHash() {
@@ -155,6 +156,14 @@ public abstract class User {
         return getFirstName() + " " + getSurname();
     }
 
+    public AddressBuilder getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(AddressBuilder fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -162,10 +171,10 @@ public abstract class User {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", country='" + fullAddress.getCountry() + '\'' +
-                ", city='" + fullAddress.getCity() + '\'' +
-                ", zipCode='" + fullAddress.getZipCode() + '\'' +
-                ", address='" + fullAddress.getAddress() + '\'' +
+                ", country='" + getCountry() + '\'' +
+                ", city='" + getCity() + '\'' +
+                ", zipCode='" + getZipCode() + '\'' +
+                ", address='" + getAddress() + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }

@@ -67,7 +67,7 @@ public class RegistrationController extends HttpServlet {
                 fullAddress
         );
 
-        userService.handleAddNew(newUser);
+        userService.handleAddPost(newUser);
 
         response.sendRedirect("/login");
     }

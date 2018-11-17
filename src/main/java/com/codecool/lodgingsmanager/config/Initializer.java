@@ -119,39 +119,35 @@ public class Initializer implements ServletContextListener {
 
         userDaoDb.add(testPropertyManager);
 
+        AddressBuilder fullAddress0 = new AddressBuilder("Molvania", "Molvania City", "MO-2342", "111. Very Nice Street");
 
         Lodgings newLodging = new Lodgings(
                 "My little apartment",
                 LodgingsType.ROOM,
-                "Molvania",
-                "Molvania City",
-                "MO-2342",
-                "111. Very Nice Street",
                 100L,
                 10L,
                 20L,
                 15L,
                 4L,
                 testLandlord,
-                testPropertyManager
+                testPropertyManager,
+                fullAddress0
         );
 
         lodgingsDaoDb.add(newLodging);
 
+        AddressBuilder fullAddress = new AddressBuilder("Vanuatu", "Big City", "VAU-2342", "111. dfdfce Street");
 
         Lodgings newLodging2 = new Lodgings(
-                "wwwwwwwww apartment",
+                "My very big apartment",
                 LodgingsType.APARTMENT,
-                "asdfania",
-                "City",
-                "MO-2342",
-                "111. dfdfce Street",
                 10033L,
                 103L,
                 203L,
                 153L,
                 433L,
-                testLandlord
+                testLandlord,
+                fullAddress
         );
 
         lodgingsDaoDb.add(newLodging2);

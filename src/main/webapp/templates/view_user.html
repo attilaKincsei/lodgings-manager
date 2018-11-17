@@ -34,7 +34,7 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Zipcode: </strong></span>
                 <span th:text="${userData.getZipCode()}">Zipcode</span></li>
             <li class="list-group-item text-right"><span class="pull-left"><strong class="">Address: </strong></span>
-                <span th:text="${userData.getFullAddress()}">Address</span></li>
+                <span th:text="${userData.getAddress()}">Address</span></li>
         </ul>
         <form id="edit-button" method="get" action="/user/edit">
             <button type="submit" class="btn btn-info">Edit Profile</button>
