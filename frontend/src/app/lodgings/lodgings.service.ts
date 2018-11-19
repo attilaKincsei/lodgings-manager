@@ -13,8 +13,14 @@ export class LodgingsService {
       .setName('sanyi')
       .setLodgingsType(LodgingsType.APARTMENT)
       .setCountry('Hungary')
-      .setCity('Vac')
-      .build()
+      .setCity('Budapest')
+      .build(),
+    new LodgingsBuilder(2)
+      .setName('laci')
+      .setLodgingsType(LodgingsType.FAMILY_HOUSE)
+      .setCountry('Hungary')
+      .setCity('Szeged')
+      .build(),
   ];
 
   constructor() { }

@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/index">
+      <a class="navbar-brand" routerLink="">
         <strong>Lodgings Manager</strong> <span class="sr-only">(current)</span>
       </a>
 
@@ -19,15 +19,15 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lodgings<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li>
-              <a href="/lodgings">My lodgings</a>
+              <a [routerLink]="['users', 1, 'lodgings']">My lodgings</a>
             </li>
 
             <li>
-              <a href="/lodgings/add">Add new lodgings</a>
+              <a [routerLink]="['lodgings',1,'add']">Add new lodgings</a>
             </li>
 
             <li>
-              <a href="/todo">Todos</a>
+              <a routerLink="/todos">Todos</a>
             </li>
           </ul>
         </li>
@@ -37,8 +37,8 @@
         <!--<input type="text" id="search" class="form-control" placeholder="Search">-->
         <!--</div>-->
         <!--<button type="submit" class="btn btn-default">Submit</button>-->
-        <a href="/user" class="btn btn-primary">Sanyika</a>
-        <a href="/logout" class="btn btn-danger">Logout</a>
+        <a routerLink="/user" class="btn btn-primary">Sanyika</a>
+        <a routerLink="/logout" class="btn btn-danger">Logout</a>
       </form>
     </div>
   </div>
