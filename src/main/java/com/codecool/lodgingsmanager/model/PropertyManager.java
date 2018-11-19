@@ -1,11 +1,8 @@
 package com.codecool.lodgingsmanager.model;
 
 import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
-import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
