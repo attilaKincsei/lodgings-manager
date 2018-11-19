@@ -2,7 +2,6 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
-import com.codecool.lodgingsmanager.model.PropertyManager;
 import com.codecool.lodgingsmanager.model.ToDo;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.service.BaseService;
@@ -97,7 +96,7 @@ public class ToDoController extends HttpServlet {
 
             ToDo toDo = new ToDo(name,lodgings, date, description, price);
 
-            toDoService.handleAddNew(toDo);
+            toDoService.handleAddPost(toDo);
 
             response.sendRedirect("/index");
 

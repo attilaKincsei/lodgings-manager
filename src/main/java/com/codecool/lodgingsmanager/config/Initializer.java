@@ -12,6 +12,7 @@ import com.codecool.lodgingsmanager.dao.implementation.database.LodgingsDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.ToDoDaoDb;
 import com.codecool.lodgingsmanager.dao.implementation.database.UserDaoDb;
 import com.codecool.lodgingsmanager.model.*;
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.service.*;
 import com.codecool.lodgingsmanager.service.ajax.EmailCheckerService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
@@ -23,8 +24,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.util.Calendar;
-import java.util.Date;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -80,20 +79,33 @@ public class Initializer implements ServletContextListener {
 
 
         // initialize model objects for testing todo: dele later
+
+        AddressBuilder fullAddressLL = new AddressBuilder(
+                "Country",
+                "City",
+                "H-34234",
+                "1. Street"
+                );
+
         User testLandlord = UserFactory.createUserInstanceBy(
                 UserType.LANDLORD,
                 "Attila",
                 "Kincsei",
                 "akincsei@gmail.com",
                 "+23123123123",
-                "Country",
-                "City",
-                "H-34234",
-                "1. Street",
-                PasswordHashing.hashPassword("Qq111111")
+                PasswordHashing.hashPassword("Qq111111"),
+                fullAddressLL
         );
 
         userDaoDb.add(testLandlord);
+
+        AddressBuilder fullAddressPM = new AddressBuilder(
+                "ManCountry",
+                "ManCity",
+                "M-1001",
+                "1. Manager Street"
+        );
+
 
         User testPropertyManager = UserFactory.createUserInstanceBy(
                 UserType.PROPERTY_MANAGER,
@@ -101,52 +113,51 @@ public class Initializer implements ServletContextListener {
                 "Menedzser",
                 "menedzser@gmail.com",
                 "+10000000000",
-                "ManCountry",
-                "ManCity",
-                "M-1001",
-                "1. Manager Street",
-                PasswordHashing.hashPassword("Qq111111")
+                PasswordHashing.hashPassword("Qq111111"),
+                fullAddressPM
         );
 
         userDaoDb.add(testPropertyManager);
 
+        AddressBuilder fullAddress0 = new AddressBuilder("Molvania", "Molvania City", "MO-2342", "111. Very Nice Street");
 
         Lodgings newLodging = new Lodgings(
                 "My little apartment",
                 LodgingsType.ROOM,
-                "Molvania",
-                "Molvania City",
-                "MO-2342",
-                "111. Very Nice Street",
                 100L,
                 10L,
                 20L,
                 15L,
                 4L,
                 testLandlord,
-                testPropertyManager
+                testPropertyManager,
+                fullAddress0
         );
 
         lodgingsDaoDb.add(newLodging);
 
+        AddressBuilder fullAddress = new AddressBuilder("Vanuatu", "Big City", "VAU-2342", "111. dfdfce Street");
 
         Lodgings newLodging2 = new Lodgings(
-                "wwwwwwwww apartment",
+                "My very big apartment",
                 LodgingsType.APARTMENT,
-                "asdfania",
-                "City",
-                "MO-2342",
-                "111. dfdfce Street",
                 10033L,
                 103L,
                 203L,
                 153L,
                 433L,
-                testLandlord
+                testLandlord,
+                fullAddress
         );
 
         lodgingsDaoDb.add(newLodging2);
 
+        AddressBuilder fullAddressGuest = new AddressBuilder(
+                "Country",
+                "City",
+                "W-1111",
+                "1. Street"
+        );
 
         User guestUser = UserFactory.createUserInstanceBy(
                 UserType.GUEST,
@@ -154,20 +165,17 @@ public class Initializer implements ServletContextListener {
                 "User",
                 GUEST_EMAIL,
                 "+2211111111",
-                "Country",
-                "City",
-                "W-1111",
-                "1. Street",
-                PasswordHashing.hashPassword("11111111")
+                PasswordHashing.hashPassword("11111111"),
+                fullAddressGuest
         );
 
         userDaoDb.add(guestUser);
 
 
-        ToDo testToDo = new ToDo("pay bills", newLodging, new Date(118, 10, 10), "Go to post office and pay cheques", 25000L);
-        toDoDaoDb.add(testToDo);
-        // todo: for testing, delete later
-        testingCriteriaQueries();
+//        ToDo testToDo = new ToDo("pay bills", newLodging, new Date(118, 10, 10), "Go to post office and pay cheques", 25000L);
+//        toDoDaoDb.add(testToDo);
+//        // todo: for testing, delete later
+//        testingCriteriaQueries();
 
     }
 
@@ -204,6 +212,4 @@ public class Initializer implements ServletContextListener {
 
 
     }
-
-
 }

@@ -1,7 +1,9 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.UserDao;
+import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
 
 import javax.persistence.NoResultException;
@@ -13,11 +15,6 @@ public class UserService implements BaseService<User> {
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    @Override
-    public void handleAddNew(User newUser) {
-        userDao.add(newUser);
     }
 
     @Override
@@ -62,31 +59,32 @@ public class UserService implements BaseService<User> {
     }
 
     @Override
-    public boolean handleAddAndEditPost(
-            String userEmail, String firstName, String surname, String oldPassword, String newPassword,
-            String phoneNumber, String country, String city, String zipCode, String address,
-            String requestPath, String fake1, String fake2, String fake3, String param15) {
+    public void handleAddPost(User newUser) {
+        userDao.add(newUser);
+    }
 
-        User user = handleGetUserBy(userEmail);
+    public boolean handleEditPost(
+            String userEmail, String firstName, String surname, String oldPassword, String newPassword,
+            String phoneNumber, AddressBuilder fullAddress) {
+
 
         boolean isOldPasswordCorrect = PasswordHashing.isPasswordCorrect(oldPassword, userEmail);
+        if (isOldPasswordCorrect) {
 
-        boolean isPasswordUpdated = false;
-        if (isOldPasswordCorrect && !newPassword.equals("")) {
-            user.setPasswordHash(PasswordHashing.hashPassword(newPassword));
+            User user = handleGetUserBy(userEmail);
+
+            if (!newPassword.equals("")) {
+                user.setPasswordHash(PasswordHashing.hashPassword(newPassword));
+            }
 
             user.setFirstName(firstName);
             user.setSurname(surname);
             user.setPhoneNumber(phoneNumber);
-            user.setCountry(country);
-            user.setCity(city);
-            user.setZipCode(zipCode);
-            user.setAddress(address);
+            user.setFullAddress(fullAddress);
             userDao.update(user);
-            isPasswordUpdated = true;
         }
 
-        return isPasswordUpdated;
+        return isOldPasswordCorrect;
 
     }
 

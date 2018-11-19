@@ -1,6 +1,8 @@
 package com.codecool.lodgingsmanager.model;
 
 
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,14 +18,10 @@ public class Landlord extends UserManager {
             String surname,
             String email,
             String phoneNumber,
-            String country,
-            String city,
-            String zipCode,
-            String address,
-            String passwordHash
-
+            String passwordHash,
+            AddressBuilder fullAddress
     ) {
-        super(firstName, surname, email, phoneNumber, country, city, zipCode, address, passwordHash);
+        super(firstName, surname, email, phoneNumber, passwordHash, fullAddress);
     }
 
 }
