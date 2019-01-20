@@ -1,6 +1,7 @@
 package com.codecool.lodgingsmanager.model;
 
 import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
+import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,10 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "site_user")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "null")
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +20,13 @@ public abstract class User {
     private String email;
     private String phoneNumber;
     private String passwordHash;
+    private UserType userType;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private AddressBuilder fullAddress;
 
-    @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Lodgings> propertyManagerLodgings = new HashSet<>();
-
-    @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Lodgings> landlordLodgings = new HashSet<>();
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Lodgings> lodgingsSet = new HashSet<>();
 
     public User() {
 
@@ -42,6 +38,7 @@ public abstract class User {
             String email,
             String phoneNumber,
             String passwordHash,
+            UserType userType,
             AddressBuilder fullAddress
     ) {
         this.firstName = firstName;
@@ -49,6 +46,7 @@ public abstract class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.passwordHash = passwordHash;
+        this.userType = userType;
         this.fullAddress = fullAddress;
     }
 
@@ -136,22 +134,6 @@ public abstract class User {
         this.passwordHash = passwordHash;
     }
 
-    public Set<Lodgings> getPropertyManagerLodgings() {
-        return propertyManagerLodgings;
-    }
-
-    public void setPropertyManagerLodgings(Set<Lodgings> propertyManagerLodgings) {
-        this.propertyManagerLodgings = propertyManagerLodgings;
-    }
-
-    public Set<Lodgings> getLandlordLodgings() {
-        return landlordLodgings;
-    }
-
-    public void setLandlordLodgings(Set<Lodgings> landlordLodgings) {
-        this.landlordLodgings = landlordLodgings;
-    }
-
     public String getFullName() {
         return getFirstName() + " " + getSurname();
     }
@@ -162,6 +144,22 @@ public abstract class User {
 
     public void setFullAddress(AddressBuilder fullAddress) {
         this.fullAddress = fullAddress;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public Set<Lodgings> getLodgingsSet() {
+        return lodgingsSet;
+    }
+
+    public void setLodgingsSet(Set<Lodgings> lodgingsSet) {
+        this.lodgingsSet = lodgingsSet;
     }
 
     @Override

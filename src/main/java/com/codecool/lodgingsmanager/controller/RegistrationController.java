@@ -57,13 +57,13 @@ public class RegistrationController extends HttpServlet {
 
         AddressBuilder fullAddress = new AddressBuilder(country, city, zipCode, address);
 
-        User newUser = UserFactory.createUserInstanceBy(
-                UserType.valueOf(userType),
+        User newUser = new User(
                 firstName,
                 surname,
                 email,
                 phoneNumber,
                 passwordHash,
+                UserType.valueOf(userType),
                 fullAddress
         );
 

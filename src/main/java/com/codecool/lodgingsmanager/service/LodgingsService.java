@@ -96,7 +96,7 @@ public class LodgingsService implements BaseService<Lodgings> {
         if (!propertyManagerEmail.equals("")) {
             try {
                 User mightBePropertyManager = userHandler.handleGetUserBy(propertyManagerEmail);
-                lodgings.setPropertyManager(mightBePropertyManager);
+                lodgings.addUser(mightBePropertyManager);
             } catch (NoResultException nre) {
                 // todo: logging
                 System.out.println("User email is not in the database, but NP");
