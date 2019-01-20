@@ -1,7 +1,6 @@
 package com.codecool.lodgingsmanager.service;
 
 import com.codecool.lodgingsmanager.dao.UserDao;
-import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.util.PasswordHashing;

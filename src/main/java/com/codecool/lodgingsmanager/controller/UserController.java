@@ -6,7 +6,6 @@ import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.service.UserService;
 import com.codecool.lodgingsmanager.util.FieldType;
-import com.codecool.lodgingsmanager.util.PasswordHashing;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 

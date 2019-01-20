@@ -3,7 +3,6 @@ package com.codecool.lodgingsmanager.service;
 import com.codecool.lodgingsmanager.dao.LodgingsDao;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
-import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 
 import javax.persistence.NoResultException;
@@ -97,7 +96,7 @@ public class LodgingsService implements BaseService<Lodgings> {
         if (!propertyManagerEmail.equals("")) {
             try {
                 User mightBePropertyManager = userHandler.handleGetUserBy(propertyManagerEmail);
-                lodgings.setPropertyManager(mightBePropertyManager);
+                lodgings.addUser(mightBePropertyManager);
             } catch (NoResultException nre) {
                 // todo: logging
                 System.out.println("User email is not in the database, but NP");

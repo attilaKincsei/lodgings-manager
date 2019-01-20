@@ -17,7 +17,6 @@ import com.codecool.lodgingsmanager.service.*;
 import com.codecool.lodgingsmanager.service.ajax.EmailCheckerService;
 import com.codecool.lodgingsmanager.util.LodgingsType;
 import com.codecool.lodgingsmanager.util.PasswordHashing;
-import com.codecool.lodgingsmanager.util.UserFactory;
 import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.servlet.ServletContext;
@@ -87,13 +86,13 @@ public class Initializer implements ServletContextListener {
                 "1. Street"
                 );
 
-        User testLandlord = UserFactory.createUserInstanceBy(
-                UserType.LANDLORD,
+        User testLandlord = new User(
                 "Attila",
                 "Kincsei",
                 "akincsei@gmail.com",
                 "+23123123123",
                 PasswordHashing.hashPassword("Qq111111"),
+                UserType.LANDLORD,
                 fullAddressLL
         );
 
@@ -107,13 +106,13 @@ public class Initializer implements ServletContextListener {
         );
 
 
-        User testPropertyManager = UserFactory.createUserInstanceBy(
-                UserType.PROPERTY_MANAGER,
+        User testPropertyManager = new User(
                 "Hugo",
                 "Menedzser",
                 "menedzser@gmail.com",
                 "+10000000000",
                 PasswordHashing.hashPassword("Qq111111"),
+                UserType.PROPERTY_MANAGER,
                 fullAddressPM
         );
 
@@ -159,13 +158,13 @@ public class Initializer implements ServletContextListener {
                 "1. Street"
         );
 
-        User guestUser = UserFactory.createUserInstanceBy(
-                UserType.GUEST,
+        User guestUser = new User(
                 "Guest",
                 "User",
                 GUEST_EMAIL,
                 "+2211111111",
                 PasswordHashing.hashPassword("11111111"),
+                UserType.GUEST,
                 fullAddressGuest
         );
 

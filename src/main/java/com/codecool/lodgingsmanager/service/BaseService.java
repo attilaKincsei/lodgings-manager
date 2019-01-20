@@ -1,6 +1,5 @@
 package com.codecool.lodgingsmanager.service;
 
-import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
 
 import java.util.List;

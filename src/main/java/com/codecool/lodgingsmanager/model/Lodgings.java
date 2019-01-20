@@ -2,6 +2,7 @@ package com.codecool.lodgingsmanager.model;
 
 import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.util.LodgingsType;
+import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -25,11 +26,8 @@ public class Lodgings {
     @OneToMany(mappedBy = "lodgings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<ToDo> todos = new HashSet<>();
 
-    @ManyToOne
-    private User landlord;
-
-    @ManyToOne
-    private User propertyManager;
+    @ManyToMany
+    private Set<User> userSet = new HashSet();
 
     @OneToOne(cascade = CascadeType.ALL)
     private AddressBuilder fullAddress;
@@ -42,7 +40,7 @@ public class Lodgings {
     public Lodgings(
             String name, LodgingsType lodgingsType,
             long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
-            User landlord, AddressBuilder fullAddress
+            User user, AddressBuilder fullAddress
     ) {
         this.name = name;
         this.lodgingsType = lodgingsType;
@@ -51,10 +49,29 @@ public class Lodgings {
         this.gasBill = gasBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
-        this.landlord = landlord;
+        userSet.add(user);
         this.fullAddress = fullAddress;
     }
 
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    public void addUser(User user) {
+        userSet.add(user);
+    }
+
+    public AddressBuilder getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(AddressBuilder fullAddress) {
+        this.fullAddress = fullAddress;
+    }
 
     public Lodgings(
             String name, LodgingsType lodgingsType,
@@ -68,8 +85,8 @@ public class Lodgings {
         this.gasBill = gasBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
-        this.landlord = landlord;
-        this.propertyManager = propertyManager;
+        userSet.add(landlord);
+        userSet.add(propertyManager);
         this.fullAddress = fullAddress;
     }
 
@@ -172,34 +189,6 @@ public class Lodgings {
         this.cleaningCost = cleaningCost;
     }
 
-    public User getLandlord() {
-        return landlord;
-    }
-
-    public void setLandlord(User landlord) {
-        this.landlord = landlord;
-    }
-
-    public User getPropertyManager() {
-        return propertyManager;
-    }
-
-    public void setPropertyManager(User propertyManager) {
-        this.propertyManager = propertyManager;
-    }
-
-//    public Set<User> getTenants() {
-//        return tenants;
-//    }
-//
-//    public void addTenant(Tenant tenant) {
-//        tenants.add(tenant);
-//    }
-//
-//    public void removeTenant(Tenant tenant) {
-//        tenants.remove(tenant);
-//    }
-
     public void addTodo(ToDo toDo){
         this.todos.add(toDo);
     }
@@ -227,7 +216,7 @@ public class Lodgings {
                 ", gasBill=" + gasBill +
                 ", telecommunicationBill=" + telecommunicationBill +
                 ", cleaningCost=" + cleaningCost +
-                ", landlord=" + landlord.getFullName() +
+                ", landlord=" + userSet +
                 '}';
     }
 }
