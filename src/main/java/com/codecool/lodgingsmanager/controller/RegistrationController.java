@@ -3,6 +3,7 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.Initializer;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.util.*;
 import org.thymeleaf.TemplateEngine;
@@ -54,20 +55,19 @@ public class RegistrationController extends HttpServlet {
         String passwordHash = PasswordHashing.hashPassword(password);
 
 
-        User newUser = UserFactory.createUserInstanceBy(
-                UserType.valueOf(userType),
+        AddressBuilder fullAddress = new AddressBuilder(country, city, zipCode, address);
+
+        User newUser = new User(
                 firstName,
                 surname,
                 email,
                 phoneNumber,
-                country,
-                city,
-                zipCode,
-                address,
-                passwordHash
+                passwordHash,
+                UserType.valueOf(userType),
+                fullAddress
         );
 
-        userService.handleAddNew(newUser);
+        userService.handleAddPost(newUser);
 
         response.sendRedirect("/login");
     }

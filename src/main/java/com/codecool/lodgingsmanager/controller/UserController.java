@@ -2,7 +2,9 @@ package com.codecool.lodgingsmanager.controller;
 
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.service.BaseService;
+import com.codecool.lodgingsmanager.service.UserService;
 import com.codecool.lodgingsmanager.util.FieldType;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -38,7 +40,6 @@ public class UserController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
             String userEmail = (String) session.getAttribute(FieldType.EMAIL_ADDRESS.getInputString());
-            System.out.println("\n--------------------------\n" + userEmail);
             User user = userService.handleGetUserBy(userEmail);
 
             String requestPath = request.getServletPath();
@@ -51,6 +52,7 @@ public class UserController extends HttpServlet {
             } else {
                 TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(request.getServletContext());
                 context.setVariable("userData", user);
+                context.setVariable("userClass", user.getClass().getName());
                 engine.process(templateToRender, context, response.getWriter());
             }
 
@@ -75,18 +77,19 @@ public class UserController extends HttpServlet {
             String newPassword = request.getParameter(FieldType.PASSWORD_CONFIRMATION.getInputString());
 
             String phoneNumber = request.getParameter(FieldType.PHONE_NUMBER.getInputString());
-            String country = request.getParameter(FieldType.COUNTRY.getInputString());
-            String city = request.getParameter(FieldType.CITY.getInputString());
-            String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
-            String address = request.getParameter(FieldType.ADDRESS.getInputString());
 
-            String requestPath = request.getServletPath();
+            AddressBuilder fullAddress = new AddressBuilder(
+                    request.getParameter(FieldType.COUNTRY.getInputString()),
+                    request.getParameter(FieldType.CITY.getInputString()),
+                    request.getParameter(FieldType.ZIP_CODE.getInputString()),
+                    request.getParameter(FieldType.ADDRESS.getInputString())
+            );
 
-            boolean isOldPasswrdCorrect = userService.handleAddAndEditPost(
-                    userEmail, firstName, surname, oldPassword, newPassword, phoneNumber, country, city, zipCode, address, requestPath,
-                    "fake1", "fake2", "fake3", "fake4");
 
-            if (isOldPasswrdCorrect) {
+            boolean isPasswordUpdated = ((UserService) userService).handleEditPost(
+                    userEmail, firstName, surname, oldPassword, newPassword, phoneNumber, fullAddress);
+
+            if (isPasswordUpdated) {
                 response.sendRedirect("/user");
             } else {
                 response.sendRedirect("/user/edit");

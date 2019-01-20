@@ -1,10 +1,11 @@
 package com.codecool.lodgingsmanager.model;
 
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.util.LodgingsType;
+import com.codecool.lodgingsmanager.util.UserType;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,10 +16,6 @@ public class Lodgings {
     private String name;
     @Enumerated(value = EnumType.STRING)
     private LodgingsType lodgingsType;
-    private String country;
-    private String city;
-    private String zipCode;
-    private String address;
 
     private long pricePerDay;
     private long electricityBill;
@@ -27,56 +24,70 @@ public class Lodgings {
     private long cleaningCost;
 
     @OneToMany(mappedBy = "lodgings", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<ToDo> todos = new HashSet<ToDo>();
+    private Set<ToDo> todos = new HashSet<>();
 
-    @ManyToOne
-    private User landlord;
+    @ManyToMany
+    private Set<User> userSet = new HashSet();
 
-    @ManyToOne
-    private User propertyManager;
+    @OneToOne(cascade = CascadeType.ALL)
+    private AddressBuilder fullAddress;
+
 
 //    @OneToMany(mappedBy = "tenantLodgings", fetch = FetchType.LAZY)
 //    private Set<User> tenants = new HashSet<>();
 //
 
     public Lodgings(
-            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            String name, LodgingsType lodgingsType,
             long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
-            User landlord
+            User user, AddressBuilder fullAddress
     ) {
         this.name = name;
         this.lodgingsType = lodgingsType;
-        this.country = country;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
         this.pricePerDay = pricePerDay;
         this.electricityBill = electricityBill;
         this.gasBill = gasBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
-        this.landlord = landlord;
+        userSet.add(user);
+        this.fullAddress = fullAddress;
     }
 
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    public void addUser(User user) {
+        userSet.add(user);
+    }
+
+    public AddressBuilder getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(AddressBuilder fullAddress) {
+        this.fullAddress = fullAddress;
+    }
 
     public Lodgings(
-            String name, LodgingsType lodgingsType, String country, String city, String zipCode, String address,
+            String name, LodgingsType lodgingsType,
             long pricePerDay, long electricityBill, long gasBill, long telecommunicationBill, long cleaningCost,
-            User landlord, User propertyManager
+            User landlord, User propertyManager, AddressBuilder fullAddress
     ) {
         this.name = name;
         this.lodgingsType = lodgingsType;
-        this.country = country;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
         this.pricePerDay = pricePerDay;
         this.electricityBill = electricityBill;
         this.gasBill = gasBill;
         this.telecommunicationBill = telecommunicationBill;
         this.cleaningCost = cleaningCost;
-        this.landlord = landlord;
-        this.propertyManager = propertyManager;
+        userSet.add(landlord);
+        userSet.add(propertyManager);
+        this.fullAddress = fullAddress;
     }
 
     public Lodgings() {
@@ -107,33 +118,36 @@ public class Lodgings {
     }
 
     public String getCountry() {
-        return country;
+        return fullAddress.getCountry();
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.fullAddress.setCountry(country);
     }
 
     public String getCity() {
-        return city;
+        return fullAddress.getCity();
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.fullAddress.setCity(city);
     }
 
     public String getZipCode() {
-        return zipCode;
+        return fullAddress.getZipCode();
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.fullAddress.setZipCode(zipCode);
     }
 
-    public String  getAddress() {return address;}
+    public String getAddress() {
+        return fullAddress.getAddress();
+    }
 
     public void setAddress(String address) {
-        this.address = address;}
+        this.fullAddress.setAddress(address);
+    }
 
     public long getPricePerDay() {
         return pricePerDay;
@@ -175,34 +189,6 @@ public class Lodgings {
         this.cleaningCost = cleaningCost;
     }
 
-    public User getLandlord() {
-        return landlord;
-    }
-
-    public void setLandlord(User landlord) {
-        this.landlord = landlord;
-    }
-
-    public User getPropertyManager() {
-        return propertyManager;
-    }
-
-    public void setPropertyManager(User propertyManager) {
-        this.propertyManager = propertyManager;
-    }
-
-//    public Set<User> getTenants() {
-//        return tenants;
-//    }
-//
-//    public void addTenant(Tenant tenant) {
-//        tenants.add(tenant);
-//    }
-//
-//    public void removeTenant(Tenant tenant) {
-//        tenants.remove(tenant);
-//    }
-
     public void addTodo(ToDo toDo){
         this.todos.add(toDo);
     }
@@ -221,16 +207,16 @@ public class Lodgings {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", lodgingsType=" + lodgingsType +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", address='" + address + '\'' +
+                ", country='" + getCountry() + '\'' +
+                ", city='" + getCity() + '\'' +
+                ", zipCode='" + getZipCode() + '\'' +
+                ", address='" + getAddress() + '\'' +
                 ", pricePerDay=" + pricePerDay +
                 ", electricityBill=" + electricityBill +
                 ", gasBill=" + gasBill +
                 ", telecommunicationBill=" + telecommunicationBill +
                 ", cleaningCost=" + cleaningCost +
-                ", landlord=" + landlord.getFullName() +
+                ", landlord=" + userSet +
                 '}';
     }
 }

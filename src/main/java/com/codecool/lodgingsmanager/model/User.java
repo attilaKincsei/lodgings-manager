@@ -1,15 +1,15 @@
 package com.codecool.lodgingsmanager.model;
 
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
+import com.codecool.lodgingsmanager.util.UserType;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "site_user")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue(value = "null")
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,28 +19,14 @@ public abstract class User {
     private String surname;
     private String email;
     private String phoneNumber;
-    private String country;
-    private String city;
-    private String zipCode;
-    private String address;
     private String passwordHash;
+    private UserType userType;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    private AddressBuilder fullAddress;
 
-    @OneToMany(mappedBy = "propertyManager", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Lodgings> propertyManagerLodgings = new HashSet<>();
-
-    @OneToMany(mappedBy = "landlord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Lodgings> landlordLodgings = new HashSet<>();
-
-
-
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    Lodgings tenantLodgings = new Lodgings();
-
-
-
-
-
+    @ManyToMany(mappedBy = "userSet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Lodgings> lodgingsSet = new HashSet<>();
 
     public User() {
 
@@ -51,21 +37,17 @@ public abstract class User {
             String surname,
             String email,
             String phoneNumber,
-            String country,
-            String city,
-            String zipCode,
-            String address,
-            String passwordHash
+            String passwordHash,
+            UserType userType,
+            AddressBuilder fullAddress
     ) {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.country = country;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.address = address;
         this.passwordHash = passwordHash;
+        this.userType = userType;
+        this.fullAddress = fullAddress;
     }
 
     public long getId() {
@@ -109,35 +91,35 @@ public abstract class User {
     }
 
     public String getCountry() {
-        return country;
+        return fullAddress.getCountry();
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        this.fullAddress.setCountry(country);
     }
 
     public String getCity() {
-        return city;
+        return fullAddress.getCity();
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.fullAddress.setCity(city);
     }
 
     public String getZipCode() {
-        return zipCode;
+        return fullAddress.getZipCode();
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.fullAddress.setZipCode(zipCode);
     }
 
     public String getAddress() {
-        return address;
+        return fullAddress.getAddress();
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.fullAddress.setAddress(address);
     }
 
     public String getPasswordHash() {
@@ -152,24 +134,32 @@ public abstract class User {
         this.passwordHash = passwordHash;
     }
 
-    public Set<Lodgings> getPropertyManagerLodgings() {
-        return propertyManagerLodgings;
-    }
-
-    public void setPropertyManagerLodgings(Set<Lodgings> propertyManagerLodgings) {
-        this.propertyManagerLodgings = propertyManagerLodgings;
-    }
-
-    public Set<Lodgings> getLandlordLodgings() {
-        return landlordLodgings;
-    }
-
-    public void setLandlordLodgings(Set<Lodgings> landlordLodgings) {
-        this.landlordLodgings = landlordLodgings;
-    }
-
     public String getFullName() {
         return getFirstName() + " " + getSurname();
+    }
+
+    public AddressBuilder getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(AddressBuilder fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public Set<Lodgings> getLodgingsSet() {
+        return lodgingsSet;
+    }
+
+    public void setLodgingsSet(Set<Lodgings> lodgingsSet) {
+        this.lodgingsSet = lodgingsSet;
     }
 
     @Override
@@ -179,10 +169,10 @@ public abstract class User {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", address='" + address + '\'' +
+                ", country='" + getCountry() + '\'' +
+                ", city='" + getCity() + '\'' +
+                ", zipCode='" + getZipCode() + '\'' +
+                ", address='" + getAddress() + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 '}';
     }

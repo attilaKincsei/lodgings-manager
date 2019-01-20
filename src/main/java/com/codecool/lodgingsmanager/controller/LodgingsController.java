@@ -3,10 +3,12 @@ package com.codecool.lodgingsmanager.controller;
 import com.codecool.lodgingsmanager.config.TemplateEngineUtil;
 import com.codecool.lodgingsmanager.model.Lodgings;
 import com.codecool.lodgingsmanager.model.User;
+import com.codecool.lodgingsmanager.model.builder.AddressBuilder;
 import com.codecool.lodgingsmanager.service.BaseService;
 import com.codecool.lodgingsmanager.service.LodgingsService;
 import com.codecool.lodgingsmanager.util.FieldType;
 import com.codecool.lodgingsmanager.util.LodgingDataField;
+import com.codecool.lodgingsmanager.util.LodgingsType;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -19,7 +21,6 @@ import java.util.List;
 
 import static com.codecool.lodgingsmanager.config.Initializer.GUEST_EMAIL;
 
-// todo: edit lodgings is not implemented
 public class LodgingsController extends HttpServlet {
 
     private final String servletName;
@@ -73,12 +74,16 @@ public class LodgingsController extends HttpServlet {
             response.sendRedirect("/login");
         } else {
 
-            String lodgingName = request.getParameter(LodgingDataField.NAME.getInputString());
-            String lodgingType = request.getParameter(LodgingDataField.TYPE.getInputString());
             String country = request.getParameter(FieldType.COUNTRY.getInputString());
             String city = request.getParameter(FieldType.CITY.getInputString());
             String zipCode = request.getParameter(FieldType.ZIP_CODE.getInputString());
             String address = request.getParameter(FieldType.ADDRESS.getInputString());
+
+            AddressBuilder fullAddress = new AddressBuilder(country, city, zipCode, address);
+
+            String lodgingName = request.getParameter(LodgingDataField.NAME.getInputString());
+            String lodgingType = request.getParameter(LodgingDataField.TYPE.getInputString());
+
             String dailyPrice = request.getParameter(LodgingDataField.DAILY_PRICE.getInputString());
             String electricityBill = request.getParameter(LodgingDataField.ELECTRICITY_BILL.getInputString());
             String gasBill = request.getParameter(LodgingDataField.GAS_BILL.getInputString());
@@ -92,16 +97,48 @@ public class LodgingsController extends HttpServlet {
             String requestPath = request.getServletPath();
             String lodgingsIdString = request.getParameter("lodgingsId");
 
-            lodgingsService.handleAddAndEditPost(
-                    lodgingName, lodgingType, country, city, zipCode, address,
-                    dailyPrice, electricityBill, gasBill, telecommunicationBill, cleaningCost, landlordEmail,
-                    requestPath, lodgingsIdString, propertyManagerEmail
-            );
 
+            // todo being refactored
+
+            User user = lodgingsService.handleGetUserBy(landlordEmail);
+
+            if (requestPath.equals("/lodgings/add")) {
+
+                Lodgings newLodgings = new Lodgings(
+                        lodgingName,
+                        LodgingsType.valueOf(lodgingType.toUpperCase()),
+                        Long.parseLong(dailyPrice),
+                        Long.parseLong(electricityBill),
+                        Long.parseLong(gasBill),
+                        Long.parseLong(telecommunicationBill),
+                        Long.parseLong(cleaningCost),
+                        user,
+                        fullAddress
+                );
+
+                lodgingsService.handleAddPost(newLodgings);
+
+            } else if (requestPath.equals("/lodgings/edit")) {
+
+                Lodgings lodgings = ((LodgingsService) lodgingsService).handleGetLodgingsBy(lodgingsIdString, user.getId()).get(0);
+
+                lodgings.setName(lodgingName);
+                lodgings.setLodgingsType(LodgingsType.valueOf(lodgingType.toUpperCase()));
+                lodgings.setCountry(country);
+                lodgings.setCity(city);
+                lodgings.setZipCode(zipCode);
+                lodgings.setAddress(address);
+                lodgings.setPricePerDay(Long.parseLong(dailyPrice));
+                lodgings.setElectricityBill(Long.parseLong(electricityBill));
+                lodgings.setGasBill(Long.parseLong(gasBill));
+                lodgings.setTelecommunicationBill(Long.parseLong(telecommunicationBill));
+                lodgings.setCleaningCost(Long.parseLong(cleaningCost));
+
+                ((LodgingsService) lodgingsService).handleEditPost(propertyManagerEmail, lodgings);
+            }
 
             response.sendRedirect("/lodgings");
         }
     }
-
 
 }

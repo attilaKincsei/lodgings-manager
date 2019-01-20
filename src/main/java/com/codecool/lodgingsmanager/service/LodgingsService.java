@@ -22,12 +22,6 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
-    public void handleAddNew(Lodgings newLodgings) {
-        lodgingsDao.add(newLodgings);
-    }
-
-
-    @Override
     public User handleGetUserBy(String userEmail) {
         return userHandler.handleGetUserBy(userEmail);
     }
@@ -64,6 +58,11 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
+    public List<String> getEnumAsStringList() {
+        return Arrays.stream(LodgingsType.values()).map(LodgingsType::getLodgingsTypeString).collect(Collectors.toList());
+    }
+
+    @Override
     public String handleCrudGetBy(String requestPath, String lodgingsId) {
         String templateToRender;
         switch (requestPath) {
@@ -88,74 +87,24 @@ public class LodgingsService implements BaseService<Lodgings> {
     }
 
     @Override
-    public List<String> getEnumAsStringList() {
-        return Arrays.stream(LodgingsType.values()).map(LodgingsType::getLodgingsTypeString).collect(Collectors.toList());
+    public void handleAddPost(Lodgings newLodgings) {
+        lodgingsDao.add(newLodgings);
     }
 
-    @Override
-    public boolean handleAddAndEditPost(
-            String lodgingName, String lodgingType, String country, String city, String zipCode, String address,
-            String dailyPrice, String electricityBill, String gasBill, String telecommunicationBill, String cleaningCost,
-            String landlordEmail, String requestPath, String lodgingsIdString,
-            String propertyManagerEmail) {
+    public void handleEditPost(String propertyManagerEmail, Lodgings lodgings) {
 
-        boolean isSuccessful = false;
-
-        User user = handleGetUserBy(landlordEmail);
-
-        if (requestPath.equals("/lodgings/add")) {
-
-
-            Lodgings newLodgings = new Lodgings(
-                    lodgingName,
-                    LodgingsType.valueOf(lodgingType.toUpperCase()),
-                    country,
-                    city,
-                    zipCode,
-                    address,
-                    Long.parseLong(dailyPrice),
-                    Long.parseLong(electricityBill),
-                    Long.parseLong(gasBill),
-                    Long.parseLong(telecommunicationBill),
-                    Long.parseLong(cleaningCost),
-                    user
-            );
-
-            handleAddNew(newLodgings);
-
-            isSuccessful = true;
-
-        } else if (requestPath.equals("/lodgings/edit")) {
-
-            Lodgings lodgings = handleGetLodgingsBy(lodgingsIdString, user.getId()).get(0);
-
-            lodgings.setName(lodgingName);
-            lodgings.setLodgingsType(LodgingsType.valueOf(lodgingType.toUpperCase()));
-            lodgings.setCountry(country);
-            lodgings.setCity(city);
-            lodgings.setZipCode(zipCode);
-            lodgings.setAddress(address);
-            lodgings.setPricePerDay(Long.parseLong(dailyPrice));
-            lodgings.setElectricityBill(Long.parseLong(electricityBill));
-            lodgings.setGasBill(Long.parseLong(gasBill));
-            lodgings.setTelecommunicationBill(Long.parseLong(telecommunicationBill));
-            lodgings.setCleaningCost(Long.parseLong(cleaningCost));
-
-            if (!propertyManagerEmail.equals("")) {
-                try {
-                    User mightBePropertyManager = userHandler.handleGetUserBy(propertyManagerEmail);
-                    lodgings.setPropertyManager(mightBePropertyManager);
-                } catch (NoResultException nre) {
-                    // todo: logging
-                    System.out.println("User email is not in the database, but NP");
-                }
+        if (!propertyManagerEmail.equals("")) {
+            try {
+                User mightBePropertyManager = userHandler.handleGetUserBy(propertyManagerEmail);
+                lodgings.addUser(mightBePropertyManager);
+            } catch (NoResultException nre) {
+                // todo: logging
+                System.out.println("User email is not in the database, but NP");
             }
-
-            lodgingsDao.update(lodgings);
-            isSuccessful = true;
         }
 
-        return isSuccessful;
+        lodgingsDao.update(lodgings);
+
     }
 
 
